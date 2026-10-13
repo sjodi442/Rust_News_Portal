@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Rust Chronicle — Journal of Record & Modern Inquiry</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "background": "#f9f9f7",
+            "primary": "#000000",
+            "secondary": "#5e5e5e",
+            "on-background": "#1a1c1b",
+            "on-surface": "#1a1c1b",
+            "surface": "#f9f9f7",
+            "surface-container": "#eeeeec",
+            "surface-container-low": "#f4f4f2",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-high": "#e8e8e6",
+            "surface-container-highest": "#e2e3e1",
+            "outline": "#747878",
+            "outline-variant": "#c4c7c7",
+            "error": "#ba1a1a"
+          },
+          "fontFamily": {
+            "headline-lead": ["Playfair Display", "serif"],
+            "caption": ["Inter", "sans-serif"],
+            "kicker": ["Space Grotesk", "sans-serif"],
+            "subhead": ["Playfair Display", "serif"],
+            "display-masthead": ["Playfair Display", "serif"],
+            "headline-md": ["Playfair Display", "serif"],
+            "headline-sm": ["Playfair Display", "serif"],
+            "byline": ["Space Grotesk", "sans-serif"],
+            "body-regular": ["Inter", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .dropcap::first-letter {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.8rem;
+      line-height: 0.8;
+      float: left;
+      font-weight: 900;
+      margin-right: 0.65rem;
+      margin-top: 0.2rem;
+      color: #000000;
+    }
+</style>
+</head>
+<body class="bg-background text-on-surface antialiased selection:bg-primary selection:text-white">
+
+<!-- FOLIO METADATA STRIP -->
+<div class="border-b border-outline-variant bg-surface-container-low text-secondary font-kicker text-[11px] tracking-wider uppercase">
+  <div class="max-w-7xl mx-auto px-4 md:px-8 py-1.5 flex flex-wrap items-center justify-between gap-y-2">
+    <div class="flex items-center space-x-4">
+      <span>No. 49,812</span>
+      <span class="text-outline-variant">|</span>
+      <span>Est. 1883</span>
+      <span class="text-outline-variant">|</span>
+      <span class="font-bold text-on-surface">Thursday, October 24, 2025</span>
+    </div>
+    <div class="hidden lg:flex items-center space-x-6 text-secondary">
+      <span><strong class="text-on-surface">METEOROLOGY:</strong> London 11°C Overcast • New York 18°C Fair • Tokyo 16°C Clear</span>
+      <span class="text-outline-variant">|</span>
+      <span class="font-mono text-[10px] tracking-normal"><span class="font-bold text-primary">COMMODITIES:</span> BRENT $74.20 (+0.4%) • GOLD $2,735.40 (+0.12%)</span>
+    </div>
+    <div class="flex items-center space-x-3 text-[10px]">
+      <span class="border border-outline px-1.5 py-0.5 text-primary font-bold">INTERNATIONAL EDITION</span>
+    </div>
+  </div>
+</div>
+
+<!-- BRAND MASTHEAD -->
+<header class="w-full max-w-7xl mx-auto px-4 md:px-8 pt-6 pb-4">
+  <div class="grid grid-cols-1 md:grid-cols-12 items-center gap-4 border-b border-outline-variant pb-4">
+    <div class="md:col-span-3 hidden md:flex flex-col text-left font-kicker text-[11px] text-secondary space-y-1">
+      <span class="font-bold text-on-surface">THE JOURNAL OF RECORD</span>
+      <span>Circulation audited in 42 states</span>
+      <span class="text-[10px] tracking-widest text-outline">ISSN 0921-882X</span>
+    </div>
+    <div class="md:col-span-6 text-center">
+      <a class="inline-block group" href="/">
+        <h1 class="font-display-masthead text-4xl md:text-6xl text-primary tracking-tight text-center uppercase group-hover:opacity-90 transition-opacity font-black">
+          The Rust Chronicle
+        </h1>
+      </a>
+      <p class="font-subhead italic text-sm text-secondary mt-1 tracking-normal">
+        Inquiries into Industrial Reality, Applied Science & Sovereign Commerce
+      </p>
+    </div>
+    <div class="md:col-span-3 flex items-center justify-end space-x-3">
+      <button class="font-kicker text-xs uppercase px-3 py-1.5 border border-primary text-primary hover:bg-primary hover:text-white transition-colors duration-150">
+        Sign In
+      </button>
+      <button class="font-kicker text-xs uppercase px-4 py-1.5 bg-primary text-white border border-primary hover:bg-neutral-800 transition-colors duration-150 font-bold">
+        Subscribe
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- TOP NAVIGATION BAR -->
+<nav class="sticky top-0 z-40 bg-background border-b border-outline-variant">
+  <div class="w-full max-w-7xl mx-auto px-4 md:px-8 flex flex-col">
+    <div class="flex items-center justify-between h-11">
+      <div class="flex items-center space-x-6 md:space-x-8 overflow-x-auto">
+        <a class="border-b-2 border-primary text-primary font-kicker uppercase tracking-widest pb-1 text-xs font-bold" href="#">World</a>
+        <a class="text-secondary font-kicker uppercase tracking-widest hover:text-primary transition-colors text-xs" href="#">Tech</a>
+        <a class="text-secondary font-kicker uppercase tracking-widest hover:text-primary transition-colors text-xs" href="#">Business</a>
+        <a class="text-secondary font-kicker uppercase tracking-widest hover:text-primary transition-colors text-xs" href="#">Culture</a>
+        <a class="text-secondary font-kicker uppercase tracking-widest hover:text-primary transition-colors text-xs" href="#">Opinion</a>
+        <a class="text-secondary font-kicker uppercase tracking-widest hover:text-primary transition-colors text-xs" href="#">Science</a>
+      </div>
+      <div class="flex items-center space-x-4 pl-4 border-l border-outline-variant text-on-surface">
+        <div class="relative flex items-center">
+          <input class="hidden md:block w-36 lg:w-48 pl-2 pr-6 py-0.5 text-xs bg-transparent border-0 border-b border-primary focus:border-b-2 focus:ring-0 placeholder:text-outline text-on-surface" placeholder="Archive Search..." type="text"/>
+          <span class="material-symbols-outlined text-[18px] text-secondary absolute right-0 cursor-pointer">search</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- TELEGRAPHIC WIRE TICKER -->
+<div class="border-b border-outline-variant bg-surface-container py-1.5 overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 md:px-8 flex items-center text-xs">
+    <div class="flex items-center font-kicker uppercase bg-primary text-white px-2 py-0.5 mr-3 shrink-0 tracking-wider font-bold">
+      <span class="inline-block w-1.5 h-1.5 rounded-full bg-white animate-pulse mr-1.5"></span>
+      Wire
+    </div>
+    <div class="overflow-hidden whitespace-nowrap text-secondary text-[13px] flex items-center space-x-8">
+      <span><strong class="font-mono text-primary mr-1.5">[11:42 GMT]</strong> Thames Estuary heavy girder retrofits clear marine safety milestone after 8-week ballast trial.</span>
+      <span class="text-outline-variant">•</span>
+      <span><strong class="font-mono text-primary mr-1.5">[10:15 GMT]</strong> High-tensile steel quotas revised downward across Nordic foundry confederacies.</span>
+      <span class="text-outline-variant">•</span>
+      <span><strong class="font-mono text-primary mr-1.5">[09:03 GMT]</strong> Automated precision actuators set new thermal endurance record in cryogenic test.</span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN EDITORIAL GRID -->
+<main class="max-w-7xl mx-auto px-4 md:px-8 py-6">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 border-b-2 border-primary pb-6 mb-6">
+    <!-- LEFT COLUMN: BULLETINS -->
+    <aside class="lg:col-span-3 lg:border-r border-outline-variant pr-0 lg:pr-6 space-y-6">
+      <div>
+        <div class="border-b-2 border-primary pb-1 mb-4 flex items-center justify-between">
+          <span class="font-kicker text-xs uppercase tracking-widest text-primary font-bold">Late Bulletins</span>
+          <span class="font-mono text-[10px] text-outline">UPDATED HOURLY</span>
+        </div>
+        <article class="border-b border-outline-variant pb-4 mb-4 group cursor-pointer">
+          <div class="flex items-center space-x-2 mb-1">
+            <span class="font-kicker text-[10px] font-bold uppercase tracking-wider text-error">URGENT</span>
+            <span class="text-outline text-[11px]">• 14m ago</span>
+          </div>
+          <h4 class="font-headline-sm text-base leading-tight font-semibold text-primary group-hover:underline">
+            Maritime Logistics Halt at Sound Straits Following Hydraulic Pump Failure
+          </h4>
+          <p class="text-xs text-secondary mt-1.5">
+            Three cargo freighters remain anchored south of the outer buoy as maintenance crews address cold-seize pressure loss.
+          </p>
+        </article>
+        <article class="border-b border-outline-variant pb-4 mb-4 group cursor-pointer">
+          <span class="font-kicker text-[10px] uppercase tracking-wider text-outline mb-1 block">INFRASTRUCTURE</span>
+          <h4 class="font-headline-sm text-base leading-snug font-semibold text-primary group-hover:underline">
+            Subterranean High-Voltage Conduit Completes Final 90-Mile Vacuum Chamber Seal
+          </h4>
+        </article>
+      </div>
+
+      <!-- Financial Ledger -->
+      <div class="border border-outline-variant bg-surface-container-lowest p-3.5">
+        <div class="flex items-center justify-between border-b border-outline-variant pb-2 mb-2.5">
+          <span class="font-kicker text-[10px] font-bold uppercase tracking-widest text-primary">COMMERCIAL LEDGER</span>
+          <span class="material-symbols-outlined text-[16px] text-outline">query_stats</span>
+        </div>
+        <table class="w-full text-xs font-mono">
+          <tbody>
+            <tr class="border-b border-surface-container">
+              <td class="py-1">Bessemer Heavy 50</td>
+              <td class="py-1 text-right font-bold">4,128.90</td>
+              <td class="py-1 text-right text-secondary">+0.32%</td>
+            </tr>
+            <tr class="border-b border-surface-container">
+              <td class="py-1">Nordic Ore Spot</td>
+              <td class="py-1 text-right font-bold">112.45</td>
+              <td class="py-1 text-right text-error">-1.20%</td>
+            </tr>
+            <tr>
+              <td class="pt-1">Sovereign 10-Yr</td>
+              <td class="pt-1 text-right font-bold">4.182%</td>
+              <td class="pt-1 text-right text-secondary">+2.1bp</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </aside>
+
+    <!-- CENTER COLUMN: LEAD STORY -->
+    <section class="lg:col-span-6 px-0 lg:px-4 lg:border-r border-outline-variant">
+      <div class="flex items-center space-x-3 mb-2">
+        <span class="bg-primary text-white font-kicker text-[10px] uppercase font-bold tracking-widest px-2 py-0.5">Special Investigation</span>
+        <span class="text-outline text-xs font-kicker uppercase tracking-widest">Estuary Region</span>
+      </div>
+      <a href="article_reader.html" class="group block">
+        <h2 class="font-headline-lead text-3xl md:text-5xl text-primary tracking-tight font-bold mb-3 group-hover:text-secondary transition-colors">
+          The Artery of Salt & Steel: Inside the 100-Year Overhaul of the Estuary Span
+        </h2>
+      </a>
+      <p class="font-subhead text-lg text-secondary italic mb-4 leading-relaxed">
+        Battling unrelenting marine gales and metallurgical fatigue, an elite corps of deep-water riggers rebuilds the continental lifeline while traffic never pauses above.
+      </p>
+      <div class="flex items-center justify-between border-y border-outline-variant py-2 mb-4 font-byline text-xs uppercase tracking-wider text-secondary">
+        <span>By <strong class="text-primary font-bold">Arthur Vance</strong>, Senior Mechanical Correspondent</span>
+        <span class="font-mono text-[11px]">Dispatch #1094</span>
+      </div>
+
+      <figure class="mb-4">
+        <div class="w-full bg-surface-container border border-outline-variant overflow-hidden">
+          <img alt="Estuary Span" class="w-full h-80 object-cover filter grayscale contrast-125" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAQ0bUzwsJX1oJeD0tC6o2ZlyyXFhNmu0bFtd2eVOPNMNPwHXiUwDzR0TqqSZhx6a3fJqI_uhtCAYCRsMrWqJWXPtz4jZbKDiVFTxEXHqyYfzhWLEeaAHg5BLEa0jKhmoE2weKWQ7s5hQEx7tiXRslANt9EXjPYBolaHbukB3uhL6tfEBrLIBni-7l7OHdCPrc-F-c4OthTt48PPiVschezbfryZ0sv0EoCnyWgnIh5umWRBVAI-g_6jBE4EVuPoRGIWlIalqW1_Q"/>
+        </div>
+        <figcaption class="flex items-start justify-between mt-2 text-xs text-secondary border-b border-surface-container pb-2">
+          <span>The main cable stay array at Pier 4, photographed at dawn amid 45-knot crosswinds.</span>
+          <span class="font-mono text-[10px] shrink-0 text-outline uppercase">ARCHIVE</span>
+        </figcaption>
+      </figure>
+
+      <div class="text-sm leading-relaxed text-on-surface space-y-4">
+        <p class="dropcap">
+          Every twelve seconds, sixty tons of pressurized freight rolls across the wet bituminous expanse of the Firth suspension deck. Far below the rumbling asphalt, in air heavy with the sharp reek of brine and oxidized iron, four industrial climbers hang suspended within the interior belly of the central pylon.
+        </p>
+      </div>
+
+      <div class="pt-4 border-t border-outline-variant flex items-center justify-between font-kicker text-xs uppercase tracking-wider text-secondary mt-6">
+        <a class="underline underline-offset-4 text-primary font-bold hover:text-secondary" href="article_reader.html">Read Full Dispatch (24 Min Read) →</a>
+        <span>Front Page Folio</span>
+      </div>
+    </section>
+
+    <!-- RIGHT COLUMN: OP-ED -->
+    <aside class="lg:col-span-3 pl-0 lg:pl-4 space-y-6">
+      <div>
+        <div class="border-b-2 border-primary pb-1 mb-4 flex items-center justify-between">
+          <span class="font-kicker text-xs uppercase tracking-widest text-primary font-bold">Voices & Verdicts</span>
+          <span class="font-mono text-[10px] text-outline">OP-ED</span>
+        </div>
+        <article class="border-b border-outline-variant pb-4 mb-4">
+          <span class="font-kicker text-[11px] uppercase font-bold text-primary block">Edward L. Sterling</span>
+          <h4 class="font-headline-sm text-base leading-tight font-semibold text-primary hover:underline cursor-pointer mt-1">
+            The Illusion of Frictionless Digital Supply Chains
+          </h4>
+          <p class="text-xs text-secondary mt-1.5">
+            Code cannot move raw limestone or forge titanium joints. We have mistaken digital abstraction for physical reality.
+          </p>
+        </article>
+        <article class="border-b border-outline-variant pb-4 mb-4">
+          <span class="font-kicker text-[11px] uppercase font-bold text-primary block">Clara H. Thorne</span>
+          <h4 class="font-headline-sm text-base leading-tight font-semibold text-primary hover:underline cursor-pointer mt-1">
+            Why the Sovereign Machine Tool Sector Requires Defense Status
+          </h4>
+        </article>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-background border-t-2 border-primary py-8">
+  <div class="max-w-7xl mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between text-xs text-secondary gap-4">
+    <p>© 2025 The Rust Chronicle Publishing Co. Journal of Record & Modern Inquiry.</p>
+    <div class="flex items-center space-x-6 uppercase font-kicker text-[11px] tracking-widest text-outline">
+      <span>Printed on 100% Recycled Cold-Press Stock</span>
+      <span>•</span>
+      <span>Volume CXLI, No. 297</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

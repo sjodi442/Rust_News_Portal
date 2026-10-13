@@ -1,0 +1,26 @@
+use loco_rs::schema::*;
+use sea_orm_migration::prelude::*;
+
+#[derive(DeriveMigrationName)]
+pub struct Migration;
+
+#[async_trait::async_trait]
+impl MigrationTrait for Migration {
+    async fn up(&self, m: &SchemaManager) -> Result<(), DbErr> {
+        create_table(
+            m,
+            "newsletter_subscribers",
+            &[
+                ("id", ColType::PkAuto),
+                ("email", ColType::StringUniq),
+                ("is_active", ColType::BooleanWithDefault(true)),
+            ],
+            &[],
+        )
+        .await
+    }
+
+    async fn down(&self, m: &SchemaManager) -> Result<(), DbErr> {
+        drop_table(m, "newsletter_subscribers").await
+    }
+}

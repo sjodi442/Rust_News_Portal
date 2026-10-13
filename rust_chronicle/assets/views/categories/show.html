@@ -1,0 +1,61 @@
+{% extends "broadsheet_base.html" %}
+
+{% block title %}{{ category.name }} — The Rust Chronicle{% endblock title %}
+
+{% block content %}
+<div class="border-b-2 border-primary pb-4 mb-8">
+  <div class="flex items-center justify-between">
+    <div>
+      <span class="font-kicker text-xs uppercase tracking-widest text-secondary font-bold">DEPARTMENTAL ARCHIVE</span>
+      <h1 class="font-headline-lead text-3xl md:text-5xl text-primary font-black uppercase tracking-tight mt-1">
+        {{ category.name }}
+      </h1>
+    </div>
+    <span class="font-mono text-sm text-secondary">
+      {% if articles is defined %}{{ articles | length }}{% else %}0{% endif %} DISPATCHES
+    </span>
+  </div>
+</div>
+
+{% if articles is defined and articles | length > 0 %}
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+  {% for art in articles %}
+  <article class="flex flex-col border border-outline-variant bg-surface-container-lowest p-5">
+    <div class="flex items-center justify-between text-xs font-kicker uppercase mb-2">
+      <span class="text-primary font-bold">{{ art.kicker }}</span>
+      <span class="font-mono text-secondary text-[10px]">{{ art.dispatch_ref_code }}</span>
+    </div>
+    <a href="/articles/{{ art.slug }}" class="group mb-2">
+      <h2 class="font-headline-sm text-xl font-bold text-primary group-hover:underline leading-snug">
+        {{ art.title }}
+      </h2>
+    </a>
+    <p class="font-subhead italic text-xs text-secondary mb-3">
+      {{ art.subhead }}
+    </p>
+    {% if art.cover_image_url %}
+    <img src="{{ art.cover_image_url }}" alt="{{ art.title }}" class="w-full h-44 object-cover filter grayscale contrast-125 border border-outline-variant mb-3"/>
+    {% endif %}
+    <p class="font-body-regular text-xs text-on-surface line-clamp-3 mb-4 leading-relaxed">
+      {{ art.lead_paragraph }}
+    </p>
+    <div class="mt-auto pt-3 border-t border-outline-variant flex items-center justify-between text-[11px] font-kicker uppercase">
+      <span class="text-secondary">{{ art.reading_time_minutes }} MIN READ</span>
+      <a href="/articles/{{ art.slug }}" class="font-bold text-primary hover:underline">
+        READ →
+      </a>
+    </div>
+  </article>
+  {% endfor %}
+</div>
+{% else %}
+<div class="py-16 text-center border border-dashed border-outline-variant bg-surface-container-low p-8">
+  <span class="material-symbols-outlined text-4xl text-secondary mb-2">newspaper</span>
+  <h3 class="font-headline-sm text-xl text-primary font-bold mb-2">No dispatches filed in this department yet.</h3>
+  <p class="font-body-regular text-xs text-secondary mb-4">Our correspondents are currently compiling reports for this bureau.</p>
+  <a href="/" class="font-kicker text-xs uppercase px-4 py-2 border border-primary text-primary hover:bg-primary hover:text-white transition-colors font-bold">
+    Return to Front Page
+  </a>
+</div>
+{% endif %}
+{% endblock content %}

@@ -1,0 +1,171 @@
+{% extends "admin/admin_base.html" %}
+
+{% block title %}
+  {% if article %}Edit: {{ article.title }}{% else %}New Article{% endif %}
+{% endblock title %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto space-y-6">
+
+  <!-- TOP HEADER -->
+  <div class="flex items-center justify-between border-b-2 border-primary pb-4">
+    <div>
+      <span class="font-kicker text-xs uppercase tracking-widest text-secondary font-bold">Editorial Desk</span>
+      <h2 class="font-masthead text-3xl font-black uppercase text-primary">
+        {% if article %}Edit Article #{{ article.id }}{% else %}Write New Dispatch{% endif %}
+      </h2>
+    </div>
+    <a href="/admin/articles" class="font-kicker text-xs uppercase font-bold text-secondary hover:text-primary hover:underline">
+      ← Back to Articles
+    </a>
+  </div>
+
+  <!-- FORM -->
+  <form action="{% if article %}/admin/articles/{{ article.id }}{% else %}/admin/articles{% endif %}" method="post" class="space-y-6 bg-surface-low border border-primary p-6 md:p-8">
+
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+
+      <!-- Headline / Title -->
+      <div class="md:col-span-12">
+        <label class="block font-kicker text-xs uppercase font-bold text-primary mb-1">
+          Headline / Title <span class="text-error">*</span>
+        </label>
+        <input type="text" name="title" required value="{{ article.title | default(value='') }}" placeholder="e.g. The Artery of Salt & Steel: Inside the 100-Year Overhaul..." class="w-full font-serif text-lg p-2.5 bg-background border border-primary focus:ring-0 focus:border-black"/>
+      </div>
+
+      <!-- Kicker & Ref Code -->
+      <div class="md:col-span-6">
+        <label class="block font-kicker text-xs uppercase font-bold text-primary mb-1">
+          Kicker / Eyebrow Header
+        </label>
+        <input type="text" name="kicker" value="{{ article.kicker | default(value='') }}" placeholder="e.g. INVESTIGATION & SPECIAL REPORT" class="w-full font-kicker text-xs p-2 bg-background border border-outline focus:ring-0 focus:border-black uppercase"/>
+      </div>
+
+      <div class="md:col-span-6">
+        <label class="block font-kicker text-xs uppercase font-bold text-primary mb-1">
+          Dispatch Reference Code
+        </label>
+        <input type="text" name="dispatch_ref_code" value="{{ article.dispatch_ref_code | default(value='') }}" placeholder="e.g. DISPATCH #1895 or BULLETIN #404" class="w-full font-mono text-xs p-2 bg-background border border-outline focus:ring-0 focus:border-black uppercase"/>
+      </div>
+
+      <!-- Subhead -->
+      <div class="md:col-span-12">
+        <label class="block font-kicker text-xs uppercase font-bold text-primary mb-1">
+          Subhead / Deck (Summary)
+        </label>
+        <textarea name="subhead" rows="2" placeholder="Brief 1-2 sentence italic summary that appears under the main headline..." class="w-full font-serif italic text-sm p-2 bg-background border border-outline focus:ring-0 focus:border-black">{{ article.subhead | default(value='') }}</textarea>
+      </div>
+
+      <!-- Category & Slug -->
+      <div class="md:col-span-6">
+        <label class="block font-kicker text-xs uppercase font-bold text-primary mb-1">
+          Desk / Category
+        </label>
+        <select name="category_id" class="w-full font-kicker text-xs p-2 bg-background border border-outline focus:ring-0 focus:border-black">
+          <option value="">-- Select Category --</option>
+          {% for c in categories %}
+            <option value="{{ c.id }}" {% if article and article.category_id == c.id %}selected{% endif %}>
+              {{ c.name }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="md:col-span-6">
+        <label class="block font-kicker text-xs uppercase font-bold text-primary mb-1">
+          URL Slug (Leave blank to auto-generate)
+        </label>
+        <input type="text" name="slug" value="{{ article.slug | default(value='') }}" placeholder="e.g. artery-of-salt-and-steel" class="w-full font-mono text-xs p-2 bg-background border border-outline focus:ring-0 focus:border-black"/>
+      </div>
+
+      <!-- Slot Type & Status -->
+      <div class="md:col-span-4">
+        <label class="block font-kicker text-xs uppercase font-bold text-primary mb-1">
+          Front Page Slot / Article Type
+        </label>
+        <select name="article_type" class="w-full font-kicker text-xs p-2 bg-background border border-primary font-bold focus:ring-0 focus:border-black">
+          <option value="standard" {% if not article or article.article_type == "standard" %}selected{% endif %}>Standard Article</option>
+          <option value="lead" {% if article and article.article_type == "lead" %}selected{% endif %}>★ Front Page Lead Story</option>
+          <option value="bulletin" {% if article and article.article_type == "bulletin" %}selected{% endif %}>Left Column Bulletin</option>
+          <option value="oped" {% if article and article.article_type == "oped" %}selected{% endif %}>Right Column Op-Ed</option>
+        </select>
+      </div>
+
+      <div class="md:col-span-4">
+        <label class="block font-kicker text-xs uppercase font-bold text-primary mb-1">
+          Publication Status
+        </label>
+        <select name="status" class="w-full font-kicker text-xs p-2 bg-background border border-outline focus:ring-0 focus:border-black font-semibold">
+          <option value="published" {% if not article or article.status == "published" %}selected{% endif %}>Published</option>
+          <option value="draft" {% if article and article.status == "draft" %}selected{% endif %}>Draft</option>
+          <option value="archived" {% if article and article.status == "archived" %}selected{% endif %}>Archived</option>
+        </select>
+      </div>
+
+      <div class="md:col-span-4">
+        <label class="block font-kicker text-xs uppercase font-bold text-primary mb-1">
+          Reading Time (Minutes)
+        </label>
+        <input type="number" name="reading_time_minutes" value="{{ article.reading_time_minutes | default(value=5) }}" min="1" class="w-full font-mono text-xs p-2 bg-background border border-outline focus:ring-0 focus:border-black"/>
+      </div>
+
+      <!-- Lead Paragraph -->
+      <div class="md:col-span-12">
+        <label class="block font-kicker text-xs uppercase font-bold text-primary mb-1">
+          Opening Lead Paragraph (Dropcap style)
+        </label>
+        <textarea name="lead_paragraph" rows="3" placeholder="First paragraph rendered with broadsheet dropcap styling..." class="w-full font-serif text-sm p-2 bg-background border border-outline focus:ring-0 focus:border-black leading-relaxed">{{ article.lead_paragraph | default(value='') }}</textarea>
+      </div>
+
+      <!-- Main Body Markdown -->
+      <div class="md:col-span-12">
+        <label class="block font-kicker text-xs uppercase font-bold text-primary mb-1">
+          Full Article Body (Markdown) <span class="text-error">*</span>
+        </label>
+        <textarea name="body_markdown" required rows="10" placeholder="Write full dispatch narrative here. Paragraphs separated by blank lines will be formatted automatically..." class="w-full font-mono text-xs p-3 bg-background border border-primary focus:ring-0 focus:border-black leading-relaxed">{{ article.body_markdown | default(value='') }}</textarea>
+      </div>
+
+      <!-- Cover Image -->
+      <div class="md:col-span-12 border-t border-outline-variant pt-4 mt-2">
+        <span class="font-kicker text-xs uppercase tracking-widest text-secondary font-bold block mb-3">Cover Photography &amp; Illustration</span>
+      </div>
+
+      <div class="md:col-span-6">
+        <label class="block font-kicker text-xs uppercase font-bold text-primary mb-1">
+          Cover Image URL
+        </label>
+        <input type="url" name="cover_image_url" value="{{ article.cover_image_url | default(value='') }}" placeholder="https://..." class="w-full font-mono text-xs p-2 bg-background border border-outline focus:ring-0 focus:border-black"/>
+      </div>
+
+      <div class="md:col-span-3">
+        <label class="block font-kicker text-xs uppercase font-bold text-primary mb-1">
+          Image Caption
+        </label>
+        <input type="text" name="cover_image_caption" value="{{ article.cover_image_caption | default(value='') }}" placeholder="e.g. High-wire crew on north pylon." class="w-full font-sans text-xs p-2 bg-background border border-outline focus:ring-0 focus:border-black"/>
+      </div>
+
+      <div class="md:col-span-3">
+        <label class="block font-kicker text-xs uppercase font-bold text-primary mb-1">
+          Image Credit / Archive
+        </label>
+        <input type="text" name="cover_image_credit" value="{{ article.cover_image_credit | default(value='') }}" placeholder="e.g. RUST ARCHIVE" class="w-full font-kicker text-xs p-2 bg-background border border-outline focus:ring-0 focus:border-black uppercase"/>
+      </div>
+
+    </div>
+
+    <!-- SUBMIT ACTIONS -->
+    <div class="pt-6 border-t-2 border-primary flex items-center justify-between">
+      <a href="/admin/articles" class="font-kicker text-xs uppercase font-bold text-secondary hover:underline">
+        Cancel
+      </a>
+      <div class="flex items-center space-x-3">
+        <button type="submit" class="px-6 py-2.5 bg-primary text-white font-kicker text-xs uppercase font-bold tracking-wider hover:bg-neutral-800 transition-colors border border-primary">
+          {% if article %}Update Article{% else %}Publish / Save Article{% endif %}
+        </button>
+      </div>
+    </div>
+
+  </form>
+
+</div>
+{% endblock content %}

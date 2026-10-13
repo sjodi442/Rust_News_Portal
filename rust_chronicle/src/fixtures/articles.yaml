@@ -1,0 +1,92 @@
+- id: 1
+  category_id: 3
+  slug: artery-of-salt-and-steel-estuary-span
+  title: "The Artery of Salt & Steel: Inside the 100-Year Overhaul of the Estuary Span"
+  kicker: "INVESTIGATION & SPECIAL REPORT — ESTUARY REGION"
+  subhead: "Battling unrelenting marine gales and metallurgical fatigue, an elite corps of deep-water riggers rebuilds the continental lifeline while traffic never pauses above."
+  lead_paragraph: "Every morning at four o’clock, before the dawn mist burns off the Estuary mouth, thirty-two deep-sea riggers ascend the north suspension pylon in cages smaller than upright coffins. Two hundred and eighty meters above the cold Firth basin, the wind is not a draft; it is a permanent geological current carrying sixty kilograms of salt foam per cubic hour."
+  body_markdown: "A century later, that same steel spine is carrying eighty-five thousand lorries, bulk grain carriers, and express electric trains every single day. The bridge has never closed for more than twelve consecutive hours in its hundred-year lifespan.\n\n“The original builders worked with sublime confidence, but they did not have access to scanning electron microscopes,” explains Dr. Marta Lindqvist, chief metallurgist on site. “Bessemer steel has a high nitrogen and phosphorus content. When exposed to maritime humidity over eighty winters, the grain boundaries suffer from interstitial stress-corrosion cracking.”"
+  body_html: "<p>A century later, that same steel spine is carrying eighty-five thousand lorries, bulk grain carriers, and express electric trains every single day...</p>"
+  article_type: lead
+  status: published
+  dispatch_ref_code: "DISPATCH #1894"
+  cover_image_url: "https://lh3.googleusercontent.com/aida-public/AB6AXuDFgsLHLfYsplteC1VrtwOeAlqhG4PG5dW4WyjGmVwm37p-dDJwlOTtWnOKlQ_t-EUcGTv1txl1w12fijxbRipeJQvcr2OBkr8qLN-TGnDCetlYUO7M38qx2B4qQnJJ86cuwrrAHJDaN0e_CuzBXd_oR839EfQUK55RezR65_qhZ2i3t2EF8ZzLPel2-_7ZbO2tJqO6vdQlL5VH8RwXVxcl0oYcJs61OAOX5R9A4ks6txTG-C9dIb7RoJPCARZ0Zj2pARMoFLye5RI"
+  cover_image_caption: "Cable inspection crew suspended along north pylon at 280m."
+  cover_image_credit: "RUST ARCHIVE"
+  reading_time_minutes: 14
+  view_count: 1420
+  published_at: "2025-10-24T06:00:00.000Z"
+  created_at: "2025-10-24T06:00:00.000Z"
+  updated_at: "2025-10-24T06:00:00.000Z"
+
+- id: 2
+  category_id: 3
+  slug: deep-water-dredging-suspended-north-channel
+  title: "Deep-Water Dredging Suspended at North Channel Following Silt Shift"
+  kicker: "MARITIME ADVISORY"
+  subhead: "Subsurface hydrographic survey reveals three meters of unpredicted sedimentary drift across main shipping fairway."
+  lead_paragraph: "Harbor pilotage authorities ordered all suction dredgers to anchor this afternoon."
+  body_markdown: "The shifting sandbank threatens outbound container draughts exceeding 14.5 meters. Port engineers are deploying sonar probes to map the shoal contour."
+  body_html: "<p>The shifting sandbank threatens outbound container draughts exceeding 14.5 meters.</p>"
+  article_type: bulletin
+  status: published
+  dispatch_ref_code: "BULLETIN #402"
+  reading_time_minutes: 3
+  view_count: 610
+  published_at: "2025-10-24T08:30:00.000Z"
+  created_at: "2025-10-24T08:30:00.000Z"
+  updated_at: "2025-10-24T08:30:00.000Z"
+
+- id: 3
+  category_id: 2
+  slug: turbine-blade-acoustic-sensors-grid-sector-7
+  title: "Turbine Blade Acoustic Sensors Log Resonant Drift in Grid Sector 7"
+  kicker: "POWER & METALLURGY"
+  subhead: "Piezoelectric monitors on offshore array 12 detect harmonic deviations during sustained force 8 gales."
+  lead_paragraph: "Telemetry logs from the coastal wind generation ring triggered early maintenance alerts."
+  body_markdown: "Engineers suspect micro-pitting on trailing edge composite spars rather than drive-train misalignment."
+  body_html: "<p>Engineers suspect micro-pitting on trailing edge composite spars rather than drive-train misalignment.</p>"
+  article_type: bulletin
+  status: published
+  dispatch_ref_code: "BULLETIN #403"
+  reading_time_minutes: 4
+  view_count: 530
+  published_at: "2025-10-24T09:15:00.000Z"
+  created_at: "2025-10-24T09:15:00.000Z"
+  updated_at: "2025-10-24T09:15:00.000Z"
+
+- id: 4
+  category_id: 4
+  slug: peril-of-synthetic-speed-in-public-infrastructure
+  title: "The Peril of Synthetic Speed in Public Infrastructure"
+  kicker: "VOICES & VERDICTS"
+  subhead: "Why durable societies prioritize hundred-year concrete and inspected alloys over fast capital turnarounds."
+  lead_paragraph: "Speed is the cheapest substitute for rigorous engineering."
+  body_markdown: "When civil works are designed around quarterly balance sheets rather than geological lifespans, the public eventually pays the compounding debt in catastrophic remediation."
+  body_html: "<p>When civil works are designed around quarterly balance sheets rather than geological lifespans...</p>"
+  article_type: oped
+  status: published
+  dispatch_ref_code: "ESSAY #88"
+  reading_time_minutes: 7
+  view_count: 940
+  published_at: "2025-10-24T10:00:00.000Z"
+  created_at: "2025-10-24T10:00:00.000Z"
+  updated_at: "2025-10-24T10:00:00.000Z"
+
+- id: 5
+  category_id: 5
+  slug: architecture-of-stone-viaducts-19th-century
+  title: "The Architecture of Stone Viaducts: A 19th Century Reckoning"
+  kicker: "SATURDAY FOLIO"
+  subhead: "Walking the arches of the High Pennine crossing, where mortar and dressed millstone grit endure."
+  lead_paragraph: "To stand beneath the twenty-four spans of the Ribble viaduct is to confront stone masonry as heroic civic poetry."
+  body_markdown: "Each block was hand-dressed by traveling stonecutters who understood the compressive truth of granite under steam locomotive tonnage."
+  body_html: "<p>Each block was hand-dressed by traveling stonecutters who understood compressive truth.</p>"
+  article_type: folio
+  status: published
+  dispatch_ref_code: "FOLIO #12"
+  reading_time_minutes: 11
+  view_count: 810
+  published_at: "2025-10-24T11:00:00.000Z"
+  created_at: "2025-10-24T11:00:00.000Z"
+  updated_at: "2025-10-24T11:00:00.000Z"

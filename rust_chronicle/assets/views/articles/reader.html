@@ -1,0 +1,214 @@
+{% extends "broadsheet_base.html" %}
+
+{% block title %}{{ article.title }} — The Rust Chronicle{% endblock title %}
+
+{% block content %}
+<!-- Reading Progress Bar -->
+<div id="reading-progress" class="fixed top-0 left-0 h-1 bg-primary z-50 transition-all duration-75" style="width: 0%"></div>
+
+<div class="border-b border-primary pb-3 mb-6 flex flex-wrap items-center justify-between gap-2">
+  <div class="font-kicker text-xs uppercase tracking-widest text-primary font-bold">
+    {{ article.kicker }}
+  </div>
+  <div class="font-byline text-xs text-secondary">
+    {{ article.dispatch_ref_code }} • {% if category is defined %}<a href="/category/{{ category.slug }}" class="hover:underline text-primary">{{ category.name }}</a>{% endif %}
+  </div>
+</div>
+
+<div class="max-w-5xl mb-8">
+  <h1 class="font-headline-lead text-3xl md:text-5xl text-primary font-bold tracking-tight mb-5 leading-tight">
+    {{ article.title }}
+  </h1>
+  {% if article.subhead %}
+  <p class="font-subhead text-xl text-secondary italic font-serif max-w-4xl leading-relaxed">
+    {{ article.subhead }}
+  </p>
+  {% endif %}
+</div>
+
+<div class="border-y border-outline-variant py-3 mb-10 flex flex-wrap items-center justify-between gap-4 font-byline text-xs text-on-surface">
+  <div>
+    <span class="text-secondary uppercase text-[10px] tracking-widest block font-kicker">DESK &amp; BYLINE</span>
+    <span class="font-bold text-primary">Arthur Vance</span>, <span class="text-secondary">Senior Mechanical Correspondent</span>
+  </div>
+  <div class="flex items-center space-x-6">
+    <div class="text-secondary text-xs">
+      <span class="text-secondary uppercase text-[10px] tracking-widest block font-kicker">DISPATCH METRICS</span>
+      <span class="text-primary font-medium">{{ article.reading_time_minutes }} min read • {{ article.view_count }} views</span>
+    </div>
+    <!-- READING TOOLBAR (Font Adjuster & Print) -->
+    <div class="flex items-center space-x-1.5 border-l border-outline-variant pl-4">
+      <span class="font-kicker text-[10px] uppercase text-secondary font-bold mr-1">TYPE:</span>
+      <button id="btn-font-dec" type="button" class="border border-outline px-2 py-0.5 font-mono text-xs hover:bg-surface-container-highest transition-colors font-bold" title="Decrease font size">A-</button>
+      <button id="btn-font-reset" type="button" class="border border-outline px-2 py-0.5 font-mono text-xs hover:bg-surface-container-highest transition-colors" title="Reset font size">A</button>
+      <button id="btn-font-inc" type="button" class="border border-outline px-2 py-0.5 font-mono text-xs hover:bg-surface-container-highest transition-colors font-bold" title="Increase font size">A+</button>
+      <span class="text-outline-variant mx-1">|</span>
+      <button onclick="window.print()" type="button" class="border border-primary bg-surface-container-lowest px-2.5 py-0.5 font-kicker text-[11px] uppercase hover:bg-primary hover:text-white transition-colors flex items-center space-x-1 font-bold">
+        <span class="material-symbols-outlined text-[14px]">print</span>
+        <span>PRINT FOLIO</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+  <!-- MAIN READING (8 COLS) -->
+  <article class="lg:col-span-8 lg:pr-6 border-outline-variant lg:border-r">
+    {% if article.cover_image_url %}
+    <figure class="mb-8 bg-surface-container-low p-2 border border-outline-variant">
+      <img class="w-full h-96 object-cover filter grayscale contrast-125" src="{{ article.cover_image_url }}" alt="{{ article.title }}"/>
+      {% if article.cover_image_caption %}
+      <figcaption class="pt-2 text-xs text-secondary flex justify-between">
+        <span>{{ article.cover_image_caption }}</span>
+        {% if article.cover_image_credit %}<span class="font-mono text-[10px] text-outline uppercase">{{ article.cover_image_credit }}</span>{% endif %}
+      </figcaption>
+      {% endif %}
+    </figure>
+    {% endif %}
+
+    <div class="dropcap font-body-lead text-base md:text-lg text-primary mb-6 leading-relaxed">
+      {{ article.lead_paragraph }}
+    </div>
+
+    <div id="article-body" class="font-body-regular text-base text-on-surface space-y-6 leading-relaxed prose prose-neutral max-w-none transition-all">
+      {{ article.body_html | safe }}
+    </div>
+
+    <!-- Reader Correspondence / Dispatches for this article -->
+    <section class="mt-12 pt-8 border-t-2 border-primary">
+      <div class="flex items-center justify-between border-b border-outline-variant pb-2 mb-6">
+        <h3 class="font-kicker font-bold text-xs uppercase tracking-widest text-primary flex items-center">
+          <span class="material-symbols-outlined text-sm mr-1">mail</span> CORRESPONDENCE ON THIS DISPATCH
+        </h3>
+        <span class="font-mono text-xs text-secondary">
+          {% if dispatches is defined %}{{ dispatches | length }}{% else %}0{% endif %} LETTERS FILED
+        </span>
+      </div>
+
+      <!-- HTMX INLINE SUBMISSION FORM -->
+      <form hx-post="/api/dispatches/submit" hx-target="#reader-dispatches-list" hx-swap="afterbegin" hx-on::after-request="if(event.detail.successful) this.reset()" class="bg-surface-container-low border border-outline-variant p-4 mb-6">
+        <input type="hidden" name="article_id" value="{{ article.id }}"/>
+        <h4 class="font-kicker font-bold text-xs uppercase tracking-wider text-primary mb-3">FILE DISPATCH MEMORANDUM</h4>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+          <div>
+            <label class="block font-kicker text-[10px] uppercase text-secondary mb-1">CORRESPONDENT NAME *</label>
+            <input type="text" name="author_name" required placeholder="e.g. Alistair Finch" class="w-full text-xs px-2.5 py-1.5 bg-background border border-outline focus:border-primary focus:ring-0 text-on-surface"/>
+          </div>
+          <div>
+            <label class="block font-kicker text-[10px] uppercase text-secondary mb-1">AFFILIATION / INSTITUTION</label>
+            <input type="text" name="affiliation" placeholder="e.g. Institute of Naval Architects" class="w-full text-xs px-2.5 py-1.5 bg-background border border-outline focus:border-primary focus:ring-0 text-on-surface"/>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="block font-kicker text-[10px] uppercase text-secondary mb-1">MEMORANDUM CONTENT *</label>
+          <textarea name="body" required rows="3" placeholder="State your observations, critical amendments, or technical inquiries..." class="w-full text-xs px-2.5 py-1.5 bg-background border border-outline focus:border-primary focus:ring-0 text-on-surface"></textarea>
+        </div>
+        <div class="flex items-center justify-between">
+          <label class="flex items-center space-x-2 text-xs font-kicker text-secondary cursor-pointer">
+            <input type="checkbox" name="is_technical_note" value="true" class="rounded border-outline text-primary focus:ring-0"/>
+            <span>TECHNICAL MEMORANDUM</span>
+          </label>
+          <button type="submit" class="bg-primary text-white font-kicker text-xs uppercase px-4 py-1.5 hover:bg-neutral-800 transition-colors font-bold">
+            TRANSMIT DISPATCH
+          </button>
+        </div>
+      </form>
+
+      <!-- Dispatches List -->
+      <div id="reader-dispatches-list" class="space-y-4">
+        {% if dispatches is defined and dispatches | length > 0 %}
+          {% for d in dispatches %}
+          <div class="border border-outline-variant bg-surface-container-low p-4">
+            <div class="flex items-center justify-between text-xs font-kicker uppercase mb-2 border-b border-outline-variant pb-1">
+              <span class="font-bold text-primary">{{ d.author_name }}</span>
+              {% if d.affiliation %}<span class="text-secondary text-[10px] italic">{{ d.affiliation }}</span>{% endif %}
+            </div>
+            <p class="font-body-regular text-xs text-on-surface italic mb-2 leading-relaxed">"{{ d.body }}"</p>
+            <div class="flex items-center justify-between text-[10px] font-mono text-outline">
+              <span>ENDORSEMENTS: {{ d.endorsements_count }}</span>
+              {% if d.is_technical_note %}<span class="text-primary font-bold border border-primary px-1">TECHNICAL MEMORANDUM</span>{% endif %}
+            </div>
+          </div>
+          {% endfor %}
+        {% else %}
+          <p class="text-xs italic text-secondary font-body-regular py-4">No reader memoranda have yet been published for this dispatch.</p>
+        {% endif %}
+      </div>
+    </section>
+  </article>
+
+  <!-- SIDEBAR (4 COLS) -->
+  <aside class="lg:col-span-4 space-y-6">
+    <div class="border border-outline-variant bg-surface-container-lowest p-5">
+      <h3 class="font-kicker text-xs uppercase tracking-widest text-primary font-bold pb-2 border-b border-primary mb-3">
+        EDITORIAL CONTEXT
+      </h3>
+      <div class="text-xs space-y-2 text-secondary">
+        <p><strong>Filing Desk:</strong> Firth Maritime Bureau</p>
+        <p><strong>Audited Record:</strong> Verified by Metallurgical Register</p>
+        <p><strong>Citing Authority:</strong> ISSN 0921-882X</p>
+      </div>
+    </div>
+
+    {% if sidebar_articles is defined and sidebar_articles | length > 0 %}
+    <div class="border border-outline-variant bg-surface-container-low p-5">
+      <h3 class="font-kicker text-xs uppercase tracking-widest text-primary font-bold pb-2 border-b border-primary mb-3">
+        RELATED INVESTIGATIONS
+      </h3>
+      <div class="space-y-4">
+        {% for sa in sidebar_articles %}
+        <article class="border-b border-outline-variant pb-3 last:border-b-0">
+          <span class="font-kicker text-[10px] uppercase text-secondary font-bold block mb-1">{{ sa.kicker }}</span>
+          <a href="/articles/{{ sa.slug }}" class="font-headline-sm text-sm font-bold text-primary hover:underline block leading-snug">
+            {{ sa.title }}
+          </a>
+        </article>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="border border-outline-variant bg-surface-container-lowest p-5 text-xs">
+      <div class="flex items-center justify-between border-b border-outline-variant pb-2 mb-3">
+        <span class="font-kicker uppercase text-primary font-bold">ESTUARY TELEMETRY</span>
+        <span class="font-mono text-[10px] text-outline">LIVE</span>
+      </div>
+      <div class="grid grid-cols-2 gap-3 font-mono">
+        <div><span class="text-secondary block font-sans text-[11px]">WATER SALINITY</span><strong>34.8 PSU</strong></div>
+        <div><span class="text-secondary block font-sans text-[11px]">SURFACE CURRENT</span><strong>4.2 KTS ENE</strong></div>
+        <div><span class="text-secondary block font-sans text-[11px]">GALE RATING</span><strong>FORCE 7</strong></div>
+        <div><span class="text-secondary block font-sans text-[11px]">DECK TEMP</span><strong>3.8°C</strong></div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<!-- ERGONOMIC READING SCRIPTS -->
+<script>
+  window.addEventListener('scroll', () => {
+    const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const progress = (window.scrollY / (docHeight || 1)) * 100;
+    const bar = document.getElementById('reading-progress');
+    if (bar) bar.style.width = Math.min(progress, 100) + '%';
+  });
+
+  let currentFontSize = 16;
+  const articleBody = document.getElementById('article-body');
+  document.getElementById('btn-font-inc')?.addEventListener('click', () => {
+    if (currentFontSize < 24) {
+      currentFontSize += 2;
+      if (articleBody) articleBody.style.fontSize = currentFontSize + 'px';
+    }
+  });
+  document.getElementById('btn-font-dec')?.addEventListener('click', () => {
+    if (currentFontSize > 12) {
+      currentFontSize -= 2;
+      if (articleBody) articleBody.style.fontSize = currentFontSize + 'px';
+    }
+  });
+  document.getElementById('btn-font-reset')?.addEventListener('click', () => {
+    currentFontSize = 16;
+    if (articleBody) articleBody.style.fontSize = '16px';
+  });
+</script>
+{% endblock content %}

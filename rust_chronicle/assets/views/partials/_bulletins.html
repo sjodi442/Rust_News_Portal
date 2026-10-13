@@ -1,0 +1,32 @@
+{% if bulletins is defined and bulletins | length > 0 %}
+<section class="space-y-6">
+  <div class="border-b-2 border-primary pb-1">
+    <h3 class="font-kicker font-bold text-xs uppercase tracking-widest text-primary">
+      TELEGRAPHIC BULLETINS &amp; SECTOR REPORTS
+    </h3>
+  </div>
+
+  <div class="divide-y divide-outline-variant space-y-4">
+    {% for b in bulletins %}
+    <article class="pt-4 first:pt-0">
+      <div class="flex items-center justify-between text-[11px] font-kicker uppercase mb-1">
+        <span class="text-primary font-bold tracking-wider">{{ b.kicker }}</span>
+        <span class="text-secondary font-mono text-[10px]">{{ b.dispatch_ref_code }}</span>
+      </div>
+      <a href="/articles/{{ b.slug }}" class="group block mb-1">
+        <h4 class="font-headline-sm text-lg font-bold text-primary leading-snug group-hover:underline">
+          {{ b.title }}
+        </h4>
+      </a>
+      <p class="font-body-regular text-xs text-secondary leading-relaxed mb-2">
+        {{ b.lead_paragraph }}
+      </p>
+      <div class="flex items-center justify-between text-[10px] font-kicker uppercase text-outline">
+        <span>{{ b.reading_time_minutes }} MIN READ</span>
+        <a href="/articles/{{ b.slug }}" class="text-primary font-bold hover:underline">READ DISPATCH →</a>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}

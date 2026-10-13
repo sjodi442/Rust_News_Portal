@@ -1,0 +1,30 @@
+<div id="search-results">
+  <p class="font-kicker text-xs uppercase text-secondary mb-4 tracking-wider">
+    ARCHIVAL RECORDS FOUND: {{ articles | length }}
+  </p>
+  {% if articles is defined and articles | length > 0 %}
+    <div class="space-y-6">
+      {% for art in articles %}
+      <article class="bg-surface-container-lowest border border-outline-variant p-5">
+        <div class="flex items-center space-x-3 text-[11px] font-kicker uppercase text-secondary mb-1">
+          {% if art.kicker %}<span class="font-bold text-primary">{{ art.kicker }}</span><span>•</span>{% endif %}
+          <span>{{ art.reading_time_minutes }} MIN AUDIT</span>
+        </div>
+        <h2 class="font-headline-md text-xl md:text-2xl font-bold text-primary mb-2">
+          <a href="/articles/{{ art.slug }}" class="hover:underline">{{ art.title }}</a>
+        </h2>
+        {% if art.subhead %}
+        <p class="font-subhead italic text-sm text-secondary mb-3">{{ art.subhead }}</p>
+        {% endif %}
+        <a href="/articles/{{ art.slug }}" class="font-kicker text-xs uppercase text-primary font-bold hover:underline">
+          Read Dispatch &rarr;
+        </a>
+      </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="border border-outline-variant bg-surface-container-low p-8 text-center text-secondary">
+      <p class="italic text-sm">No records match the requested archive query.</p>
+    </div>
+  {% endif %}
+</div>

@@ -1,0 +1,119 @@
+{% extends "admin/admin_base.html" %}
+
+{% block title %}Editorial Articles{% endblock title %}
+
+{% block content %}
+<div class="space-y-6">
+
+  <!-- TOP HEADER -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b-2 border-primary pb-4">
+    <div>
+      <span class="font-kicker text-xs uppercase tracking-widest text-secondary font-bold">Chronicle Newsroom</span>
+      <h2 class="font-masthead text-3xl font-black uppercase text-primary">All Dispatches &amp; Articles</h2>
+    </div>
+    <div>
+      <a href="/admin/articles/new" class="px-4 py-2 bg-primary text-white border border-primary hover:bg-neutral-800 transition-colors font-kicker text-xs uppercase font-bold flex items-center">
+        <span class="material-symbols-outlined text-sm mr-1.5">add_circle</span> Write New Article
+      </a>
+    </div>
+  </div>
+
+  <!-- TABLE OF ARTICLES -->
+  <div class="border border-primary bg-background">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-surface-low border-b-2 border-primary font-kicker uppercase text-secondary text-[11px]">
+          <tr>
+            <th class="py-3 px-4 font-bold">Ref / ID</th>
+            <th class="py-3 px-4 font-bold">Headline &amp; Slug</th>
+            <th class="py-3 px-4 font-bold">Desk / Category</th>
+            <th class="py-3 px-4 font-bold">Slot Type</th>
+            <th class="py-3 px-4 font-bold">Status</th>
+            <th class="py-3 px-4 font-bold text-center">Views</th>
+            <th class="py-3 px-4 font-bold text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-outline-variant font-sans">
+          {% for a in articles %}
+            <tr class="hover:bg-surface-low transition-colors">
+              <td class="py-3 px-4 font-mono text-secondary">
+                {{ a.dispatch_ref_code | default(value=a.id) }}
+              </td>
+              <td class="py-3 px-4 max-w-md">
+                <a href="/admin/articles/{{ a.id }}/edit" class="font-bold text-primary text-sm hover:underline block leading-snug">
+                  {{ a.title }}
+                </a>
+                <span class="font-mono text-[10px] text-secondary">/articles/{{ a.slug }}</span>
+              </td>
+              <td class="py-3 px-4 font-kicker uppercase text-[11px]">
+                {{ a.category_name | default(value="Unassigned") }}
+              </td>
+              <td class="py-3 px-4">
+                {% if a.article_type == "lead" %}
+                  <span class="font-kicker uppercase text-[10px] bg-primary text-white px-2 py-0.5 font-bold tracking-wider">
+                    ★ LEAD HERO
+                  </span>
+                {% elif a.article_type == "bulletin" %}
+                  <span class="font-kicker uppercase text-[10px] border border-primary bg-surface-high px-1.5 py-0.5 font-bold">
+                    BULLETIN
+                  </span>
+                {% elif a.article_type == "oped" %}
+                  <span class="font-kicker uppercase text-[10px] border border-secondary text-secondary px-1.5 py-0.5 font-bold">
+                    OP-ED
+                  </span>
+                {% else %}
+                  <span class="font-kicker uppercase text-[10px] text-outline border border-outline-variant px-1.5 py-0.5 font-bold">
+                    STANDARD
+                  </span>
+                {% endif %}
+              </td>
+              <td class="py-3 px-4">
+                {% if a.status == "published" %}
+                  <span class="font-kicker uppercase text-[10px] text-emerald-800 bg-emerald-50 border border-emerald-300 px-1.5 py-0.5 font-bold">
+                    Published
+                  </span>
+                {% elif a.status == "draft" %}
+                  <span class="font-kicker uppercase text-[10px] text-amber-800 bg-amber-50 border border-amber-300 px-1.5 py-0.5 font-bold">
+                    Draft
+                  </span>
+                {% else %}
+                  <span class="font-kicker uppercase text-[10px] text-neutral-600 bg-neutral-100 border border-neutral-300 px-1.5 py-0.5 font-bold">
+                    Archived
+                  </span>
+                {% endif %}
+              </td>
+              <td class="py-3 px-4 text-center font-mono text-secondary">
+                {{ a.view_count }}
+              </td>
+              <td class="py-3 px-4 text-right space-x-2 font-kicker uppercase font-bold text-[11px] whitespace-nowrap">
+                {% if a.article_type != "lead" and a.status == "published" %}
+                  <form action="/admin/articles/{{ a.id }}/set-lead" method="post" class="inline">
+                    <button type="submit" class="text-primary hover:underline hover:text-black">
+                      Set Lead
+                    </button>
+                  </form>
+                  <span class="text-outline-variant">|</span>
+                {% endif %}
+                <a href="/admin/articles/{{ a.id }}/edit" class="text-primary hover:underline">Edit</a>
+                <span class="text-outline-variant">|</span>
+                <a href="/articles/{{ a.slug }}" target="_blank" class="text-secondary hover:underline">View</a>
+                <span class="text-outline-variant">|</span>
+                <form action="/admin/articles/{{ a.id }}/delete" method="post" class="inline" onsubmit="return confirm('Are you sure you want to delete this article?');">
+                  <button type="submit" class="text-error hover:underline">Delete</button>
+                </form>
+              </td>
+            </tr>
+          {% else %}
+            <tr>
+              <td colspan="7" class="py-12 text-center text-secondary italic font-serif text-sm">
+                No articles found. Click "Write New Article" above to create your first dispatch.
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+{% endblock content %}

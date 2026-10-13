@@ -1,0 +1,74 @@
+{% extends "broadsheet_base.html" %}
+
+{% block title %}Archive Search: "{{ query }}" — The Rust Chronicle{% endblock title %}
+
+{% block content %}
+<div class="border-b-2 border-primary pb-4 mb-8">
+  <span class="font-kicker text-xs uppercase tracking-widest text-secondary font-bold">HISTORICAL RETRIEVAL</span>
+  <h1 class="font-headline-lead text-3xl md:text-4xl text-primary font-black tracking-tight mt-1">
+    Search Archive: <span class="italic font-serif">"{{ query }}"</span>
+  </h1>
+  <div class="mt-2 text-xs font-mono text-secondary">
+    FOUND {{ results_count }} RECORD(S) IN CURRENT HISTORICAL INDEX
+  </div>
+</div>
+
+<!-- Search Form in-page with HTMX live search -->
+<div class="max-w-xl mb-10">
+  <form action="/search" method="get" class="flex gap-2">
+    <input name="q" value="{{ query }}" type="text"
+           hx-get="/api/search/fragment"
+           hx-trigger="keyup changed delay:300ms, search"
+           hx-target="#search-results"
+           hx-indicator="#search-spinner"
+           placeholder="Search keywords, alloys, ships, sectors..."
+           class="flex-grow text-sm px-3 py-2 bg-surface-container-lowest border border-outline text-on-surface focus:border-primary focus:ring-0"/>
+    <button type="submit" class="bg-primary text-white font-kicker uppercase text-xs px-5 py-2 hover:bg-neutral-800 transition-colors font-bold">
+      Query Archive
+    </button>
+  </form>
+  <div id="search-spinner" class="htmx-indicator font-mono text-xs text-secondary mt-1">
+    Scanning historical ledgers...
+  </div>
+</div>
+
+<div id="search-results" class="max-w-4xl">
+  {% if articles is defined and articles | length > 0 %}
+  <div class="space-y-6">
+    {% for art in articles %}
+    <article class="border-b border-outline-variant pb-6 last:border-b-0">
+      <div class="flex items-center space-x-3 text-xs font-kicker uppercase mb-1">
+        <span class="text-primary font-bold">{{ art.kicker }}</span>
+        <span class="text-outline-variant">•</span>
+        <span class="font-mono text-secondary text-[11px]">{{ art.dispatch_ref_code }}</span>
+      </div>
+      <a href="/articles/{{ art.slug }}" class="group block mb-1">
+        <h2 class="font-headline-sm text-2xl font-bold text-primary group-hover:underline leading-snug">
+          {{ art.title }}
+        </h2>
+      </a>
+      <p class="font-subhead italic text-sm text-secondary mb-2">
+        {{ art.subhead }}
+      </p>
+      <p class="font-body-regular text-xs text-on-surface line-clamp-2 leading-relaxed mb-3">
+        {{ art.lead_paragraph }}
+      </p>
+      <div class="flex items-center space-x-4 text-[11px] font-kicker uppercase text-outline">
+        <span>{{ art.reading_time_minutes }} MIN READ</span>
+        <a href="/articles/{{ art.slug }}" class="text-primary font-bold hover:underline">ACCESS DISPATCH →</a>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="py-16 text-center border border-dashed border-outline-variant bg-surface-container-low p-8 max-w-2xl">
+    <span class="material-symbols-outlined text-4xl text-secondary mb-2">find_in_page</span>
+    <h3 class="font-headline-sm text-xl text-primary font-bold mb-2">No matching dispatches located.</h3>
+    <p class="font-body-regular text-xs text-secondary mb-4">No published accounts correspond to the query "{{ query }}". Try searching broader terms such as "steel", "channel", or "turbine".</p>
+    <a href="/" class="font-kicker text-xs uppercase px-4 py-2 border border-primary text-primary hover:bg-primary hover:text-white transition-colors font-bold">
+      Return to Front Page
+    </a>
+  </div>
+  {% endif %}
+</div>
+{% endblock content %}

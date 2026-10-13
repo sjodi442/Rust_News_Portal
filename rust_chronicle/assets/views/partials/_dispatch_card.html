@@ -1,0 +1,17 @@
+<div class="bg-surface-container-low border border-outline-variant p-4 transition-all animate-fadeIn">
+  <div class="flex items-center justify-between text-[11px] font-kicker uppercase mb-2 border-b border-outline-variant pb-1">
+    <span class="font-bold text-primary">{{ author_name }}</span>
+    {% if affiliation %}
+    <span class="text-secondary text-[10px] italic">{{ affiliation }}</span>
+    {% endif %}
+  </div>
+  <blockquote class="font-body-regular text-xs text-on-surface leading-relaxed italic mb-3">
+    "{{ body }}"
+  </blockquote>
+  <div class="flex items-center justify-between text-[10px] font-mono text-outline">
+    <span>ENDORSEMENTS: 0</span>
+    {% if is_technical_note %}
+    <span class="text-primary font-bold border border-primary px-1">TECHNICAL MEMORANDUM</span>
+    {% endif %}
+  </div>
+</div>

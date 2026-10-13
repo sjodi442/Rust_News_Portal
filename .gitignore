@@ -1,0 +1,26 @@
+# Cargo build targets
+target/
+**/target/
+debug/
+**/debug/
+
+# Configuration overrides & secrets
+**/config/local.yaml
+**/config/*.local.yaml
+*.env
+*.env.*
+
+# SQLite Databases & WAL files
+*.sqlite
+*.sqlite-*
+**/*.sqlite
+**/*.sqlite-*
+
+# Editor & System
+.DS_Store
+*.swp
+*~
+*.bak
+**/*.rs.bk
+*.pdb
+*.log

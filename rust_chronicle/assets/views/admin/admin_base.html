@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% block title %}Editorial Bureau{% endblock title %} — The Rust Chronicle</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <!-- HTMX -->
+  <script src="/static/js/htmx.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            background: "#f9f9f7",
+            primary: "#000000",
+            secondary: "#555555",
+            outline: "#747878",
+            "outline-variant": "#d0d4d4",
+            "surface-low": "#f4f4f2",
+            "surface-high": "#eaeae8"
+          },
+          fontFamily: {
+            masthead: ["Playfair Display", "serif"],
+            kicker: ["Space Grotesk", "sans-serif"],
+            sans: ["Inter", "sans-serif"],
+            serif: ["Playfair Display", "serif"]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-background text-neutral-900 font-sans min-h-screen flex flex-col antialiased">
+
+  <!-- TOP STATUS STRIP -->
+  <div class="bg-primary text-white text-[11px] font-kicker tracking-widest uppercase px-4 py-1.5 flex justify-between items-center border-b border-neutral-800">
+    <div class="flex items-center space-x-3">
+      <span class="inline-block w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+      <span>CHRONICLE EDITORIAL DESK &amp; DISPATCH CONTROL</span>
+      <span class="text-neutral-500">|</span>
+      <span>EDITION: LOCO V1.2 (SQLITE WAL)</span>
+    </div>
+    <div class="flex items-center space-x-4">
+      <a href="/" target="_blank" class="hover:underline flex items-center text-neutral-300 hover:text-white">
+        View Public Portal <span class="material-symbols-outlined text-[14px] ml-1">open_in_new</span>
+      </a>
+      <span class="text-neutral-500">|</span>
+      <a href="/admin/logout" class="hover:underline text-neutral-300 hover:text-red-400 font-bold">
+        Sign Out
+      </a>
+    </div>
+  </div>
+
+  <!-- MASTHEAD & ADMIN NAV -->
+  <header class="border-b-2 border-primary bg-background">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <a href="/admin" class="group inline-block">
+          <h1 class="font-masthead text-2xl md:text-3xl font-black uppercase tracking-tight text-primary group-hover:opacity-80 transition-opacity">
+            The Rust Chronicle
+          </h1>
+        </a>
+        <p class="font-kicker text-xs uppercase tracking-wider text-secondary">Editorial Bureau &amp; Front Page Layout Desk</p>
+      </div>
+
+      <nav class="flex flex-wrap items-center gap-1 text-xs font-kicker uppercase font-bold tracking-wider">
+        <a href="/admin" class="px-3 py-1.5 border border-primary hover:bg-primary hover:text-white transition-colors">Overview</a>
+        <a href="/admin/articles" class="px-3 py-1.5 border border-primary hover:bg-primary hover:text-white transition-colors">Articles</a>
+        <a href="/admin/categories" class="px-3 py-1.5 border border-primary hover:bg-primary hover:text-white transition-colors">Categories</a>
+        <a href="/admin/frontpage" class="px-3 py-1.5 bg-neutral-900 text-white border border-primary hover:bg-neutral-800 transition-colors">Front Page Desk</a>
+        <a href="/admin/wires" class="px-3 py-1.5 border border-primary hover:bg-primary hover:text-white transition-colors">Telegraph Wires</a>
+        <a href="/admin/dispatches" class="px-3 py-1.5 border border-primary hover:bg-primary hover:text-white transition-colors">Dispatches</a>
+        <a href="/admin/markets" class="px-3 py-1.5 border border-primary hover:bg-primary hover:text-white transition-colors">Markets</a>
+        <a href="/admin/subscribers" class="px-3 py-1.5 border border-primary hover:bg-primary hover:text-white transition-colors">Subscribers</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN BODY -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 md:px-8 py-8">
+    {% block content %}{% endblock content %}
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-outline-variant bg-surface-low text-secondary text-xs font-kicker uppercase tracking-wider py-4 mt-12">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 flex flex-col md:flex-row justify-between items-center gap-2">
+      <div>The Rust Chronicle Newsroom System • Confidential Internal Utility</div>
+      <div>Strictly Monitored &amp; Audit Logged</div>
+    </div>
+  </footer>
+
+</body>
+</html>

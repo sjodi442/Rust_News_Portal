@@ -1,0 +1,49 @@
+- id: 1
+  item_name: "Bessemer Heavy 50"
+  category: "commodities"
+  specification: "LME Spot Standard Grade"
+  spot_value: "4,128.90"
+  change_pct: 0.32
+  unit: "/ MT"
+  created_at: "2025-10-24T08:00:00.000Z"
+  updated_at: "2025-10-24T08:00:00.000Z"
+
+- id: 2
+  item_name: "Nordic Ore 62% Fe"
+  category: "commodities"
+  specification: "CIF Qingdao Delivery"
+  spot_value: "118.45"
+  change_pct: -0.85
+  unit: "/ Dry MT"
+  created_at: "2025-10-24T08:00:00.000Z"
+  updated_at: "2025-10-24T08:00:00.000Z"
+
+- id: 3
+  item_name: "Anthracite Washed"
+  category: "commodities"
+  specification: "FOB Newcastle Benchmark"
+  spot_value: "142.10"
+  change_pct: 1.15
+  unit: "/ Tonne"
+  created_at: "2025-10-24T08:00:00.000Z"
+  updated_at: "2025-10-24T08:00:00.000Z"
+
+- id: 4
+  item_name: "Structural Rebar"
+  category: "commodities"
+  specification: "Northern Mill Gate Base"
+  spot_value: "612.00"
+  change_pct: -0.22
+  unit: "/ MT"
+  created_at: "2025-10-24T08:00:00.000Z"
+  updated_at: "2025-10-24T08:00:00.000Z"
+
+- id: 5
+  item_name: "Industrial Copper Cathode"
+  category: "commodities"
+  specification: "Grade A 99.99%"
+  spot_value: "9,840.50"
+  change_pct: 0.74
+  unit: "/ MT"
+  created_at: "2025-10-24T08:00:00.000Z"
+  updated_at: "2025-10-24T08:00:00.000Z"

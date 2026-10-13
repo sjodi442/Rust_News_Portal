@@ -1,0 +1,68 @@
+{% extends "admin/admin_base.html" %}
+
+{% block title %}Reader Dispatches &amp; Moderation{% endblock title %}
+
+{% block content %}
+<div class="space-y-6">
+
+  <div class="flex items-center justify-between border-b-2 border-primary pb-4">
+    <div>
+      <span class="font-kicker text-xs uppercase tracking-widest text-secondary font-bold">Public Correspondence</span>
+      <h2 class="font-masthead text-3xl font-black uppercase text-primary">Reader Dispatches &amp; Editorial Picks</h2>
+      <p class="font-serif italic text-sm text-secondary mt-1">Letters and technical memorandums received from subscribers. Selected Editor's Picks appear on the front page right column.</p>
+    </div>
+    <span class="font-mono text-xs text-secondary font-bold">{{ dispatches | length }} Total Letters</span>
+  </div>
+
+  <div class="border border-primary bg-background divide-y divide-outline-variant">
+    {% for d in dispatches %}
+      <div class="p-6 hover:bg-surface-low transition-colors space-y-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-outline-variant pb-2">
+          <div class="flex items-center space-x-3">
+            <span class="font-bold text-primary font-kicker uppercase text-sm">{{ d.author_name }}</span>
+            {% if d.affiliation %}
+              <span class="text-secondary italic text-xs">({{ d.affiliation }})</span>
+            {% endif %}
+          </div>
+          <div class="flex items-center space-x-2">
+            {% if d.is_technical_note %}
+              <span class="font-kicker uppercase text-[10px] border border-primary px-1.5 py-0.5 text-primary font-bold">
+                TECHNICAL MEMORANDUM
+              </span>
+            {% endif %}
+            {% if d.is_editors_pick %}
+              <span class="font-kicker uppercase text-[10px] bg-primary text-white px-2 py-0.5 font-bold tracking-wider">
+                ★ EDITOR'S PICK (ON FRONT PAGE)
+              </span>
+            {% endif %}
+          </div>
+        </div>
+
+        <blockquote class="font-serif italic text-sm text-on-surface leading-relaxed pl-3 border-l-2 border-primary py-1">
+          "{{ d.body }}"
+        </blockquote>
+
+        <div class="pt-2 flex items-center justify-between text-xs font-mono text-secondary">
+          <span>Endorsements: {{ d.endorsements_count }}</span>
+          <div class="space-x-3 font-kicker uppercase font-bold">
+            <form action="/admin/dispatches/{{ d.id }}/toggle-pick" method="post" class="inline">
+              <button type="submit" class="text-primary hover:underline">
+                {% if d.is_editors_pick %}Remove from Front Page{% else %}★ Feature as Editor's Pick{% endif %}
+              </button>
+            </form>
+            <span class="text-outline-variant">|</span>
+            <form action="/admin/dispatches/{{ d.id }}/delete" method="post" class="inline" onsubmit="return confirm('Delete this reader dispatch?');">
+              <button type="submit" class="text-error hover:underline">Delete</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div class="p-12 text-center text-secondary italic font-serif">
+        No reader dispatches submitted yet.
+      </div>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock content %}

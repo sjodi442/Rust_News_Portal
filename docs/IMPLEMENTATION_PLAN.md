@@ -1,0 +1,113 @@
+# Implementation Plan & Engineering Roadmap
+## Project: Rust Web App — The Rust Chronicle (Monochrome News Portal)
+
+---
+
+### Phase 1: Toolchain & Project Initialization (SELESAI - COMPLETED)
+- [x] Verifikasi dan pasang Rust toolchain stabil (`rustup` / `cargo 1.99.0` aktif).
+- [x] Inisialisasi workspace proyek Loco di `Projects/Rust/rust_chronicle`:
+  - Framework: Loco 1.2 (Axum + SeaORM + Tera + Async Background Worker).
+  - Database: SQLite3 WAL mode (`rust_chronicle_development.sqlite`).
+  - Struktur direktori modular: `src/controllers`, `src/models`, `src/views`, `assets/views/`, `migration/`.
+- [x] Integrasi template desain Google Stitch ke sistem view Loco:
+  - Homepage broadsheet di `assets/views/home/index.html`.
+  - Editorial article reader di `assets/views/articles/reader.html`.
+- [x] Routing dasar di `src/controllers/page.rs`:
+  - `GET /` -> Halaman Depan Broadsheet.
+  - `GET /article` -> Halaman Editorial Article Reader.
+- [x] Test suite passing: 29 tests, 100% pass rate.
+
+### Phase 2: Database Layer & Migrations (SQLite3 WAL) (SELESAI - COMPLETED)
+- [x] Buat file migrasi database sesuai spesifikasi `DATABASE_SCHEMA.md`:
+  - Tabel: `users`, `categories`, `articles`, `wire_dispatches`, `market_ledgers`, `reader_dispatches`, `newsletter_subscribers`.
+  - Migrator SeaORM terdaftar di `migration/src/lib.rs`.
+- [x] Model SeaORM entity & domain:
+  - Entities di `src/models/_entities/`: `categories`, `articles`, `wire_dispatches`, `market_ledgers`, `reader_dispatches`, `newsletter_subscribers`.
+  - Domain models di `src/models/` dengan relasi SeaORM dan active model hooks.
+- [x] Konfigurasi SQLite PRAGMA & WAL mode di `config/development.yaml` dan skema database.
+- [x] Seed data awal (*broadsheet newsroom fixtures*):
+  - Fixtures di `src/fixtures/`: `categories.yaml`, `articles.yaml`, `wire_dispatches.yaml`, `market_ledgers.yaml`, `reader_dispatches.yaml`, `newsletter_subscribers.yaml`.
+  - Terintegrasi pada hook `seed` dan `truncate` di `src/app.rs`.
+- [x] Verifikasi migrasi & seed:
+  - `cargo run -- db migrate` sukses.
+  - `cargo run -- db seed` sukses (5 categories, 5 articles, 5 wire dispatches, 5 market ledgers, 2 reader dispatches, 2 subscribers).
+- [x] Test suite passing: 35 tests, 100% pass rate (`cargo test --all`).
+
+### Phase 3: Server Core & Template Engine (SSR) (SELESAI - COMPLETED)
+- [x] Implementasi routing Axum / Loco:
+  - `GET /` -> Halaman Depan Broadsheet (`assets/views/home/index.html`).
+  - `GET /articles/:slug` & `GET /article` -> Halaman Reader Artikel (`assets/views/articles/reader.html`).
+  - `GET /category/:slug` -> Filter berita per kategori (`assets/views/categories/show.html`).
+  - `GET /search?q=` -> Pencarian arsip instan (`assets/views/articles/search.html`).
+- [x] Implementasi template modular Tera:
+  - Layout induk `broadsheet_base.html` (Folio, Masthead, Ticker, Navigation, Footer).
+  - Partials: `_lead_story.html`, `_bulletins.html`, `_market_ledger.html`, `_reader_dispatches.html`.
+- [x] Rendering HTML server-side berkecepatan tinggi dengan integrasi CSS monokrom.
+- [x] API endpoints untuk ticker & interaksi pembaca:
+  - `GET /api/ticker/wires` -> Feed kawat telegraf aktif (JSON).
+  - `GET /api/ticker/markets` -> Feed spot ledger komoditas (JSON).
+  - `POST /api/dispatches` -> Kirim surat / tanggapan pembaca (JSON).
+  - `POST /api/subscribe` -> Registrasi buletin harian pagi (JSON).
+
+### Phase 4: Interaktivitas Modern via HTMX (SELESAI - COMPLETED)
+- [x] Integrasi HTMX untuk interaksi tanpa reload halaman:
+  - Polling live ticker telegrafik berkala via `hx-get="/api/wire/latest"` `hx-trigger="every 30s"`.
+  - Live instant search arsip tanpa flicker via `hx-get="/api/search/fragment"`.
+  - Submit tanggapan pembaca (*Reader Dispatches*) secara inline dengan partial swap `_dispatch_card.html`.
+  - Form pendaftaran newsletter surat kabar harian secara inline (`POST /api/subscribe/submit`).
+- [x] Interaksi ergonomis di sisi klien (Vanilla JS minimal):
+  - Scroll progress meter di reader mode (`#reading-progress`).
+  - Pengatur ukuran teks membaca (`A- / A+ / Reset`).
+  - Shortcut cetak koran fisik (`Print Folio` via `window.print()`).
+- [x] Test suite passing: 48 tests, 100% pass rate (`cargo test --all`).
+
+### Phase 5: Admin Editorial CMS & Layout Management Desk (SELESAI - COMPLETED)
+- [x] Master Admin Layout & Newsroom Desk Styling (`assets/views/admin/admin_base.html`).
+- [x] Newsroom Overview & KPI Metrics Dashboard (`assets/views/admin/index.html`):
+  - Metrik sirkulasi: total berita, lead stories, draft, kategori/desk, telegraph wires aktif, surat pembaca, pembaca terdaftar.
+- [x] Manajemen Artikel & Berita Lengkap (`assets/views/admin/articles/`):
+  - Form tambah/edit artikel lengkap: headline, kicker, dispatch ref code, subhead, category picker, custom/auto URL slug, slot frontpage (lead/standard/bulletin/oped), status (published/draft/archived), reading time, opening dropcap lead, full Markdown body, cover image with credit & caption.
+  - CRUD operations: create, update, delete, set-lead toggle.
+- [x] Pengkategorian & Departemen Editorial Desk (`assets/views/admin/categories/`):
+  - Tabel kategori dengan counter jumlah berita terbit.
+  - Form tambah cepat dan edit detail nama, slug, dan prioritas urutan tampil (`display_order`).
+- [x] Pengaturan Penataan Halaman Depan / Front Page Desk (`assets/views/admin/frontpage/`):
+  - Kurasi visual slot berita utama (*Front Page Lead Story*).
+  - Slotting kolom kiri (*Bulletins*) & kolom kanan (*Op-Ed / Verdicts*).
+  - Banner breaking news / bulletin wire flash toggle.
+- [x] Manajemen Kawat Telegraf (*Telegraph Wires*) (`assets/views/admin/wires/`):
+  - Form transmisi kawat baru (urgency level: routine/priority/flash, source station, text).
+  - Toggle status tayang ticker dan delete kawat kedaluwarsa.
+- [x] Moderasi Surat Pembaca (*Reader Dispatches*) (`assets/views/admin/dispatches/`):
+  - Filter dan tinjau kiriman opini pembaca dari form publik.
+  - Toggle editorial pick (tampil di halaman depan) dan moderasi/hapus spam.
+- [x] Editor Pasar & Komoditas (*Market Ledgers*) (`assets/views/admin/markets/`):
+  - Editor harga spot komoditas (Coal, Iron, Grain, Freight, Timber) dan perubahan persentase harian.
+- [x] Sirkulasi Pembaca (*Newsletter Subscribers*) (`assets/views/admin/subscribers/`):
+  - Daftar pelanggan broadsheet morning edition dan toggle status aktif/unsub.
+- [x] Suite Pengujian Admin Integration Test (`tests/requests/admin.rs`):
+  - 17/17 integration tests pass rate 100%.
+
+### Phase 6: Production Hardening, Optimasi & Security (SELESAI - COMPLETED)
+- [x] Keamanan Autentikasi Admin & Session Guard:
+  - Custom Axum extractor `AdminGuard` di `src/controllers/admin.rs`.
+  - Proteksi penuh terhadap 27 rute administratif via verifikasi Cookie JWT HTTP-Only (`token`) dan fallback header `Authorization: Bearer`.
+  - Penolakan akses otomatis dialihkan (redirect 303) ke form login `/admin/login`.
+  - Halaman login editorial khusus broadsheet (`assets/views/admin/login.html`) dan endpoint login (`POST /admin/login`) serta logout (`GET /admin/logout`).
+  - Akun administrator default aktif: `admin@example.com` / `password` dengan enkripsi Argon2id bawaan Loco.
+- [x] Optimasi Query & Indeks Database (SeaORM Migration):
+  - Migrasi `m20261013_040000_optimize_indexes.rs` terpasang di database SQLite.
+  - 6 indeks komposit performa tinggi: `idx_articles_status_pub`, `idx_articles_cat_pub`, `idx_articles_type`, `idx_wires_active_urgent`, `idx_dispatches_editors_pick`, `idx_markets_category`.
+- [x] Self-Hosting Static Assets & Resiliensi Offline:
+  - Memindahkan dependensi CDN eksternal ke penyimpanan lokal mandiri di `assets/static/`.
+  - Vendor file HTMX v1.9.12 offline di `assets/static/js/htmx.min.js`.
+  - Master stylesheet cetak broadsheet di `assets/static/css/broadsheet.css`.
+  - Halaman error 404 bertema koran broadsheet vintage di `assets/static/404.html`.
+- [x] Hardening Konfigurasi Production (`config/production.yaml`):
+  - Static file server middleware aktif melayani direktori `assets/static` pada prefix `/static`.
+  - Fallback error handler 404 aktif mengarah ke `404.html`.
+  - Konfigurasi autentikasi JWT cookie `token` aktif.
+- [x] Optimasi Profile Release (`Cargo.toml`):
+  - `[profile.release]` diatur dengan `opt-level = 3`, `codegen-units = 16`, `strip = true`, `panic = "abort"`.
+- [x] Verifikasi Kualitas & Test Suite Menyeluruh:
+  - Total 65 integration & unit tests lolos 100% tanpa kegagalan (`cargo test --all` -> 65 passed, 0 failed).

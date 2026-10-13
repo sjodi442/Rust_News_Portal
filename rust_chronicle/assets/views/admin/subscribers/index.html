@@ -1,0 +1,69 @@
+{% extends "admin/admin_base.html" %}
+
+{% block title %}Subscribers Desk{% endblock title %}
+
+{% block content %}
+<div class="space-y-6">
+
+  <div class="flex items-center justify-between border-b-2 border-primary pb-4">
+    <div>
+      <span class="font-kicker text-xs uppercase tracking-widest text-secondary font-bold">Circulation Desk</span>
+      <h2 class="font-masthead text-3xl font-black uppercase text-primary">Daily Morning Dispatch Subscribers</h2>
+      <p class="font-serif italic text-sm text-secondary mt-1">Reader audience subscribed to electronic morning dispatches at 05:00 GMT.</p>
+    </div>
+    <span class="font-mono text-xs text-secondary font-bold">{{ subscribers | length }} Enrolled Readers</span>
+  </div>
+
+  <div class="border border-primary bg-background">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-surface-low border-b-2 border-primary font-kicker uppercase text-secondary text-[11px]">
+          <tr>
+            <th class="py-3 px-4 font-bold">Subscriber ID</th>
+            <th class="py-3 px-4 font-bold">Electronic Bureau Address</th>
+            <th class="py-3 px-4 font-bold">Subscription Status</th>
+            <th class="py-3 px-4 font-bold text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-outline-variant font-sans">
+          {% for s in subscribers %}
+            <tr class="hover:bg-surface-low transition-colors">
+              <td class="py-3 px-4 font-mono text-secondary">
+                #{{ s.id }}
+              </td>
+              <td class="py-3 px-4 font-mono font-semibold text-primary">
+                {{ s.email }}
+              </td>
+              <td class="py-3 px-4">
+                {% if s.is_active %}
+                  <span class="font-kicker uppercase text-[10px] text-emerald-800 bg-emerald-50 border border-emerald-300 px-1.5 py-0.5 font-bold">
+                    Active Delivery
+                  </span>
+                {% else %}
+                  <span class="font-kicker uppercase text-[10px] text-neutral-500 bg-neutral-100 border border-neutral-300 px-1.5 py-0.5 font-bold">
+                    Paused / Unsubscribed
+                  </span>
+                {% endif %}
+              </td>
+              <td class="py-3 px-4 text-right">
+                <form action="/admin/subscribers/{{ s.id }}/toggle" method="post" class="inline">
+                  <button type="submit" class="font-kicker uppercase font-bold text-[11px] text-primary hover:underline">
+                    {% if s.is_active %}Pause Subscription{% else %}Resume Subscription{% endif %}
+                  </button>
+                </form>
+              </td>
+            </tr>
+          {% else %}
+            <tr>
+              <td colspan="4" class="py-8 text-center text-secondary italic font-serif">
+                No subscribers recorded yet.
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+{% endblock content %}

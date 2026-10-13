@@ -1,0 +1,41 @@
+{% if market_ledger is defined and market_ledger | length > 0 %}
+<section id="market-ledger-component" hx-get="/partials/market_ledger" hx-trigger="every 60s" hx-swap="outerHTML" class="border border-primary bg-surface-container-low p-4 mb-6">
+  <div class="flex items-center justify-between border-b border-primary pb-2 mb-3">
+    <h3 class="font-kicker font-bold text-xs uppercase tracking-widest text-primary flex items-center">
+      <span class="material-symbols-outlined text-sm mr-1.5">trending_up</span> THE SPOT COMMODITY LEDGER
+    </h3>
+    <span class="inline-flex items-center gap-1.5 font-mono text-[10px] text-secondary font-medium tracking-wider">
+      <span class="inline-block w-2 h-2 rounded-full bg-emerald-700 animate-pulse"></span> LIVE SPOT FIX
+    </span>
+  </div>
+  <table class="w-full text-left font-mono text-xs">
+    <thead>
+      <tr class="border-b border-outline-variant text-[10px] uppercase text-secondary">
+        <th class="py-1 font-semibold">Commodity / Index</th>
+        <th class="py-1 text-right font-semibold">Spot</th>
+        <th class="py-1 text-right font-semibold">Net 24h</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-outline-variant">
+      {% for item in market_ledger %}
+      <tr>
+        <td class="py-1.5 font-sans font-medium text-[11px] text-on-surface">
+          {{ item.item_name }}
+          {% if item.specification %}
+          <span class="block text-[9px] font-mono text-secondary">{{ item.specification }}</span>
+          {% endif %}
+        </td>
+        <td class="py-1.5 text-right font-bold text-primary">{{ item.spot_value }}</td>
+        <td class="py-1.5 text-right {% if item.change_pct >= 0 %}text-primary font-bold{% else %}text-error font-medium{% endif %}">
+          {% if item.change_pct >= 0 %}+{% endif %}{{ item.change_pct | round(precision=2) }}%
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div class="mt-3 pt-2 border-t border-outline-variant text-[10px] font-kicker uppercase text-secondary flex items-center justify-between">
+    <span>Autosync: 60s</span>
+    <span>Source: Continental Exchange &amp; NYMEX Feeds</span>
+  </div>
+</section>
+{% endif %}

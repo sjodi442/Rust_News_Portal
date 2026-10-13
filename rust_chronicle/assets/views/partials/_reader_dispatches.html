@@ -1,0 +1,51 @@
+{% if reader_dispatches is defined and reader_dispatches | length > 0 %}
+<section class="border-t-2 md:border-t-0 md:border-l border-outline-variant pl-0 md:pl-8 pt-8 md:pt-0">
+  <div class="border-b-2 border-primary pb-1 mb-4">
+    <h3 class="font-kicker font-bold text-xs uppercase tracking-widest text-primary flex items-center justify-between">
+      <span>CORRESPONDENCE &amp; CRITIQUE</span>
+      <span class="text-[10px] text-secondary">EDITOR'S SELECTION</span>
+    </h3>
+  </div>
+
+  <div class="space-y-6">
+    {% for dispatch in reader_dispatches %}
+    <div class="bg-surface-container-low border border-outline-variant p-4">
+      <div class="flex items-center justify-between text-[11px] font-kicker uppercase mb-2 border-b border-outline-variant pb-1">
+        <span class="font-bold text-primary">{{ dispatch.author_name }}</span>
+        {% if dispatch.affiliation %}
+        <span class="text-secondary text-[10px] italic">{{ dispatch.affiliation }}</span>
+        {% endif %}
+      </div>
+      <blockquote class="font-body-regular text-xs text-on-surface leading-relaxed italic mb-3">
+        "{{ dispatch.body }}"
+      </blockquote>
+      <div class="flex items-center justify-between text-[10px] font-mono text-outline">
+        <span>ENDORSEMENTS: {{ dispatch.endorsements_count }}</span>
+        {% if dispatch.is_technical_note %}
+        <span class="font-kicker uppercase text-[9px] border border-primary px-1 text-primary">TECH NOTE</span>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% if oped_articles is defined and oped_articles | length > 0 %}
+  <div class="mt-8 pt-6 border-t border-outline-variant">
+    <h4 class="font-kicker font-bold text-xs uppercase tracking-widest text-primary mb-3">
+      VOICES &amp; VERDICTS
+    </h4>
+    {% for op in oped_articles %}
+    <article class="mb-4 pb-4 border-b border-outline-variant last:border-b-0">
+      <span class="font-kicker text-[10px] uppercase text-secondary font-bold block mb-1">{{ op.kicker }}</span>
+      <a href="/articles/{{ op.slug }}" class="font-headline-sm text-sm font-bold text-primary hover:underline block leading-snug">
+        {{ op.title }}
+      </a>
+      <p class="font-subhead italic text-xs text-secondary mt-1 line-clamp-2">
+        {{ op.subhead }}
+      </p>
+    </article>
+    {% endfor %}
+  </div>
+  {% endif %}
+</section>
+{% endif %}

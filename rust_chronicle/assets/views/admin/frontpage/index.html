@@ -1,0 +1,233 @@
+{% extends "admin/admin_base.html" %}
+
+{% block title %}Front Page Layout Desk{% endblock title %}
+
+{% block content %}
+<div class="space-y-8">
+
+  <!-- TOP HEADER -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b-2 border-primary pb-4">
+    <div>
+      <span class="font-kicker text-xs uppercase tracking-widest text-secondary font-bold">Curatorial Control</span>
+      <h2 class="font-masthead text-3xl font-black uppercase text-primary">Front Page Broadsheet Layout Desk</h2>
+      <p class="font-serif italic text-sm text-secondary mt-1">Designate the lead hero investigation, left-column telegraphic bulletins, and right-column op-eds.</p>
+    </div>
+    <div class="flex items-center space-x-3">
+      <a href="/" target="_blank" class="px-4 py-2 border border-primary font-kicker text-xs uppercase font-bold hover:bg-surface-high transition-colors flex items-center">
+        Preview Live Front Page <span class="material-symbols-outlined text-sm ml-1">open_in_new</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- VISUAL BROADSHEET SLOTS SCHEMATIC -->
+  <div class="border-2 border-primary p-6 bg-surface-low space-y-6">
+    <div class="border-b border-primary pb-2 flex justify-between items-center">
+      <h3 class="font-masthead text-lg font-bold uppercase text-primary flex items-center">
+        <span class="material-symbols-outlined text-lg mr-2">view_quilt</span> Broadsheet 3-Column Slot Allocation
+      </h3>
+      <span class="font-mono text-xs text-secondary">Active Edition: Oct 2025</span>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+      <!-- LEFT COLUMN: BULLETINS (3 cols) -->
+      <div class="lg:col-span-3 border border-primary bg-background p-4 flex flex-col justify-between">
+        <div>
+          <div class="border-b-2 border-primary pb-1 mb-3 flex justify-between items-baseline">
+            <span class="font-kicker text-xs uppercase font-bold text-primary">Slot: Left Bulletins</span>
+            <span class="font-mono text-[10px] text-secondary">Max 5 stories</span>
+          </div>
+
+          <div class="space-y-3">
+            {% for b in bulletins %}
+              <div class="border border-outline-variant p-2 bg-surface-low text-xs">
+                <span class="font-kicker uppercase text-[9px] text-secondary block font-bold">
+                  {{ b.kicker | default(value="BULLETIN") }}
+                </span>
+                <span class="font-bold text-primary block leading-tight mt-0.5">
+                  {{ b.title }}
+                </span>
+                <div class="mt-2 pt-1 border-t border-outline-variant flex justify-between items-center text-[10px] font-kicker uppercase">
+                  <span class="text-secondary font-mono">#{{ b.dispatch_ref_code | default(value=b.id) }}</span>
+                  <form action="/admin/frontpage/slot" method="post" class="inline">
+                    <input type="hidden" name="article_id" value="{{ b.id }}"/>
+                    <input type="hidden" name="slot" value="standard"/>
+                    <button type="submit" class="text-error hover:underline font-bold">Demote to Standard</button>
+                  </form>
+                </div>
+              </div>
+            {% else %}
+              <div class="text-xs italic text-secondary p-4 text-center">
+                No bulletins assigned. Promote stories below to fill this slot.
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <!-- CENTER COLUMN: LEAD HERO INVESTIGATION (6 cols) -->
+      <div class="lg:col-span-6 border-2 border-primary bg-background p-6 flex flex-col justify-between">
+        <div>
+          <div class="border-b-2 border-primary pb-1 mb-4 flex justify-between items-center">
+            <span class="bg-primary text-white text-[11px] font-kicker uppercase px-2.5 py-0.5 font-bold tracking-wider">
+              ★ Slot: The Lead Hero Story
+            </span>
+            <span class="font-kicker text-[10px] uppercase text-secondary font-bold">Primary Newspaper Headline</span>
+          </div>
+
+          {% if lead_story %}
+            <div class="space-y-3">
+              <span class="font-kicker text-[11px] uppercase tracking-wider text-secondary font-bold block">
+                {{ lead_story.kicker | default(value="SPECIAL INVESTIGATION") }}
+              </span>
+              <h4 class="font-serif text-2xl font-black text-primary leading-tight">
+                {{ lead_story.title }}
+              </h4>
+              <p class="font-serif italic text-xs text-secondary border-l-2 border-primary pl-3 py-0.5">
+                {{ lead_story.subhead | default(value="") }}
+              </p>
+              {% if lead_story.cover_image_url %}
+                <div class="border border-outline-variant p-1 bg-surface-low my-2">
+                  <img src="{{ lead_story.cover_image_url }}" alt="Cover" class="w-full h-32 object-cover grayscale contrast-125"/>
+                  <span class="text-[10px] font-mono text-secondary mt-1 block italic">{{ lead_story.cover_image_caption | default(value="") }}</span>
+                </div>
+              {% endif %}
+            </div>
+          {% else %}
+            <div class="p-8 text-center text-secondary italic font-serif">
+              No Lead Story is currently active! Choose an article below to assign as Lead.
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- QUICK ASSIGN LEAD FORM -->
+        <div class="mt-6 pt-4 border-t-2 border-primary bg-surface-low p-3">
+          <form action="/admin/frontpage/lead" method="post" class="flex flex-col sm:flex-row gap-2 items-center">
+            <label class="font-kicker text-[11px] uppercase font-bold text-primary flex-shrink-0">
+              Swap Lead Story:
+            </label>
+            <select name="article_id" required class="flex-grow text-xs p-1.5 bg-background border border-primary font-semibold">
+              <option value="">-- Select Published Article --</option>
+              {% for a in published_articles %}
+                <option value="{{ a.id }}" {% if lead_story and lead_story.id == a.id %}selected{% endif %}>
+                  {{ a.title }} ({{ a.article_type }})
+                </option>
+              {% endfor %}
+            </select>
+            <button type="submit" class="px-4 py-1.5 bg-primary text-white font-kicker text-xs uppercase font-bold tracking-wider hover:bg-neutral-800 border border-primary whitespace-nowrap">
+              Apply Lead
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: OP-EDS & VOICES (3 cols) -->
+      <div class="lg:col-span-3 border border-primary bg-background p-4 flex flex-col justify-between">
+        <div>
+          <div class="border-b-2 border-primary pb-1 mb-3 flex justify-between items-baseline">
+            <span class="font-kicker text-xs uppercase font-bold text-primary">Slot: Right Column Op-Eds</span>
+            <span class="font-mono text-[10px] text-secondary">Max 3 essays</span>
+          </div>
+
+          <div class="space-y-3">
+            {% for op in opeds %}
+              <div class="border border-outline-variant p-2 bg-surface-low text-xs">
+                <span class="font-kicker uppercase text-[9px] text-secondary block font-bold">
+                  {{ op.kicker | default(value="VOICES & VERDICTS") }}
+                </span>
+                <span class="font-bold text-primary block leading-tight mt-0.5">
+                  {{ op.title }}
+                </span>
+                <div class="mt-2 pt-1 border-t border-outline-variant flex justify-between items-center text-[10px] font-kicker uppercase">
+                  <span class="text-secondary font-mono">#{{ op.dispatch_ref_code | default(value=op.id) }}</span>
+                  <form action="/admin/frontpage/slot" method="post" class="inline">
+                    <input type="hidden" name="article_id" value="{{ op.id }}"/>
+                    <input type="hidden" name="slot" value="standard"/>
+                    <button type="submit" class="text-error hover:underline font-bold">Demote to Standard</button>
+                  </form>
+                </div>
+              </div>
+            {% else %}
+              <div class="text-xs italic text-secondary p-4 text-center">
+                No op-eds assigned. Assign articles below to this column.
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ALL PUBLISHED STORIES SLOT CURATION TABLE -->
+  <div class="border border-primary bg-background">
+    <div class="px-4 py-3 border-b-2 border-primary bg-surface-low flex justify-between items-center">
+      <div>
+        <h3 class="font-masthead text-lg font-bold uppercase text-primary">All Published Stories &amp; Slot Reassignment</h3>
+        <p class="text-xs text-secondary font-serif">Quickly switch any published story into the Lead Hero spot, Left Bulletins, Right Op-Ed, or Standard archive.</p>
+      </div>
+      <span class="font-mono text-xs text-secondary font-bold">{{ published_articles | length }} Published Stories</span>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-surface-low border-b border-outline-variant font-kicker uppercase text-secondary text-[11px]">
+          <tr>
+            <th class="py-2.5 px-4 font-bold">Headline</th>
+            <th class="py-2.5 px-4 font-bold">Desk</th>
+            <th class="py-2.5 px-4 font-bold">Current Slot</th>
+            <th class="py-2.5 px-4 font-bold text-right">Quick Assign Slot</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-outline-variant font-sans">
+          {% for a in published_articles %}
+            <tr class="hover:bg-surface-low transition-colors">
+              <td class="py-3 px-4 max-w-sm">
+                <span class="font-bold text-primary text-sm block leading-snug">{{ a.title }}</span>
+                <span class="font-mono text-[10px] text-secondary">/articles/{{ a.slug }}</span>
+              </td>
+              <td class="py-3 px-4 font-kicker uppercase text-[11px]">
+                {{ a.category_name | default(value="General") }}
+              </td>
+              <td class="py-3 px-4">
+                {% if a.article_type == "lead" %}
+                  <span class="font-kicker uppercase text-[10px] bg-primary text-white px-2 py-0.5 font-bold tracking-wider">
+                    ★ LEAD HERO
+                  </span>
+                {% elif a.article_type == "bulletin" %}
+                  <span class="font-kicker uppercase text-[10px] border border-primary bg-surface-high px-1.5 py-0.5 font-bold">
+                    LEFT BULLETIN
+                  </span>
+                {% elif a.article_type == "oped" %}
+                  <span class="font-kicker uppercase text-[10px] border border-secondary text-secondary px-1.5 py-0.5 font-bold">
+                    RIGHT OP-ED
+                  </span>
+                {% else %}
+                  <span class="font-kicker uppercase text-[10px] text-outline border border-outline-variant px-1.5 py-0.5 font-bold">
+                    STANDARD ARCHIVE
+                  </span>
+                {% endif %}
+              </td>
+              <td class="py-3 px-4 text-right">
+                <form action="/admin/frontpage/slot" method="post" class="inline-flex items-center gap-1">
+                  <input type="hidden" name="article_id" value="{{ a.id }}"/>
+                  <select name="slot" class="text-xs p-1 bg-background border border-outline font-kicker uppercase font-semibold">
+                    <option value="lead" {% if a.article_type == "lead" %}selected{% endif %}>Lead Hero</option>
+                    <option value="bulletin" {% if a.article_type == "bulletin" %}selected{% endif %}>Left Bulletin</option>
+                    <option value="oped" {% if a.article_type == "oped" %}selected{% endif %}>Right Op-Ed</option>
+                    <option value="standard" {% if a.article_type == "standard" %}selected{% endif %}>Standard Archive</option>
+                  </select>
+                  <button type="submit" class="px-2.5 py-1 bg-primary text-white font-kicker text-[11px] uppercase font-bold hover:bg-neutral-800 border border-primary">
+                    Set
+                  </button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+{% endblock content %}

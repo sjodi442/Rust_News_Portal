@@ -1,0 +1,45 @@
+{% if lead_story is defined and lead_story %}
+<article class="flex flex-col border-b md:border-b-0 md:border-r border-outline-variant pr-0 md:pr-8 pb-8 md:pb-0">
+  <div class="mb-3 flex items-center justify-between">
+    <span class="font-kicker font-bold text-xs uppercase tracking-widest text-primary border-b border-primary pb-0.5">
+      {{ lead_story.kicker }}
+    </span>
+    <span class="font-mono text-[11px] text-secondary">
+      {{ lead_story.dispatch_ref_code }}
+    </span>
+  </div>
+
+  <a href="/articles/{{ lead_story.slug }}" class="group">
+    <h2 class="font-headline-lead text-3xl md:text-5xl font-black text-primary leading-[1.08] tracking-tight group-hover:underline decoration-2 underline-offset-4 mb-4">
+      {{ lead_story.title }}
+    </h2>
+  </a>
+
+  <p class="font-subhead italic text-base md:text-lg text-secondary leading-snug mb-5 border-l-2 border-primary pl-4 py-1">
+    {{ lead_story.subhead }}
+  </p>
+
+  {% if lead_story.cover_image_url %}
+  <div class="mb-5 border border-outline-variant p-1 bg-surface-container-lowest">
+    <img src="{{ lead_story.cover_image_url }}" alt="{{ lead_story.title }}" class="w-full h-auto object-cover grayscale contrast-125 border border-outline-variant"/>
+    {% if lead_story.cover_image_caption %}
+    <div class="pt-2 px-2 pb-1 flex justify-between items-baseline font-caption text-[11px] text-secondary">
+      <span class="italic">{{ lead_story.cover_image_caption }}</span>
+      {% if lead_story.cover_image_credit %}<span class="font-kicker uppercase text-[10px] text-outline ml-2">{{ lead_story.cover_image_credit }}</span>{% endif %}
+    </div>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  <div class="font-body-regular text-sm md:text-base leading-relaxed text-on-surface mb-6 dropcap">
+    {{ lead_story.lead_paragraph }}
+  </div>
+
+  <div class="mt-auto pt-4 border-t border-outline-variant flex items-center justify-between text-xs font-kicker uppercase">
+    <span class="text-secondary font-medium">ESTIMATED READING: {{ lead_story.reading_time_minutes }} MINUTES</span>
+    <a href="/articles/{{ lead_story.slug }}" class="font-bold text-primary inline-flex items-center hover:underline">
+      Full Investigation <span class="material-symbols-outlined text-sm ml-1">arrow_forward</span>
+    </a>
+  </div>
+</article>
+{% endif %}

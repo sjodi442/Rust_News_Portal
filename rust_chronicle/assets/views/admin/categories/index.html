@@ -1,0 +1,109 @@
+{% extends "admin/admin_base.html" %}
+
+{% block title %}Desks &amp; Categories{% endblock title %}
+
+{% block content %}
+<div class="space-y-8">
+
+  <!-- TOP HEADER -->
+  <div class="border-b-2 border-primary pb-4">
+    <span class="font-kicker text-xs uppercase tracking-widest text-secondary font-bold">Taxonomy &amp; Desks</span>
+    <h2 class="font-masthead text-3xl font-black uppercase text-primary">Departmental Desks &amp; Categories</h2>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+
+    <!-- LEFT: CATEGORIES LIST (7 cols) -->
+    <div class="md:col-span-7 border border-primary bg-background">
+      <div class="p-3 border-b border-primary bg-surface-low flex justify-between items-center">
+        <h3 class="font-masthead text-base font-bold uppercase text-primary">Current Editorial Desks</h3>
+        <span class="font-mono text-xs text-secondary">{{ categories | length }} Desks</span>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-surface-low border-b border-outline-variant font-kicker uppercase text-secondary text-[11px]">
+            <tr>
+              <th class="py-2.5 px-3 font-bold">Order</th>
+              <th class="py-2.5 px-3 font-bold">Desk Name</th>
+              <th class="py-2.5 px-3 font-bold">Slug</th>
+              <th class="py-2.5 px-3 font-bold text-center">Stories</th>
+              <th class="py-2.5 px-3 font-bold text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-outline-variant font-sans">
+            {% for c in categories %}
+              <tr class="hover:bg-surface-low transition-colors">
+                <td class="py-2.5 px-3 font-mono font-bold text-primary">
+                  {{ c.display_order }}
+                </td>
+                <td class="py-2.5 px-3 font-bold text-primary">
+                  {{ c.name }}
+                </td>
+                <td class="py-2.5 px-3 font-mono text-secondary">
+                  /category/{{ c.slug }}
+                </td>
+                <td class="py-2.5 px-3 text-center font-mono text-secondary">
+                  {{ c.article_count | default(value=0) }}
+                </td>
+                <td class="py-2.5 px-3 text-right space-x-2 font-kicker uppercase font-bold text-[11px] whitespace-nowrap">
+                  <a href="/admin/categories/{{ c.id }}/edit" class="text-primary hover:underline">Edit</a>
+                  <span class="text-outline-variant">|</span>
+                  <a href="/category/{{ c.slug }}" target="_blank" class="text-secondary hover:underline">View</a>
+                  <span class="text-outline-variant">|</span>
+                  <form action="/admin/categories/{{ c.id }}/delete" method="post" class="inline" onsubmit="return confirm('Delete this category? Articles in this category will become unassigned.');">
+                    <button type="submit" class="text-error hover:underline">Delete</button>
+                  </form>
+                </td>
+              </tr>
+            {% else %}
+              <tr>
+                <td colspan="5" class="py-8 text-center text-secondary italic">No categories found.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- RIGHT: ADD NEW CATEGORY FORM (5 cols) -->
+    <div class="md:col-span-5 border border-primary bg-surface-low p-6">
+      <h3 class="font-masthead text-lg font-bold uppercase text-primary border-b border-primary pb-2 mb-4">
+        + Create New Editorial Desk
+      </h3>
+
+      <form action="/admin/categories" method="post" class="space-y-4">
+        <div>
+          <label class="block font-kicker text-xs uppercase font-bold text-primary mb-1">
+            Category / Desk Name <span class="text-error">*</span>
+          </label>
+          <input type="text" name="name" required placeholder="e.g. Maritime &amp; Infrastructure" class="w-full text-xs p-2 bg-background border border-primary focus:ring-0 focus:border-black font-semibold"/>
+        </div>
+
+        <div>
+          <label class="block font-kicker text-xs uppercase font-bold text-primary mb-1">
+            Slug (Leave blank to auto-slugify)
+          </label>
+          <input type="text" name="slug" placeholder="e.g. maritime-infrastructure" class="w-full font-mono text-xs p-2 bg-background border border-outline focus:ring-0 focus:border-black"/>
+        </div>
+
+        <div>
+          <label class="block font-kicker text-xs uppercase font-bold text-primary mb-1">
+            Display Order Priority
+          </label>
+          <input type="number" name="display_order" value="10" min="0" class="w-full font-mono text-xs p-2 bg-background border border-outline focus:ring-0 focus:border-black"/>
+          <span class="text-[10px] text-secondary font-kicker block mt-1">Lower numbers appear first on top navigation bar.</span>
+        </div>
+
+        <div class="pt-2">
+          <button type="submit" class="w-full py-2.5 bg-primary text-white font-kicker text-xs uppercase font-bold tracking-wider hover:bg-neutral-800 transition-colors border border-primary">
+            Create Editorial Desk
+          </button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+</div>
+{% endblock content %}

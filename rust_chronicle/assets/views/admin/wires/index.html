@@ -1,0 +1,112 @@
+{% extends "admin/admin_base.html" %}
+
+{% block title %}Telegraph Wire Feeds{% endblock title %}
+
+{% block content %}
+<div class="space-y-8">
+
+  <div class="border-b-2 border-primary pb-4">
+    <span class="font-kicker text-xs uppercase tracking-widest text-secondary font-bold">Telegraph Bureau</span>
+    <h2 class="font-masthead text-3xl font-black uppercase text-primary">Telegraph Wires &amp; Ticker Dispatches</h2>
+    <p class="font-serif italic text-sm text-secondary mt-1">Live ticker updates streaming across the top header of the newspaper.</p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+
+    <!-- WIRES LIST (7 cols) -->
+    <div class="md:col-span-7 border border-primary bg-background">
+      <div class="p-3 border-b border-primary bg-surface-low flex justify-between items-center">
+        <h3 class="font-masthead text-base font-bold uppercase text-primary">Current Wire Transmissions</h3>
+        <span class="font-mono text-xs text-secondary">{{ wires | length }} Wires</span>
+      </div>
+
+      <div class="divide-y divide-outline-variant">
+        {% for w in wires %}
+          <div class="p-4 hover:bg-surface-low transition-colors flex flex-col justify-between gap-2">
+            <div class="flex items-center justify-between text-[11px] font-mono">
+              <span class="font-bold text-primary">
+                [{{ w.gmt_timestamp }}] {% if w.location %}{{ w.location }} — {% endif %}
+              </span>
+              <div class="flex items-center space-x-2">
+                {% if w.is_urgent %}
+                  <span class="bg-error text-white text-[9px] font-kicker uppercase font-bold px-1.5 py-0.5 animate-pulse">URGENT</span>
+                {% endif %}
+                {% if w.is_active %}
+                  <span class="text-emerald-800 bg-emerald-50 border border-emerald-300 text-[10px] font-kicker uppercase font-bold px-1.5 py-0.5">Active</span>
+                {% else %}
+                  <span class="text-neutral-500 bg-neutral-100 border border-neutral-300 text-[10px] font-kicker uppercase font-bold px-1.5 py-0.5">Muted</span>
+                {% endif %}
+              </div>
+            </div>
+
+            <p class="font-mono text-xs text-on-surface leading-relaxed">
+              {{ w.headline }}
+            </p>
+
+            <div class="pt-2 border-t border-outline-variant flex justify-end space-x-3 text-xs font-kicker uppercase font-bold">
+              <form action="/admin/wires/{{ w.id }}/toggle" method="post" class="inline">
+                <button type="submit" class="text-primary hover:underline">
+                  {% if w.is_active %}Mute Ticker{% else %}Activate Ticker{% endif %}
+                </button>
+              </form>
+              <span class="text-outline-variant">|</span>
+              <form action="/admin/wires/{{ w.id }}/delete" method="post" class="inline" onsubmit="return confirm('Delete this wire dispatch?');">
+                <button type="submit" class="text-error hover:underline">Delete</button>
+              </form>
+            </div>
+          </div>
+        {% else %}
+          <div class="p-8 text-center text-secondary italic font-serif text-sm">
+            No wire transmissions recorded. Add one using the form on the right.
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- TRANSMIT NEW WIRE (5 cols) -->
+    <div class="md:col-span-5 border border-primary bg-surface-low p-6">
+      <h3 class="font-masthead text-lg font-bold uppercase text-primary border-b border-primary pb-2 mb-4">
+        + Transmit Telegraph Wire
+      </h3>
+
+      <form action="/admin/wires" method="post" class="space-y-4">
+        <div>
+          <label class="block font-kicker text-xs uppercase font-bold text-primary mb-1">
+            Headline Transmission <span class="text-error">*</span>
+          </label>
+          <textarea name="headline" required rows="3" placeholder="e.g. Subsea cable junction impedance verified normal..." class="w-full font-mono text-xs p-2 bg-background border border-primary focus:ring-0 focus:border-black"></textarea>
+        </div>
+
+        <div>
+          <label class="block font-kicker text-xs uppercase font-bold text-primary mb-1">
+            Location / Bureau Origin
+          </label>
+          <input type="text" name="location" placeholder="e.g. EDINBURGH or BERLIN" class="w-full font-kicker uppercase text-xs p-2 bg-background border border-outline focus:ring-0 focus:border-black"/>
+        </div>
+
+        <div>
+          <label class="block font-kicker text-xs uppercase font-bold text-primary mb-1">
+            GMT Timestamp <span class="text-error">*</span>
+          </label>
+          <input type="text" name="gmt_timestamp" required value="09:00 GMT" placeholder="e.g. 08:20 GMT" class="w-full font-mono text-xs p-2 bg-background border border-outline focus:ring-0 focus:border-black"/>
+        </div>
+
+        <div class="flex items-center space-x-2 pt-1">
+          <input type="checkbox" id="urgent" name="is_urgent" value="true" class="rounded border-primary text-black focus:ring-0"/>
+          <label for="urgent" class="font-kicker text-xs uppercase font-bold text-primary cursor-pointer">
+            Mark as Urgent Bulletin (Red flashing indicator)
+          </label>
+        </div>
+
+        <div class="pt-4">
+          <button type="submit" class="w-full py-2.5 bg-primary text-white font-kicker text-xs uppercase font-bold tracking-wider hover:bg-neutral-800 transition-colors border border-primary">
+            Broadcast Telegraph Wire
+          </button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+</div>
+{% endblock content %}

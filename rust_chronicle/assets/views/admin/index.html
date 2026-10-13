@@ -1,0 +1,209 @@
+{% extends "admin/admin_base.html" %}
+
+{% block title %}Bureau Dashboard{% endblock title %}
+
+{% block content %}
+<div class="space-y-8">
+
+  <!-- TOP HEADER & ACTIONS -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b-2 border-primary pb-4">
+    <div>
+      <span class="font-kicker text-xs uppercase tracking-widest text-secondary font-bold">Daily Operations</span>
+      <h2 class="font-masthead text-3xl font-black uppercase text-primary">Newsroom Overview</h2>
+    </div>
+    <div class="flex flex-wrap gap-2 font-kicker text-xs uppercase font-bold">
+      <a href="/admin/articles/new" class="px-4 py-2 bg-primary text-white border border-primary hover:bg-neutral-800 transition-colors flex items-center">
+        <span class="material-symbols-outlined text-sm mr-1">edit_square</span> Write Article
+      </a>
+      <a href="/admin/frontpage" class="px-4 py-2 border border-primary hover:bg-surface-high transition-colors flex items-center">
+        <span class="material-symbols-outlined text-sm mr-1">dashboard_customize</span> Front Page Desk
+      </a>
+    </div>
+  </div>
+
+  <!-- KPI CARDS -->
+  <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+    <div class="border border-primary bg-surface-low p-4">
+      <span class="font-kicker text-[10px] uppercase tracking-wider text-secondary block">Total Stories</span>
+      <span class="font-mono text-2xl font-bold text-primary">{{ stats.total_articles }}</span>
+    </div>
+    <div class="border border-primary bg-surface-low p-4">
+      <span class="font-kicker text-[10px] uppercase tracking-wider text-secondary block">Published</span>
+      <span class="font-mono text-2xl font-bold text-emerald-700">{{ stats.published_articles }}</span>
+    </div>
+    <div class="border border-primary bg-surface-low p-4">
+      <span class="font-kicker text-[10px] uppercase tracking-wider text-secondary block">Drafts</span>
+      <span class="font-mono text-2xl font-bold text-amber-700">{{ stats.draft_articles }}</span>
+    </div>
+    <div class="border border-primary bg-surface-low p-4">
+      <span class="font-kicker text-[10px] uppercase tracking-wider text-secondary block">Desks / Categories</span>
+      <span class="font-mono text-2xl font-bold text-primary">{{ stats.total_categories }}</span>
+    </div>
+    <div class="border border-primary bg-surface-low p-4">
+      <span class="font-kicker text-[10px] uppercase tracking-wider text-secondary block">Active Wires</span>
+      <span class="font-mono text-2xl font-bold text-primary">{{ stats.active_wires }}</span>
+    </div>
+    <div class="border border-primary bg-surface-low p-4">
+      <span class="font-kicker text-[10px] uppercase tracking-wider text-secondary block">Reader Dispatches</span>
+      <span class="font-mono text-2xl font-bold text-primary">{{ stats.total_dispatches }}</span>
+    </div>
+    <div class="border border-primary bg-surface-low p-4">
+      <span class="font-kicker text-[10px] uppercase tracking-wider text-secondary block">Subscribers</span>
+      <span class="font-mono text-2xl font-bold text-primary">{{ stats.total_subscribers }}</span>
+    </div>
+  </div>
+
+  <!-- CURRENT FRONT PAGE COMPOSITION DESK PREVIEW -->
+  <div class="border-2 border-primary p-6 bg-surface-low">
+    <div class="flex items-center justify-between border-b border-primary pb-3 mb-4">
+      <div>
+        <span class="font-kicker text-[10px] uppercase tracking-widest text-secondary font-bold">Broadsheet Layout Status</span>
+        <h3 class="font-masthead text-xl font-bold uppercase text-primary">Current Front Page Slots</h3>
+      </div>
+      <a href="/admin/frontpage" class="font-kicker text-xs uppercase font-bold text-primary hover:underline flex items-center">
+        Rearrange Slots <span class="material-symbols-outlined text-sm ml-1">arrow_forward</span>
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+      <!-- CENTER HERO LEAD -->
+      <div class="md:col-span-6 border border-primary bg-background p-4 flex flex-col justify-between">
+        <div>
+          <span class="bg-primary text-white text-[10px] font-kicker uppercase px-2 py-0.5 font-bold tracking-wider">
+            Slot 1: Lead Hero Investigation
+          </span>
+          {% if lead_story %}
+            <h4 class="font-serif text-lg font-bold text-primary mt-3 leading-snug">
+              {{ lead_story.title }}
+            </h4>
+            <p class="font-sans text-xs text-secondary mt-1 italic">
+              {{ lead_story.subhead | default(value="No subhead specified") }}
+            </p>
+            <div class="font-mono text-[10px] text-outline mt-3">
+              Slug: /articles/{{ lead_story.slug }} • Views: {{ lead_story.view_count }}
+            </div>
+          {% else %}
+            <div class="p-6 text-center text-secondary italic font-serif text-sm">
+              No Lead Story Assigned! Select an article on the Front Page Desk.
+            </div>
+          {% endif %}
+        </div>
+        <div class="mt-4 pt-3 border-t border-outline-variant flex justify-end">
+          <a href="/admin/frontpage" class="font-kicker text-xs uppercase font-bold text-primary hover:underline">
+            Change Lead Story →
+          </a>
+        </div>
+      </div>
+
+      <!-- BULLETINS & OPEDS -->
+      <div class="md:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <!-- Bulletins -->
+        <div class="border border-outline-variant bg-background p-3">
+          <span class="font-kicker text-[10px] uppercase font-bold text-primary border-b border-outline-variant pb-1 block mb-2">
+            Slot 2: Left Bulletins ({{ bulletins | length }})
+          </span>
+          <ul class="divide-y divide-outline-variant text-xs space-y-1.5">
+            {% for b in bulletins %}
+              <li class="pt-1.5 first:pt-0">
+                <a href="/admin/articles/{{ b.id }}/edit" class="font-semibold text-primary hover:underline line-clamp-1">
+                  {{ b.title }}
+                </a>
+                <span class="text-[10px] font-mono text-secondary">#{{ b.dispatch_ref_code | default(value=b.id) }}</span>
+              </li>
+            {% else %}
+              <li class="italic text-secondary text-xs">No bulletins configured</li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <!-- OpEds -->
+        <div class="border border-outline-variant bg-background p-3">
+          <span class="font-kicker text-[10px] uppercase font-bold text-primary border-b border-outline-variant pb-1 block mb-2">
+            Slot 3: Right Column Op-Eds ({{ opeds | length }})
+          </span>
+          <ul class="divide-y divide-outline-variant text-xs space-y-1.5">
+            {% for op in opeds %}
+              <li class="pt-1.5 first:pt-0">
+                <a href="/admin/articles/{{ op.id }}/edit" class="font-semibold text-primary hover:underline line-clamp-1">
+                  {{ op.title }}
+                </a>
+                <span class="text-[10px] font-mono text-secondary">{{ op.kicker | default(value="VOICES") }}</span>
+              </li>
+            {% else %}
+              <li class="italic text-secondary text-xs">No op-eds configured</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECENT DISPATCHES & ARTICLES -->
+  <div class="border border-primary bg-background">
+    <div class="px-4 py-3 border-b border-primary flex items-center justify-between">
+      <h3 class="font-masthead text-lg font-bold uppercase text-primary">Recent Articles</h3>
+      <a href="/admin/articles" class="font-kicker text-xs uppercase font-bold text-primary hover:underline">
+        All Articles ({{ stats.total_articles }}) →
+      </a>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-surface-low border-b border-outline-variant font-kicker uppercase text-secondary text-[11px]">
+          <tr>
+            <th class="py-2.5 px-4 font-bold">ID / Ref</th>
+            <th class="py-2.5 px-4 font-bold">Title</th>
+            <th class="py-2.5 px-4 font-bold">Type</th>
+            <th class="py-2.5 px-4 font-bold">Status</th>
+            <th class="py-2.5 px-4 font-bold text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-outline-variant font-sans">
+          {% for a in recent_articles %}
+            <tr class="hover:bg-surface-low transition-colors">
+              <td class="py-2.5 px-4 font-mono text-secondary">
+                {{ a.dispatch_ref_code | default(value=a.id) }}
+              </td>
+              <td class="py-2.5 px-4">
+                <a href="/admin/articles/{{ a.id }}/edit" class="font-semibold text-primary hover:underline">
+                  {{ a.title }}
+                </a>
+                <span class="block text-[10px] font-mono text-secondary">/articles/{{ a.slug }}</span>
+              </td>
+              <td class="py-2.5 px-4">
+                <span class="font-kicker uppercase text-[10px] px-1.5 py-0.5 border border-primary font-bold">
+                  {{ a.article_type }}
+                </span>
+              </td>
+              <td class="py-2.5 px-4">
+                {% if a.status == "published" %}
+                  <span class="font-kicker uppercase text-[10px] text-emerald-800 bg-emerald-50 border border-emerald-300 px-1.5 py-0.5 font-bold">
+                    Published
+                  </span>
+                {% elif a.status == "draft" %}
+                  <span class="font-kicker uppercase text-[10px] text-amber-800 bg-amber-50 border border-amber-300 px-1.5 py-0.5 font-bold">
+                    Draft
+                  </span>
+                {% else %}
+                  <span class="font-kicker uppercase text-[10px] text-neutral-600 bg-neutral-100 border border-neutral-300 px-1.5 py-0.5 font-bold">
+                    {{ a.status }}
+                  </span>
+                {% endif %}
+              </td>
+              <td class="py-2.5 px-4 text-right space-x-2 font-kicker uppercase font-bold text-[11px]">
+                <a href="/admin/articles/{{ a.id }}/edit" class="text-primary hover:underline">Edit</a>
+                <a href="/articles/{{ a.slug }}" target="_blank" class="text-secondary hover:underline">View</a>
+              </td>
+            </tr>
+          {% else %}
+            <tr>
+              <td colspan="5" class="py-6 text-center text-secondary italic">No articles found.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+{% endblock content %}

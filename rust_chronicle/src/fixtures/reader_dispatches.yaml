@@ -1,0 +1,21 @@
+- id: 1
+  article_id: 1
+  author_name: "Dr. Alistair MacIntyre"
+  affiliation: "Fellow, Royal Society of Structural Engineers"
+  body: "The metallurgical analysis regarding nitrogen embrittlement in early Bessemer alloys is spot-on. We encountered precisely this phenomenon during the 1978 pier retrofits."
+  is_editors_pick: true
+  is_technical_note: true
+  endorsements_count: 48
+  created_at: "2025-10-24T12:00:00.000Z"
+  updated_at: "2025-10-24T12:00:00.000Z"
+
+- id: 2
+  article_id: 1
+  author_name: "Helena Rostova"
+  affiliation: "Chief Harbor Pilot, Estuary Authority"
+  body: "From the water below, one can observe the scaffolding sway during force 7 squalls. The discipline of the high-wire crews is nothing short of heroic."
+  is_editors_pick: true
+  is_technical_note: false
+  endorsements_count: 32
+  created_at: "2025-10-24T13:30:00.000Z"
+  updated_at: "2025-10-24T13:30:00.000Z"

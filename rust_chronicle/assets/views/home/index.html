@@ -1,0 +1,23 @@
+{% extends "broadsheet_base.html" %}
+
+{% block title %}The Rust Chronicle — Journal of Record & Modern Inquiry{% endblock title %}
+
+{% block content %}
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+  <!-- LEFT COLUMN (3 cols): Market Ledger & Bulletins -->
+  <aside class="md:col-span-3 space-y-6">
+    {% include "partials/_market_ledger.html" %}
+    {% include "partials/_bulletins.html" %}
+  </aside>
+
+  <!-- CENTER COLUMN (6 cols): The Lead Investigation -->
+  <section class="md:col-span-6">
+    {% include "partials/_lead_story.html" %}
+  </section>
+
+  <!-- RIGHT COLUMN (3 cols): Correspondence & Op-Ed -->
+  <aside class="md:col-span-3">
+    {% include "partials/_reader_dispatches.html" %}
+  </aside>
+</div>
+{% endblock content %}

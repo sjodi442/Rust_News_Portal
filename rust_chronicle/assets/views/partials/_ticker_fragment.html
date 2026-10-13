@@ -1,0 +1,42 @@
+<div id="ticker-strip" hx-get="/api/wire/latest" hx-trigger="every 30s" hx-swap="outerHTML" class="border-b border-outline-variant bg-surface-container-highest py-1 text-xs font-mono">
+  <div class="max-w-7xl mx-auto px-4 md:px-8 flex items-center overflow-hidden">
+    <span class="font-kicker font-bold uppercase text-[10px] tracking-wider text-primary mr-4 flex-shrink-0 flex items-center">
+      <span class="w-2 h-2 bg-error rounded-full inline-block mr-1.5 animate-pulse"></span> TELEGRAPH WIRE:
+    </span>
+    <div class="telegraph-marquee-container py-0.5 text-secondary text-[11px]">
+      <div class="telegraph-marquee-track">
+        {% if wire_dispatches is defined and wire_dispatches | length > 0 %}
+          <div class="inline-flex space-x-8 pr-8">
+            {% for wire in wire_dispatches %}
+              <span class="inline-flex items-center gap-1.5">
+                <strong class="text-on-surface">[{{ wire.gmt_timestamp }}]</strong>
+                {% if wire.location %}<span class="font-semibold text-primary">{{ wire.location }} —</span>{% endif %}
+                <span>{{ wire.headline }}</span>
+                <span class="text-outline-variant select-none ml-4">✦</span>
+              </span>
+            {% endfor %}
+          </div>
+          <div class="inline-flex space-x-8 pr-8" aria-hidden="true">
+            {% for wire in wire_dispatches %}
+              <span class="inline-flex items-center gap-1.5">
+                <strong class="text-on-surface">[{{ wire.gmt_timestamp }}]</strong>
+                {% if wire.location %}<span class="font-semibold text-primary">{{ wire.location }} —</span>{% endif %}
+                <span>{{ wire.headline }}</span>
+                <span class="text-outline-variant select-none ml-4">✦</span>
+              </span>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="inline-flex space-x-8 pr-8">
+            <span>Telegraph wire lines open. Monitoring maritime and imperial frequencies...</span>
+            <span class="text-outline-variant select-none ml-4">✦</span>
+          </div>
+          <div class="inline-flex space-x-8 pr-8" aria-hidden="true">
+            <span>Telegraph wire lines open. Monitoring maritime and imperial frequencies...</span>
+            <span class="text-outline-variant select-none ml-4">✦</span>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

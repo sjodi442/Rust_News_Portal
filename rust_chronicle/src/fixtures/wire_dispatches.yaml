@@ -1,0 +1,49 @@
+- id: 1
+  headline: "GALE WARNING: Force 8 winds expected north of Firth Estuary by midnight"
+  location: "NORTH SEA"
+  gmt_timestamp: "04:15 GMT"
+  is_urgent: true
+  is_active: true
+  published_at: "2025-10-24T04:15:00.000Z"
+  created_at: "2025-10-24T04:15:00.000Z"
+  updated_at: "2025-10-24T04:15:00.000Z"
+
+- id: 2
+  headline: "CARGO MANIFEST: 45,000 tons Nordic pelletized iron clears Rotterdam harbor"
+  location: "ROTTERDAM"
+  gmt_timestamp: "05:30 GMT"
+  is_urgent: false
+  is_active: true
+  published_at: "2025-10-24T05:30:00.000Z"
+  created_at: "2025-10-24T05:30:00.000Z"
+  updated_at: "2025-10-24T05:30:00.000Z"
+
+- id: 3
+  headline: "HYDRO SWITCH: Alpine storage levels reported at 94.2% nominal capacity"
+  location: "GENEVA"
+  gmt_timestamp: "06:12 GMT"
+  is_urgent: false
+  is_active: true
+  published_at: "2025-10-24T06:12:00.000Z"
+  created_at: "2025-10-24T06:12:00.000Z"
+  updated_at: "2025-10-24T06:12:00.000Z"
+
+- id: 4
+  headline: "RAIL BULLETIN: Express postal freight transit cleared on Eastern Corridor"
+  location: "BERLIN"
+  gmt_timestamp: "07:45 GMT"
+  is_urgent: false
+  is_active: true
+  published_at: "2025-10-24T07:45:00.000Z"
+  created_at: "2025-10-24T07:45:00.000Z"
+  updated_at: "2025-10-24T07:45:00.000Z"
+
+- id: 5
+  headline: "TELEGRAPHIC RELAY: Subsea cable junction impedance verified normal"
+  location: "EDINBURGH"
+  gmt_timestamp: "08:20 GMT"
+  is_urgent: false
+  is_active: true
+  published_at: "2025-10-24T08:20:00.000Z"
+  created_at: "2025-10-24T08:20:00.000Z"
+  updated_at: "2025-10-24T08:20:00.000Z"
