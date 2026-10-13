@@ -121,3 +121,88 @@ async fn can_search_articles() {
     })
     .await;
 }
+
+/// Syndicated RSS 2.0 Feed at /rss.xml and /feed.xml.
+#[tokio::test]
+#[serial]
+async fn can_get_rss_feed() {
+    request::<App, _, _>(|request, ctx| async move {
+        seed::<App>(&ctx).await.unwrap();
+        let res = request.get("/rss.xml").await;
+
+        assert_eq!(res.status_code(), 200);
+        let text = res.text();
+        assert!(text.contains("<?xml"), "expected xml header");
+        assert!(text.contains("<rss version=\"2.0\""), "expected rss 2.0 tag");
+        assert!(text.contains("<channel>"), "expected channel tag");
+        assert!(
+            text.contains("<title>The Rust Chronicle"),
+            "expected chronicle channel title"
+        );
+        assert!(text.contains("<item>"), "expected syndicated item");
+
+        // Alternate route alias /feed.xml
+        let res_alias = request.get("/feed.xml").await;
+        assert_eq!(res_alias.status_code(), 200);
+        assert!(res_alias.text().contains("<rss version=\"2.0\""));
+    })
+    .await;
+}
+
+/// Dynamic XML Sitemap at /sitemap.xml.
+#[tokio::test]
+#[serial]
+async fn can_get_sitemap() {
+    request::<App, _, _>(|request, ctx| async move {
+        seed::<App>(&ctx).await.unwrap();
+        let res = request.get("/sitemap.xml").await;
+
+        assert_eq!(res.status_code(), 200);
+        let text = res.text();
+        assert!(text.contains("<?xml"), "expected xml header");
+        assert!(
+            text.contains("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">"),
+            "expected sitemap urlset"
+        );
+        assert!(text.contains("<loc>"), "expected location tags");
+        assert!(
+            text.contains("/articles/artery-of-salt-and-steel-estuary-span"),
+            "expected article URL in sitemap"
+        );
+    })
+    .await;
+}
+
+/// Validates OpenGraph, Twitter card, and feed discovery meta tags.
+#[tokio::test]
+#[serial]
+async fn can_render_opengraph_and_discovery_tags() {
+    request::<App, _, _>(|request, ctx| async move {
+        seed::<App>(&ctx).await.unwrap();
+        let res = request.get("/articles/artery-of-salt-and-steel-estuary-span").await;
+
+        assert_eq!(res.status_code(), 200);
+        let text = res.text();
+        assert!(
+            text.contains("property=\"og:site_name\" content=\"The Rust Chronicle\""),
+            "expected og:site_name"
+        );
+        assert!(
+            text.contains("property=\"og:type\" content=\"article\""),
+            "expected og:type=article for reader page"
+        );
+        assert!(
+            text.contains("name=\"twitter:card\" content=\"summary_large_image\""),
+            "expected twitter:card"
+        );
+        assert!(
+            text.contains("rel=\"alternate\" type=\"application/rss+xml\""),
+            "expected RSS feed auto-discovery link"
+        );
+        assert!(
+            text.contains("rel=\"sitemap\" type=\"application/xml\""),
+            "expected Sitemap discovery link"
+        );
+    })
+    .await;
+}

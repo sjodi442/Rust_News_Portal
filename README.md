@@ -2,7 +2,7 @@
 
 [![Rust](https://img.shields.io/badge/Rust-1.99%2B-orange?logo=rust&logoColor=white)](https://www.rust-lang.org/)
 [![Loco.rs](https://img.shields.io/badge/Loco.rs-1.2.0-blue)](https://loco.rs/)
-[![Tests](https://img.shields.io/badge/Tests-67%20passed%20(100%25)-brightgreen)](https://github.com/sjodi442/Rust_News_Portal)
+[![Tests](https://img.shields.io/badge/Tests-70%20passed%20(100%25)-brightgreen)](https://github.com/sjodi442/Rust_News_Portal)
 [![SQLite](https://img.shields.io/badge/SQLite-WAL%20Mode-003B57?logo=sqlite&logoColor=white)](https://www.sqlite.org/)
 [![HTMX](https://img.shields.io/badge/HTMX-1.9.12-3366CC)](https://htmx.org/)
 [![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-v3%2Fv4-38B2AC?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
@@ -28,7 +28,13 @@ Repository: **[https://github.com/sjodi442/Rust_News_Portal](https://github.com/
 - **HTMX Dynamic Polling:** Bagian bursa di halaman depan melakukan auto-refresh berkala (60s) tanpa perlu reload halaman.
 - **Admin Instant Sync:** Tombol sinkronisasi langsung di panel admin untuk pembaruan manual kapan saja.
 
-### 3. 🛡️ Editorial CMS & Modern Security
+### 3. 📡 Sindikasi RSS, SEO & Social Cards
+- **RSS 2.0 Syndication (`/rss.xml` & `/feed.xml`):** Dukungan penuh untuk RSS reader (Feedly, Miniflux, NetNewsWire) dengan 30 artikel terbitan terbaru, RFC 2822 timestamps, dan GUID permalinks.
+- **Dynamic XML Sitemap (`/sitemap.xml`):** Peta situs XML standar yang mengindeks beranda, arsip pencarian, kategori rubrik, dan seluruh artikel terbitan berserta atribut `<lastmod>` dan `<changefreq>`.
+- **OpenGraph & Twitter Cards:** Tag meta `og:title`, `og:description`, `og:image`, `og:type`, `og:url`, serta `twitter:card` (summary_large_image) terpasang di seluruh halaman dan artikel reader.
+- **Feed Auto-Discovery:** Header `<link rel="alternate" type="application/rss+xml">` dan `<link rel="sitemap">` untuk deteksi otomatis oleh crawler dan reader.
+
+### 4. 🛡️ Editorial CMS & Modern Security
 - **AdminGuard Axum Extractor:** Proteksi 28 rute editorial berbasis JWT token dengan dukungan HTTP-Only Cookie dan fallback Bearer Header.
 - **Editorial Desk Control:** Kelola artikel, kurasi lead slot halaman utama, moderasi opini publik (*reader dispatches*), kawat telegrafik (*telegraph wires*), dan daftar pelanggan newsletter.
 - **Argon2id Hashing:** Standar enkripsi kata sandi resmi Loco/Argon2id.

@@ -56,6 +56,12 @@
 - **Frontpage Slot Manager:** Pengaturan posisi slot berita (Lead Hero, Section B Lead, Late Bulletins, Op-Ed).
 - **Media Asset Pipeline:** Konversi otomatis gambar yang diunggah menjadi format WebP/AVIF dengan filter monokromatik grayscale optimal.
 
+#### 3.4. Syndication Feeds & SEO Metadata
+- **RSS 2.0 Syndication (`/rss.xml` & `/feed.xml`):** Standar RSS feed artikel terbitan publikasi untuk pembaca feed (Feedly, Miniflux, dsb.) lengkap dengan GUID permalink, RFC 2822 pubDate, dan deskripsi lead paragraph.
+- **Dynamic XML Sitemap (`/sitemap.xml`):** Protokol XML Sitemap standar Google/Search Engine mencakup rute beranda, arsip pencarian, seluruh kategori dinamis, dan artikel terbitan dengan tag `<lastmod>` (W3C Datetime format).
+- **OpenGraph & Twitter Card Protocols:** Injeksi dinamis tag meta `og:title`, `og:description`, `og:type`, `og:url`, `og:image`, `og:site_name`, serta `twitter:card` (summary_large_image) pada template dasar dan pembaca artikel.
+- **Auto-Discovery Headers:** Deklarasi `<link rel="alternate" type="application/rss+xml">` dan `<link rel="sitemap" type="application/xml">` di header HTML.
+
 ---
 
 ### 4. Non-Functional Requirements (NFR)

@@ -111,3 +111,22 @@
   - `[profile.release]` diatur dengan `opt-level = 3`, `codegen-units = 16`, `strip = true`, `panic = "abort"`.
 - [x] Verifikasi Kualitas & Test Suite Menyeluruh:
   - Total 65 integration & unit tests lolos 100% tanpa kegagalan (`cargo test --all` -> 65 passed, 0 failed).
+
+### Phase 7: Realtime Market, Continuous Wire & Syndication (SELESAI - COMPLETED)
+- [x] Live Market Commodities Synchronization:
+  - Integrasi publik Yahoo Finance chart API untuk 5 komoditas bursa utama tanpa kunci/registrasi.
+  - Background worker periodic `MarketSyncInitializer` berjalan otomatis setiap 5 menit via `tokio::spawn`.
+  - Endpoint manual sync admin `POST /admin/markets/sync` dan tombol sync di dashboard editorial.
+  - Live HTMX polling partial `GET /partials/market_ledger` dengan refresh tiap 60 detik.
+- [x] Telegraph Wire Marquee Ticker:
+  - Teks kawat telegraf berjalan continuous horizontal (*smooth infinite marquee*) via CSS native murni di `assets/static/css/broadsheet.css`.
+  - Fitur auto-pause saat kursor di-hover untuk kenyamanan membaca.
+- [x] RSS 2.0 Syndication & Dynamic Sitemap:
+  - Endpoint publik `/rss.xml` dan `/feed.xml` menyajikan feed XML standar untuk 30 artikel terbitan terbaru lengkap dengan GUID permalink dan RFC 2822 pubDate.
+  - Endpoint publik `/sitemap.xml` menyajikan peta situs XML komprehensif (beranda, arsip pencarian, kategori, dan seluruh artikel dengan lastmod W3C).
+- [x] OpenGraph & Twitter Card Social Metadata:
+  - Tag meta `og:title`, `og:description`, `og:image`, `og:type`, `og:url`, `og:site_name`, dan `twitter:card` diimplementasikan secara dinamis di `broadsheet_base.html` dan `articles/reader.html`.
+  - Tag auto-discovery RSS dan Sitemap pada `<head>`.
+- [x] Test Suite Expansion:
+  - Penambahan pengujian unit dan integrasi untuk RSS feed, XML sitemap, dan OpenGraph meta tags di `tests/requests/page.rs`.
+  - Total 70 integration & unit tests lolos 100% tanpa kegagalan (`cargo test --all` -> 70 passed, 0 failed).

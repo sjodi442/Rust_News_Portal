@@ -102,3 +102,9 @@ Berdasarkan profil sistem pengguna (RAM fisik 3.8 GB, CPU multi-core, preferensi
 
 5. **Query Optimization & Composite Indexing:**
    - Penambahan 6 indeks komposit SeaORM pada status publikasi artikel, rubrik, urgency kawat telegraf, dan editorial pick komentar pembaca untuk menjamin kecepatan kueri baca tinggi pada volume data besar.
+
+6. **Syndication & SEO Distribution Engine:**
+   - **Endpoint `/rss.xml` & `/feed.xml`:** Menghasilkan dokumen XML standar RSS 2.0 dinamis secara streaming/zero-alloc buffer dengan header `Content-Type: application/rss+xml; charset=utf-8`.
+   - **Endpoint `/sitemap.xml`:** Mengagregasi sitemap URL XML standar yang mencakup beranda, halaman pencarian, seluruh kategori dinamis, dan artikel terbitan berserta metadata `<lastmod>` dan `<changefreq>`.
+   - **Social Graph Metadata Layer:** Injeksi tag OpenGraph (`og:*`) dan Twitter Cards (`summary_large_image`) pada `<head>` dengan template block inheritance untuk representasi visual optimal di media sosial.
+

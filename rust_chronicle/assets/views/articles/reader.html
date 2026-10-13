@@ -2,6 +2,16 @@
 
 {% block title %}{{ article.title }} — The Rust Chronicle{% endblock title %}
 
+{% block meta_description %}{% if article.lead_paragraph %}{{ article.lead_paragraph | truncate(length=160) }}{% else %}{{ article.title }} — Journal of Record &amp; Modern Inquiry.{% endif %}{% endblock meta_description %}
+{% block og_title %}{{ article.title }} — The Rust Chronicle{% endblock og_title %}
+{% block og_description %}{% if article.lead_paragraph %}{{ article.lead_paragraph | truncate(length=200) }}{% else %}{{ article.title }}{% endif %}{% endblock og_description %}
+{% block og_type %}article{% endblock og_type %}
+{% block og_url %}/articles/{{ article.slug }}{% endblock og_url %}
+{% block og_image %}{% if article.cover_image_url %}{{ article.cover_image_url }}{% else %}/static/images/chronicle-og-cover.png{% endif %}{% endblock og_image %}
+{% block twitter_title %}{{ article.title }} — The Rust Chronicle{% endblock twitter_title %}
+{% block twitter_description %}{% if article.lead_paragraph %}{{ article.lead_paragraph | truncate(length=200) }}{% else %}{{ article.title }}{% endif %}{% endblock twitter_description %}
+{% block twitter_image %}{% if article.cover_image_url %}{{ article.cover_image_url }}{% else %}/static/images/chronicle-og-cover.png{% endif %}{% endblock twitter_image %}
+
 {% block content %}
 <!-- Reading Progress Bar -->
 <div id="reading-progress" class="fixed top-0 left-0 h-1 bg-primary z-50 transition-all duration-75" style="width: 0%"></div>

@@ -4,6 +4,26 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>{% block title %}The Rust Chronicle — Journal of Record & Modern Inquiry{% endblock title %}</title>
+
+<!-- Standard SEO & Discovery -->
+<meta name="description" content="{% block meta_description %}The Rust Chronicle — Journal of Record and Modern Inquiry. High-performance broadsheet editorial journalism and live market wire.{% endblock meta_description %}"/>
+<link rel="alternate" type="application/rss+xml" title="The Rust Chronicle RSS Feed" href="/rss.xml"/>
+<link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml"/>
+
+<!-- OpenGraph Protocol -->
+<meta property="og:site_name" content="The Rust Chronicle"/>
+<meta property="og:title" content="{% block og_title %}The Rust Chronicle — Journal of Record & Modern Inquiry{% endblock og_title %}"/>
+<meta property="og:description" content="{% block og_description %}High-performance broadsheet editorial journalism, in-depth dispatch analysis, and live market commodities wire.{% endblock og_description %}"/>
+<meta property="og:type" content="{% block og_type %}website{% endblock og_type %}"/>
+<meta property="og:url" content="{% block og_url %}/{% endblock og_url %}"/>
+<meta property="og:image" content="{% block og_image %}/static/images/chronicle-og-cover.png{% endblock og_image %}"/>
+
+<!-- Twitter Card Protocol -->
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="{% block twitter_title %}The Rust Chronicle — Journal of Record & Modern Inquiry{% endblock twitter_title %}"/>
+<meta name="twitter:description" content="{% block twitter_description %}High-performance broadsheet editorial journalism, in-depth dispatch analysis, and live market commodities wire.{% endblock twitter_description %}"/>
+<meta name="twitter:image" content="{% block twitter_image %}/static/images/chronicle-og-cover.png{% endblock twitter_image %}"/>
+
 <!-- Fonts -->
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -218,8 +238,8 @@
         <ul class="space-y-1 font-body-regular text-[11px]">
           <li><a href="/article" class="hover:text-primary transition-colors">Lead Special Investigation</a></li>
           <li><a href="/search" class="hover:text-primary transition-colors">Historical Broadside Archive</a></li>
-          <li><a href="#" class="hover:text-primary transition-colors">Maritime &amp; Grain Price Sheet</a></li>
-          <li><a href="#" class="hover:text-primary transition-colors">Syndicated Wire Feeds</a></li>
+          <li><a href="/rss.xml" class="hover:text-primary transition-colors flex items-center gap-1"><span>RSS Wire Feed</span> <span class="text-[9px] bg-primary text-white px-1 font-mono">XML</span></a></li>
+          <li><a href="/sitemap.xml" class="hover:text-primary transition-colors">Gazette Sitemap</a></li>
         </ul>
       </div>
       <div>
