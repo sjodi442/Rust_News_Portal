@@ -108,3 +108,11 @@ Berdasarkan profil sistem pengguna (RAM fisik 3.8 GB, CPU multi-core, preferensi
    - **Endpoint `/sitemap.xml`:** Mengagregasi sitemap URL XML standar yang mencakup beranda, halaman pencarian, seluruh kategori dinamis, dan artikel terbitan berserta metadata `<lastmod>` dan `<changefreq>`.
    - **Social Graph Metadata Layer:** Injeksi tag OpenGraph (`og:*`) dan Twitter Cards (`summary_large_image`) pada `<head>` dengan template block inheritance untuk representasi visual optimal di media sosial.
 
+7. **Realtime Folio, Meteorology & Market Feed Subsystem:**
+   - **Open-Meteo Weather Engine (`src/models/meteorology.rs`):** Mengambil suhu dan kondisi cuaca kota-kota finansial utama (London, New York, Tokyo) via public API Open-Meteo gratis tanpa API key, memetakan WMO weather code ke deskripsi ramah, dan menyimpan respons dalam thread-safe in-memory cache `RwLock<Option<(Instant, String)>>` ber-TTL 10 menit.
+   - **Yahoo Finance Realtime Commodities Sync (`src/models/market_ledgers.rs`):** Mengambil harga spot dan persentase perubahan 5 komoditas bursa utama (Gold Spot, Silver Ingot, WTI Crude Oil, Copper Grade A, Natural Gas) dan memperbarui tabel `market_ledgers` di database SeaORM.
+   - **Agregator Ringkasan Bursa (`get_commodities_summary`):** Mengompilasi status 3 komoditas teratas untuk ditampilkan secara padat di baris folio masthead.
+   - **Background Sync Initializer (`src/initializers/market_sync.rs`):** Menjalankan loop non-blocking `tokio::spawn` pada startup dan interval berkala (bursa tiap 5 menit, cuaca tiap 10 menit; di-bypass otomatis pada mode testing).
+   - **HTMX Polling Strip Folio (`/partials/folio`):** Menyajikan partial HTML strip folio atas yang melakukan auto-refresh tiap 60 detik (`hx-get="/partials/folio"`), lengkap dengan skrip tanggal realtime client-localized.
+
+

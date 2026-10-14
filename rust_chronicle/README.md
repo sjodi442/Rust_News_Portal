@@ -13,12 +13,14 @@ Web portal berita bergaya koran cetak klasik (*broadsheet vintage*) yang dibangu
 - **Interaktivitas:** HTMX 1.9.12 untuk live telegraph ticker polling, live instant search, submit opini pembaca tanpa reload, dan pendaftaran newsletter inline.
 
 ### Fitur Publik
-1. **Front Page Broadsheet (`/`)**: Headline monumental, lead story dengan dropcap, feed kawat telegrafik berjalan, kolom bulletin kiri, editorial op-ed kanan, ledger komoditas spot, dan surat pembaca.
-2. **Editorial Reader Mode (`/articles/{slug}`)**: Format baca fokus, indikator estimasi waktu membaca, live reading progress bar, kontrol ukuran font (A- / A+ / Reset), dan shortcut cetak koran fisik (*Print Folio*).
-3. **Desk Taxonomy Archive (`/category/{slug}`)**: Filter arsip berita berdasarkan rubrik editorial (Dispatches, Industry, Infrastructure, Op-Ed, Folios).
-4. **Instant Archive Search (`/search?q=`)**: Pencarian berita instan menggunakan HTMX fragment swap tanpa reload halaman.
-5. **Reader Dispatches (`POST /api/dispatches`)**: Pengiriman opini & surat pembaca langsung dari halaman depan.
-6. **Morning Dispatch Circulation (`POST /api/subscribe`)**: Pendaftaran buletin harian pagi pembaca.
+1. **Front Page Broadsheet (`/`)**: Headline monumental, lead story dengan dropcap, feed kawat telegrafik berjalan (infinite marquee), kolom bulletin kiri, editorial op-ed kanan, ledger komoditas spot, strip folio realtime (cuaca & tanggal), dan surat pembaca.
+2. **Realtime Masthead Folio & Meteorology (`/partials/folio`)**: Tanggal dinamis client-localized, prakiraan cuaca kota-kota finansial global (London, New York, Tokyo) via Open-Meteo API publik gratis (cache TTL 10 menit), dan ringkasan bursa komoditas auto-polling per 60 detik.
+3. **Editorial Reader Mode (`/articles/{slug}`)**: Format baca fokus, indikator estimasi waktu membaca, live reading progress bar, kontrol ukuran font (A- / A+ / Reset), dan shortcut cetak koran fisik (*Print Folio*).
+4. **Desk Taxonomy Archive (`/category/{slug}`)**: Filter arsip berita berdasarkan rubrik editorial (Dispatches, Industry, Infrastructure, Op-Ed, Folios).
+5. **Instant Archive Search (`/search?q=`)**: Pencarian berita instan menggunakan HTMX fragment swap tanpa reload halaman.
+6. **Syndicated Feeds & SEO (`/rss.xml`, `/sitemap.xml`)**: Feed XML standar RSS 2.0 untuk pembaca berita dan XML sitemap komprehensif untuk mesin pencari, disertai dynamic OpenGraph & Twitter Card social metadata.
+7. **Reader Dispatches (`POST /api/dispatches`)**: Pengiriman opini & surat pembaca langsung dari halaman depan.
+8. **Morning Dispatch Circulation (`POST /api/subscribe`)**: Pendaftaran buletin harian pagi pembaca.
 
 ### Fitur Admin Editorial Bureau CMS
 1. **Autentikasi & Session Guard (`AdminGuard`)**:
@@ -107,6 +109,9 @@ cargo run -- start
 | Halaman / Fitur | URL Akses | Proteksi |
 |---|---|---|
 | **Halaman Depan Broadsheet** | `http://localhost:5150/` | Publik |
+| **Folio Realtime Partial** | `http://localhost:5150/partials/folio` | Publik |
+| **Sindikasi RSS 2.0 Feed** | `http://localhost:5150/rss.xml` | Publik |
+| **XML Sitemap** | `http://localhost:5150/sitemap.xml` | Publik |
 | **Editorial Reader Mode** | `http://localhost:5150/articles/{slug}` | Publik |
 | **Arsip Per Rubrik** | `http://localhost:5150/category/{slug}` | Publik |
 | **Pencarian Berita Instan** | `http://localhost:5150/search?q={query}` | Publik |
@@ -139,7 +144,7 @@ Berikut status implementasi hardening yang telah diselesaikan pada lapisan aplik
 4. **Pengaturan Profile Release (`Cargo.toml`):**
    - Profil release dikonfigurasi dengan `opt-level = 3`, `codegen-units = 16`, `strip = true`, dan `panic = "abort"` demi efisiensi memori RAM sistem.
 5. **Cakupan Pengujian Lengkap:**
-   - 65/65 unit & request tests lulus 100% (`cargo test --all`).
+   - 71/71 unit & request tests lulus 100% (`cargo test --all`).
 
 ---
 

@@ -62,6 +62,12 @@
 - **OpenGraph & Twitter Card Protocols:** Injeksi dinamis tag meta `og:title`, `og:description`, `og:type`, `og:url`, `og:image`, `og:site_name`, serta `twitter:card` (summary_large_image) pada template dasar dan pembaca artikel.
 - **Auto-Discovery Headers:** Deklarasi `<link rel="alternate" type="application/rss+xml">` dan `<link rel="sitemap" type="application/xml">` di header HTML.
 
+#### 3.5. Realtime Folio, Meteorology & Financial Commodities
+- **Live Masthead Strip:** Tanggal hari ini terlokalisasi secara realtime mengikuti zona waktu lokal pengguna melalui JavaScript client (`toLocaleDateString`) dengan layout broadsheet formal.
+- **Global Meteorology Integration:** Menampilkan data suhu dan kondisi cuaca kota finansial global (London, New York, Tokyo) via Open-Meteo API publik gratis, didukung in-memory thread-safe cache 10 menit.
+- **Commodities Ticker Summary:** Ringkasan harga dan persentase perubahan 3 komoditas bursa teratas (Gold, Crude, Gas) langsung dari ledger SeaORM.
+- **HTMX Dynamic Polling (`/partials/folio`):** Auto-refresh berkala per 60 detik tanpa reload halaman penuh.
+
 ---
 
 ### 4. Non-Functional Requirements (NFR)
