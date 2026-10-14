@@ -92,25 +92,7 @@
 <body class="bg-background text-on-surface antialiased selection:bg-primary selection:text-white flex flex-col min-h-screen">
 
 <!-- FOLIO METADATA STRIP -->
-<div class="border-b border-outline-variant bg-surface-container-low text-secondary font-kicker text-[11px] tracking-wider uppercase">
-  <div class="max-w-7xl mx-auto px-4 md:px-8 py-1.5 flex flex-wrap items-center justify-between gap-y-2">
-    <div class="flex items-center space-x-4">
-      <span>No. 49,812</span>
-      <span class="text-outline-variant">|</span>
-      <span>Est. 1883</span>
-      <span class="text-outline-variant">|</span>
-      <span class="font-bold text-on-surface">{{ current_date | default(value="Thursday, October 24, 2025") }}</span>
-    </div>
-    <div class="hidden lg:flex items-center space-x-6 text-secondary">
-      <span><strong class="text-on-surface">METEOROLOGY:</strong> London 11°C Overcast • New York 18°C Fair • Tokyo 16°C Clear</span>
-      <span class="text-outline-variant">|</span>
-      <span class="font-mono text-[10px] tracking-normal"><span class="font-bold text-primary">COMMODITIES:</span> BRENT $74.20 (+0.4%) • GOLD $2,735.40 (+0.12%)</span>
-    </div>
-    <div class="flex items-center space-x-3 text-[10px]">
-      <span class="border border-outline px-1.5 py-0.5 text-primary font-bold">INTERNATIONAL EDITION</span>
-    </div>
-  </div>
-</div>
+{% include "partials/_folio_strip.html" %}
 
 <!-- BRAND MASTHEAD -->
 <header class="w-full max-w-7xl mx-auto px-4 md:px-8 pt-6 pb-4">
@@ -258,6 +240,24 @@
     </div>
   </div>
 </footer>
+
+<script>
+  (function() {
+    function updateFolioDate() {
+      var dateEl = document.getElementById('live-folio-date');
+      if (dateEl && !dateEl.dataset.clientSet) {
+        try {
+          var now = new Date();
+          var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+          dateEl.textContent = now.toLocaleDateString('en-US', options);
+          dateEl.dataset.clientSet = "true";
+        } catch(e) {}
+      }
+    }
+    updateFolioDate();
+    document.addEventListener('htmx:afterSwap', updateFolioDate);
+  })();
+</script>
 
 </body>
 </html>

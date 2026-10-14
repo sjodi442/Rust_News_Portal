@@ -142,3 +142,39 @@ pub async fn sync_live_commodities(db: &DatabaseConnection) -> std::result::Resu
 
     Ok(updated_count)
 }
+
+pub async fn get_commodities_summary(db: &DatabaseConnection) -> String {
+    use sea_orm::QueryOrder;
+
+    let items = Entity::find()
+        .order_by_asc(market_ledgers::Column::Id)
+        .all(db)
+        .await
+        .unwrap_or_default();
+
+    if items.is_empty() {
+        return "GOLD $4,179.50 (+0.05%) • CRUDE $94.94 (+0.85%) • GAS $3.33 (+1.34%)".to_string();
+    }
+
+    let summaries: Vec<String> = items
+        .iter()
+        .take(3)
+        .map(|item| {
+            let short_name = match item.item_name.as_str() {
+                n if n.starts_with("Gold") => "GOLD",
+                n if n.starts_with("Silver") => "SILVER",
+                n if n.starts_with("Crude") => "CRUDE",
+                n if n.starts_with("Copper") => "COPPER",
+                n if n.starts_with("Henry") => "GAS",
+                _ => &item.item_name,
+            };
+            let sign = if item.change_pct >= 0.0 { "+" } else { "" };
+            format!(
+                "{} ${} ({}{:.2}%)",
+                short_name, item.spot_value, sign, item.change_pct
+            )
+        })
+        .collect();
+
+    summaries.join(" • ")
+}

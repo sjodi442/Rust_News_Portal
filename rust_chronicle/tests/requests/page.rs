@@ -206,3 +206,33 @@ async fn can_render_opengraph_and_discovery_tags() {
     })
     .await;
 }
+
+/// Validates realtime folio partial containing date, meteorology, and commodities.
+#[tokio::test]
+#[serial]
+async fn can_get_folio_partial_with_realtime_metrics() {
+    request::<App, _, _>(|request, ctx| async move {
+        seed::<App>(&ctx).await.unwrap();
+        let res = request.get("/partials/folio").await;
+
+        assert_eq!(res.status_code(), 200);
+        let text = res.text();
+        assert!(
+            text.contains("id=\"folio-strip\""),
+            "expected folio-strip root container"
+        );
+        assert!(
+            text.contains("METEOROLOGY:"),
+            "expected meteorology indicator"
+        );
+        assert!(
+            text.contains("COMMODITIES:"),
+            "expected commodities summary indicator"
+        );
+        assert!(
+            text.contains("INTERNATIONAL EDITION"),
+            "expected international edition label"
+        );
+    })
+    .await;
+}

@@ -1,17 +1,27 @@
-use crate::models::_entities::{
-    articles, categories, market_ledgers, reader_dispatches, wire_dispatches,
+use crate::models::{
+    _entities::{articles, categories, market_ledgers, reader_dispatches, wire_dispatches},
+    market_ledgers as market_ledgers_model, meteorology,
 };
 use axum::{
     http::{header, HeaderMap},
     response::IntoResponse,
 };
 use loco_rs::prelude::*;
-use sea_orm::{ColumnTrait, Condition, EntityTrait, QueryFilter, QueryOrder, QuerySelect};
+use sea_orm::{
+    ColumnTrait, Condition, DatabaseConnection, EntityTrait, QueryFilter, QueryOrder, QuerySelect,
+};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct SearchParams {
     pub q: Option<String>,
+}
+
+async fn get_folio_context(db: &DatabaseConnection) -> (String, String, String) {
+    let current_date = chrono::Local::now().format("%A, %B %-d, %Y").to_string();
+    let meteorology = meteorology::get_meteorology().await;
+    let commodities_summary = market_ledgers_model::get_commodities_summary(db).await;
+    (current_date, meteorology, commodities_summary)
 }
 
 /// Serves the modern monochrome broadsheet home page at `/`.
@@ -67,6 +77,8 @@ async fn index(
         .all(&ctx.db)
         .await?;
 
+    let (current_date, meteorology, commodities_summary) = get_folio_context(&ctx.db).await;
+
     format::render().view(
         &v,
         "home/index.html",
@@ -78,6 +90,9 @@ async fn index(
             "wire_dispatches": wires,
             "market_ledger": markets,
             "reader_dispatches": dispatches,
+            "current_date": current_date,
+            "meteorology": meteorology,
+            "commodities_summary": commodities_summary,
         }),
     )
 }
@@ -130,6 +145,8 @@ async fn article_by_slug(
         .all(&ctx.db)
         .await?;
 
+    let (current_date, meteorology, commodities_summary) = get_folio_context(&ctx.db).await;
+
     format::render().view(
         &v,
         "articles/reader.html",
@@ -140,6 +157,9 @@ async fn article_by_slug(
             "sidebar_articles": sidebar_articles,
             "categories": cats,
             "wire_dispatches": wires,
+            "current_date": current_date,
+            "meteorology": meteorology,
+            "commodities_summary": commodities_summary,
         }),
     )
 }
@@ -200,6 +220,8 @@ async fn article_reader(
         .all(&ctx.db)
         .await?;
 
+    let (current_date, meteorology, commodities_summary) = get_folio_context(&ctx.db).await;
+
     format::render().view(
         &v,
         "articles/reader.html",
@@ -210,6 +232,9 @@ async fn article_reader(
             "sidebar_articles": sidebar_articles,
             "categories": cats,
             "wire_dispatches": wires,
+            "current_date": current_date,
+            "meteorology": meteorology,
+            "commodities_summary": commodities_summary,
         }),
     )
 }
@@ -250,6 +275,8 @@ async fn category_by_slug(
         .all(&ctx.db)
         .await?;
 
+    let (current_date, meteorology, commodities_summary) = get_folio_context(&ctx.db).await;
+
     format::render().view(
         &v,
         "categories/show.html",
@@ -259,6 +286,9 @@ async fn category_by_slug(
             "articles": cat_articles,
             "categories": cats,
             "wire_dispatches": wires,
+            "current_date": current_date,
+            "meteorology": meteorology,
+            "commodities_summary": commodities_summary,
         }),
     )
 }
@@ -300,6 +330,8 @@ async fn search(
         .all(&ctx.db)
         .await?;
 
+    let (current_date, meteorology, commodities_summary) = get_folio_context(&ctx.db).await;
+
     format::render().view(
         &v,
         "articles/search.html",
@@ -309,6 +341,9 @@ async fn search(
             "results_count": matched_articles.len(),
             "categories": cats,
             "wire_dispatches": wires,
+            "current_date": current_date,
+            "meteorology": meteorology,
+            "commodities_summary": commodities_summary,
         }),
     )
 }
@@ -328,6 +363,24 @@ pub async fn partial_market_ledger(
         "partials/_market_ledger.html",
         data!({
             "market_ledger": markets,
+        }),
+    )
+}
+
+#[debug_handler]
+pub async fn partial_folio_strip(
+    State(ctx): State<AppContext>,
+    ViewEngine(v): ViewEngine<TeraView>,
+) -> Result<Response> {
+    let (current_date, meteorology, commodities_summary) = get_folio_context(&ctx.db).await;
+
+    format::render().view(
+        &v,
+        "partials/_folio_strip.html",
+        data!({
+            "current_date": current_date,
+            "meteorology": meteorology,
+            "commodities_summary": commodities_summary,
         }),
     )
 }
@@ -509,6 +562,7 @@ pub fn routes() -> Routes {
         .add("/category/{slug}", get(category_by_slug))
         .add("/search", get(search))
         .add("/partials/market_ledger", get(partial_market_ledger))
+        .add("/partials/folio", get(partial_folio_strip))
         .add("/rss.xml", get(rss_feed))
         .add("/feed.xml", get(rss_feed))
         .add("/sitemap.xml", get(sitemap))

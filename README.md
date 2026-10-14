@@ -2,7 +2,7 @@
 
 [![Rust](https://img.shields.io/badge/Rust-1.99%2B-orange?logo=rust&logoColor=white)](https://www.rust-lang.org/)
 [![Loco.rs](https://img.shields.io/badge/Loco.rs-1.2.0-blue)](https://loco.rs/)
-[![Tests](https://img.shields.io/badge/Tests-70%20passed%20(100%25)-brightgreen)](https://github.com/sjodi442/Rust_News_Portal)
+[![Tests](https://img.shields.io/badge/Tests-71%20passed%20(100%25)-brightgreen)](https://github.com/sjodi442/Rust_News_Portal)
 [![SQLite](https://img.shields.io/badge/SQLite-WAL%20Mode-003B57?logo=sqlite&logoColor=white)](https://www.sqlite.org/)
 [![HTMX](https://img.shields.io/badge/HTMX-1.9.12-3366CC)](https://htmx.org/)
 [![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-v3%2Fv4-38B2AC?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
@@ -22,10 +22,11 @@ Repository: **[https://github.com/sjodi442/Rust_News_Portal](https://github.com/
 - **Telegraph Wire Ticker:** Continuous horizontal ticker animasi berjalan (*smooth infinite marquee*) dengan fitur auto-pause on hover.
 - **Reader Tools:** Font-size scaler, night-shift parchment toggle, progress bar baca, dan print/export layout khusus koran cetak.
 
-### 2. ⚡ Realtime Market Ledger & Live Feeds
+### 2. ⚡ Realtime Folio, Meteorology & Market Ledger
+- **Realtime Masthead Folio:** Tanggal dinamis client-localized, meteorologi kota global live (London, New York, Tokyo) via Open-Meteo API publik, serta ringkasan pergerakan komoditas bursa teratas.
 - **Zero-Config Realtime Commodities:** Integrasi otomatis dengan public exchange feed (Gold Spot, Silver Ingot, WTI Crude Oil, High Grade Copper, Henry Hub Natural Gas).
-- **Background Synchronization Worker:** Background interval worker memperbarui data bursa setiap 5 menit secara non-blocking.
-- **HTMX Dynamic Polling:** Bagian bursa di halaman depan melakukan auto-refresh berkala (60s) tanpa perlu reload halaman.
+- **Background Synchronization Worker:** Background interval worker memperbarui data bursa dan cuaca setiap 5 menit secara non-blocking dengan in-memory cache TTL 10 menit.
+- **HTMX Dynamic Polling:** Bagian folio strip dan bursa di halaman depan melakukan auto-refresh berkala (60s) tanpa perlu reload halaman.
 - **Admin Instant Sync:** Tombol sinkronisasi langsung di panel admin untuk pembaruan manual kapan saja.
 
 ### 3. 📡 Sindikasi RSS, SEO & Social Cards

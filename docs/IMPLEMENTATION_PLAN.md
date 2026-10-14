@@ -130,3 +130,20 @@
 - [x] Test Suite Expansion:
   - Penambahan pengujian unit dan integrasi untuk RSS feed, XML sitemap, dan OpenGraph meta tags di `tests/requests/page.rs`.
   - Total 70 integration & unit tests lolos 100% tanpa kegagalan (`cargo test --all` -> 70 passed, 0 failed).
+
+### Phase 8: Realtime Masthead Folio (Date, Meteorology, Commodities) (SELESAI - COMPLETED)
+- [x] Realtime Localized Date:
+  - Format server UTC fallback dan script client vanilla JavaScript yang memformat tanggal pengguna secara realtime via `toLocaleDateString` dalam format formal broadsheet (`Wednesday, October 14, 2026`).
+  - Auto-reevaluasi tanggal setelah swapping HTMX partial.
+- [x] Global Realtime Meteorology (Open-Meteo API):
+  - Integrasi API publik gratis Open-Meteo (`api.open-meteo.com`) tanpa API key untuk 3 kota keuangan dunia: London, New York, dan Tokyo.
+  - Modul `src/models/meteorology.rs` dengan parser WMO weather codes dan caching in-memory thread-safe (`RwLock<Option<(Instant, String)>>`) ber-TTL 10 menit untuk efisiensi beban.
+  - Background periodic sync di `MarketSyncInitializer` yang menyegarkan cuaca setiap 10 menit.
+- [x] Realtime Commodities Masthead Summary:
+  - Fungsi agregator `get_commodities_summary` di `src/models/market_ledgers.rs` yang merangkum 3 pergerakan bursa teratas (Gold, Crude, Gas) langsung dari ledger SeaORM.
+- [x] HTMX Dynamic Folio Strip Polling:
+  - Partial view independen `assets/views/partials/_folio_strip.html` dengan endpoint `GET /partials/folio`.
+  - Polling otomatis tiap 60 detik (`hx-get="/partials/folio" hx-trigger="every 60s" hx-swap="outerHTML"`) tanpa reload peramban.
+- [x] Test Suite & Verification:
+  - Penambahan integration test `can_get_folio_partial_with_realtime_metrics` di `tests/requests/page.rs`.
+  - Total 71 integration & unit tests lolos 100% tanpa kegagalan (`cargo test --all` -> 71 passed, 0 failed).

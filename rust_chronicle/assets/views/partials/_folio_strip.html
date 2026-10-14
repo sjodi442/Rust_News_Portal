@@ -1,0 +1,20 @@
+<!-- FOLIO METADATA STRIP (REALTIME DATE, METEOROLOGY & COMMODITIES) -->
+<div id="folio-strip" hx-get="/partials/folio" hx-trigger="every 60s" hx-swap="outerHTML" class="border-b border-outline-variant bg-surface-container-low text-secondary font-kicker text-[11px] tracking-wider uppercase">
+  <div class="max-w-7xl mx-auto px-4 md:px-8 py-1.5 flex flex-wrap items-center justify-between gap-y-2">
+    <div class="flex items-center space-x-4">
+      <span>No. 49,812</span>
+      <span class="text-outline-variant">|</span>
+      <span>Est. 1883</span>
+      <span class="text-outline-variant">|</span>
+      <span class="font-bold text-on-surface" id="live-folio-date">{{ current_date | default(value="Wednesday, October 14, 2026") }}</span>
+    </div>
+    <div class="hidden lg:flex items-center space-x-6 text-secondary">
+      <span id="folio-meteorology"><strong class="text-on-surface">METEOROLOGY:</strong> {{ meteorology | default(value="London 13°C Overcast • New York 20°C Clear • Tokyo 22°C Clear") }}</span>
+      <span class="text-outline-variant">|</span>
+      <span class="font-mono text-[10px] tracking-normal" id="folio-commodities"><span class="font-bold text-primary">COMMODITIES:</span> {{ commodities_summary | default(value="GOLD $4,179.50 (+0.05%) • CRUDE $94.94 (+0.85%) • GAS $3.33 (+1.34%)") }}</span>
+    </div>
+    <div class="flex items-center space-x-3 text-[10px]">
+      <span class="border border-outline px-1.5 py-0.5 text-primary font-bold">INTERNATIONAL EDITION</span>
+    </div>
+  </div>
+</div>
