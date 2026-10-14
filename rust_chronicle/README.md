@@ -17,7 +17,7 @@ Web portal berita bergaya koran cetak klasik (*broadsheet vintage*) yang dibangu
 2. **Realtime Masthead Folio & Meteorology (`/partials/folio`)**: Tanggal dinamis client-localized, prakiraan cuaca kota-kota finansial global (London, New York, Tokyo) via Open-Meteo API publik gratis (cache TTL 10 menit), dan ringkasan bursa komoditas auto-polling per 60 detik.
 3. **Editorial Reader Mode (`/articles/{slug}`)**: Format baca fokus, indikator estimasi waktu membaca, live reading progress bar, kontrol ukuran font (A- / A+ / Reset), dan shortcut cetak koran fisik (*Print Folio*).
 4. **Desk Taxonomy Archive (`/category/{slug}`)**: Filter arsip berita berdasarkan rubrik editorial (Dispatches, Industry, Infrastructure, Op-Ed, Folios).
-5. **Instant Archive Search (`/search?q=`)**: Pencarian berita instan menggunakan HTMX fragment swap tanpa reload halaman.
+5. **Instant Archive Search (`/search?q=`)**: Pencarian berita leksikal berkecepatan tinggi bertenaga **SQLite FTS5 (Full-Text Search)** dengan algoritma pemeringkatan relevansi BM25, prefix wildcard matching, dan fallback resilien.
 6. **Syndicated Feeds & SEO (`/rss.xml`, `/sitemap.xml`)**: Feed XML standar RSS 2.0 untuk pembaca berita dan XML sitemap komprehensif untuk mesin pencari, disertai dynamic OpenGraph & Twitter Card social metadata.
 7. **Reader Dispatches (`POST /api/dispatches`)**: Pengiriman opini & surat pembaca langsung dari halaman depan.
 8. **Morning Dispatch Circulation (`POST /api/subscribe`)**: Pendaftaran buletin harian pagi pembaca.
@@ -114,7 +114,7 @@ cargo run -- start
 | **XML Sitemap** | `http://localhost:5150/sitemap.xml` | Publik |
 | **Editorial Reader Mode** | `http://localhost:5150/articles/{slug}` | Publik |
 | **Arsip Per Rubrik** | `http://localhost:5150/category/{slug}` | Publik |
-| **Pencarian Berita Instan** | `http://localhost:5150/search?q={query}` | Publik |
+| **Pencarian Berita Instan** | `http://localhost:5150/search?q={query}` | Publik (SQLite FTS5) |
 | **Admin Login Page** | `http://localhost:5150/admin/login` | Publik |
 | **Admin Logout** | `http://localhost:5150/admin/logout` | Publik |
 | **Admin Bureau Dashboard** | `http://localhost:5150/admin` | `AdminGuard` (Auth Required) |

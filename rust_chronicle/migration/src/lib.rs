@@ -10,6 +10,7 @@ mod m20261013_030200_market_ledgers;
 mod m20261013_030300_reader_dispatches;
 mod m20261013_030400_newsletter_subscribers;
 mod m20261013_040000_optimize_indexes;
+mod m20261014_050000_articles_fts;
 
 pub struct Migrator;
 
@@ -25,6 +26,7 @@ impl MigratorTrait for Migrator {
             Box::new(m20261013_030300_reader_dispatches::Migration),
             Box::new(m20261013_030400_newsletter_subscribers::Migration),
             Box::new(m20261013_040000_optimize_indexes::Migration),
+            Box::new(m20261014_050000_articles_fts::Migration),
         ]
     }
 }

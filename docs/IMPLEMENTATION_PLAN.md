@@ -147,3 +147,18 @@
 - [x] Test Suite & Verification:
   - Penambahan integration test `can_get_folio_partial_with_realtime_metrics` di `tests/requests/page.rs`.
   - Total 71 integration & unit tests lolos 100% tanpa kegagalan (`cargo test --all` -> 71 passed, 0 failed).
+
+### Phase 9: SQLite FTS5 Full-Text Lexical Search (SELESAI - COMPLETED)
+- [x] Virtual Table `articles_fts` (Migration `m20261014_050000_articles_fts`):
+  - Pembuatan tabel virtual SQLite FTS5 terintegrasi dengan tabel `articles` (`title`, `subhead`, `lead_paragraph`, `body_markdown`, `content='articles'`, `content_rowid='id'`).
+  - Injeksi trio trigger database otomatis (`articles_ai`, `articles_ad`, `articles_au`) untuk sinkronisasi seketika saat create, update, dan delete.
+- [x] Query Method & Probabilistic Relevance Ranking (`src/models/articles.rs`):
+  - Metode `search_fts` dengan query sanitization, token splitting, dan prefix wildcard match (`*`).
+  - Pemeringkatan relevansi dengan algoritma BM25 bawaan SQLite (`bm25(articles_fts) ASC`).
+  - Resilient fallback ke SQL `LIKE` multibagian bila terjadi anomali query FTS.
+- [x] Pengkabelan Controller:
+  - Integrasi `search_fts` pada endpoint publik arsip `/search?q=...` di `src/controllers/page.rs`.
+  - Integrasi `search_fts` pada endpoint live HTMX instant search `/api/search/fragment?q=...` di `src/controllers/api.rs`.
+- [x] Test Suite Expansion & Verifikasi:
+  - Unit test model `can_search_articles_via_fts5` di `tests/models/articles.rs` untuk memvalidasi exact match, prefix search, dan empty query guard.
+  - Total 72 integration & unit tests lolos 100% tanpa kegagalan (`cargo test --all` -> 72 passed, 0 failed).

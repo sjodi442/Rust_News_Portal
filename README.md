@@ -2,7 +2,7 @@
 
 [![Rust](https://img.shields.io/badge/Rust-1.99%2B-orange?logo=rust&logoColor=white)](https://www.rust-lang.org/)
 [![Loco.rs](https://img.shields.io/badge/Loco.rs-1.2.0-blue)](https://loco.rs/)
-[![Tests](https://img.shields.io/badge/Tests-71%20passed%20(100%25)-brightgreen)](https://github.com/sjodi442/Rust_News_Portal)
+[![Tests](https://img.shields.io/badge/Tests-72%20passed%20(100%25)-brightgreen)](https://github.com/sjodi442/Rust_News_Portal)
 [![SQLite](https://img.shields.io/badge/SQLite-WAL%20Mode-003B57?logo=sqlite&logoColor=white)](https://www.sqlite.org/)
 [![HTMX](https://img.shields.io/badge/HTMX-1.9.12-3366CC)](https://htmx.org/)
 [![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-v3%2Fv4-38B2AC?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
@@ -35,7 +35,12 @@ Repository: **[https://github.com/sjodi442/Rust_News_Portal](https://github.com/
 - **OpenGraph & Twitter Cards:** Tag meta `og:title`, `og:description`, `og:image`, `og:type`, `og:url`, serta `twitter:card` (summary_large_image) terpasang di seluruh halaman dan artikel reader.
 - **Feed Auto-Discovery:** Header `<link rel="alternate" type="application/rss+xml">` dan `<link rel="sitemap">` untuk deteksi otomatis oleh crawler dan reader.
 
-### 4. 🛡️ Editorial CMS & Modern Security
+### 4. 🗄️ SQLite FTS5 Full-Text Search (Lexical Search)
+- **High-Performance Full-Text Search:** Virtual table `articles_fts` dengan algoritma pemeringkatan relevansi BM25 dan prefix matching (`*`) untuk pencarian arsip dan artikel secepat kilat.
+- **Auto-Sync DB Triggers:** Triggers SQLite bawaan (`AFTER INSERT`, `AFTER UPDATE`, `AFTER DELETE`) menyinkronkan data artikel ke indeks FTS5 secara otomatis tanpa overhead aplikasi.
+- **Fail-Safe Search Fallback:** Model pencarian dilengkapi mekanisme graceful fallback ke query SQL `LIKE` tradisional jika terjadi anomali query FTS.
+
+### 5. 🛡️ Editorial CMS & Modern Security
 - **AdminGuard Axum Extractor:** Proteksi 28 rute editorial berbasis JWT token dengan dukungan HTTP-Only Cookie dan fallback Bearer Header.
 - **Editorial Desk Control:** Kelola artikel, kurasi lead slot halaman utama, moderasi opini publik (*reader dispatches*), kawat telegrafik (*telegraph wires*), dan daftar pelanggan newsletter.
 - **Argon2id Hashing:** Standar enkripsi kata sandi resmi Loco/Argon2id.

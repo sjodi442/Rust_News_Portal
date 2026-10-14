@@ -41,3 +41,29 @@ async fn can_query_articles_and_relation() {
 
     assert_eq!(category.slug, "infrastructure");
 }
+
+#[tokio::test]
+#[serial]
+async fn can_search_articles_via_fts5() {
+    let boot = boot_test::<App>().await.unwrap();
+    seed::<App>(&boot.app_context).await.unwrap();
+
+    // 1. Search by exact keyword in title
+    let results = rust_chronicle::models::articles::Model::search_fts(&boot.app_context.db, "Steel")
+        .await
+        .expect("FTS search should succeed");
+    assert!(!results.is_empty(), "expected results for 'Steel'");
+    assert!(results[0].title.contains("Steel"));
+
+    // 2. Search by prefix
+    let prefix_results = rust_chronicle::models::articles::Model::search_fts(&boot.app_context.db, "infra")
+        .await
+        .expect("prefix search should succeed");
+    assert!(!prefix_results.is_empty(), "expected results for prefix 'infra'");
+
+    // 3. Search with empty string returns empty
+    let empty_results = rust_chronicle::models::articles::Model::search_fts(&boot.app_context.db, "   ")
+        .await
+        .expect("empty query should succeed");
+    assert!(empty_results.is_empty());
+}

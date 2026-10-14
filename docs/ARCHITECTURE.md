@@ -115,4 +115,10 @@ Berdasarkan profil sistem pengguna (RAM fisik 3.8 GB, CPU multi-core, preferensi
    - **Background Sync Initializer (`src/initializers/market_sync.rs`):** Menjalankan loop non-blocking `tokio::spawn` pada startup dan interval berkala (bursa tiap 5 menit, cuaca tiap 10 menit; di-bypass otomatis pada mode testing).
    - **HTMX Polling Strip Folio (`/partials/folio`):** Menyajikan partial HTML strip folio atas yang melakukan auto-refresh tiap 60 detik (`hx-get="/partials/folio"`), lengkap dengan skrip tanggal realtime client-localized.
 
+8. **Full-Text Lexical Search Engine (SQLite FTS5):**
+   - **Virtual Table `articles_fts`:** Diimplementasikan melalui migrasi SeaORM dengan modul FTS5 internal SQLite bawaan (`title`, `subhead`, `lead_paragraph`, `body_markdown`, `content='articles'`, `content_rowid='id'`).
+   - **Trio Sinkronisasi Trigger:** Tiga DB triggers (`articles_ai`, `articles_ad`, `articles_au`) memastikan penambahan, penghapusan, dan pembaruan artikel di tabel utama terindeks seketika tanpa perlu sinkronisasi manual atau background indexer tambahan.
+   - **BM25 Ranking & Prefix Token Matcher:** Fungsi kueri `search_fts` mengevaluasi input kata kunci, memfilter tanda baca berlebih, menambahkan wildcard prefix (`*`) pada kata terakhir, dan mengurutkan hasil berdasarkan relevansi algoritma probabilistik BM25 (`bm25(articles_fts) ASC`).
+   - **Resilient Fallback:** Jika kueri FTS gagal atau sintaks tidak valid, pencarian otomatis fallback ke kueri SQL `LIKE` multibagian secara transparan.
+
 

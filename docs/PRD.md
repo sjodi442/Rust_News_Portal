@@ -68,6 +68,13 @@
 - **Commodities Ticker Summary:** Ringkasan harga dan persentase perubahan 3 komoditas bursa teratas (Gold, Crude, Gas) langsung dari ledger SeaORM.
 - **HTMX Dynamic Polling (`/partials/folio`):** Auto-refresh berkala per 60 detik tanpa reload halaman penuh.
 
+#### 3.6. Full-Text Search Engine (SQLite FTS5)
+- **High-Performance Lexical Search:** Virtual table `articles_fts` berbasis modul SQLite FTS5 bawaan untuk pencarian multi-kolom (`title`, `subhead`, `lead_paragraph`, `body_markdown`).
+- **Probabilistic Ranking (BM25):** Hasil pencarian diurutkan berdasarkan relevansi frekuensi kata kunci menggunakan algoritma BM25 bawaan SQLite.
+- **Triggers-Driven Auto Synchronization:** Otomatisasi indeks melalui trigger database (`AFTER INSERT`, `AFTER UPDATE`, `AFTER DELETE`) tanpa memerlukan cron indexing terpisah.
+- **Prefix Wildcard & Token Cleaning:** Pemrosesan string kueri untuk prefix token matching (`word*`) dan sanitasi karakter pembatas sintaks FTS5.
+- **Graceful Search Fallback:** Transisi instan ke query `LIKE` SQL standar jika kueri FTS5 mengalami kendala.
+
 ---
 
 ### 4. Non-Functional Requirements (NFR)

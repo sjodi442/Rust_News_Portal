@@ -1,6 +1,6 @@
 use crate::models::{
     _entities::{articles, categories, market_ledgers, reader_dispatches, wire_dispatches},
-    market_ledgers as market_ledgers_model, meteorology,
+    articles as articles_model, market_ledgers as market_ledgers_model, meteorology,
 };
 use axum::{
     http::{header, HeaderMap},
@@ -8,7 +8,7 @@ use axum::{
 };
 use loco_rs::prelude::*;
 use sea_orm::{
-    ColumnTrait, Condition, DatabaseConnection, EntityTrait, QueryFilter, QueryOrder, QuerySelect,
+    ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter, QueryOrder, QuerySelect,
 };
 use serde::{Deserialize, Serialize};
 
@@ -305,17 +305,9 @@ async fn search(
     let matched_articles = if query_str.is_empty() {
         Vec::new()
     } else {
-        let cond = Condition::any()
-            .add(articles::Column::Title.contains(&query_str))
-            .add(articles::Column::Subhead.contains(&query_str))
-            .add(articles::Column::LeadParagraph.contains(&query_str));
-
-        articles::Entity::find()
-            .filter(articles::Column::Status.eq("published"))
-            .filter(cond)
-            .order_by_desc(articles::Column::Id)
-            .all(&ctx.db)
-            .await?
+        articles_model::Model::search_fts(&ctx.db, &query_str)
+            .await
+            .unwrap_or_default()
     };
 
     let cats = categories::Entity::find()

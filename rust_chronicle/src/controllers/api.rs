@@ -1,9 +1,12 @@
-use crate::models::_entities::{
-    articles, market_ledgers, newsletter_subscribers, reader_dispatches, wire_dispatches,
+use crate::models::{
+    _entities::{
+        articles, market_ledgers, newsletter_subscribers, reader_dispatches, wire_dispatches,
+    },
+    articles as articles_model,
 };
 use axum::extract::Form;
 use loco_rs::prelude::*;
-use sea_orm::{ActiveModelTrait, ColumnTrait, Condition, EntityTrait, QueryFilter, QueryOrder, Set};
+use sea_orm::{ActiveModelTrait, ColumnTrait, EntityTrait, QueryFilter, QueryOrder, Set};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -243,20 +246,13 @@ pub async fn search_fragment(
         articles::Entity::find()
             .filter(articles::Column::Status.eq("published"))
             .order_by_desc(articles::Column::PublishedAt)
+            .limit(20)
             .all(&ctx.db)
             .await?
     } else {
-        let cond = Condition::any()
-            .add(articles::Column::Title.contains(&query_str))
-            .add(articles::Column::Subhead.contains(&query_str))
-            .add(articles::Column::LeadParagraph.contains(&query_str));
-
-        articles::Entity::find()
-            .filter(articles::Column::Status.eq("published"))
-            .filter(cond)
-            .order_by_desc(articles::Column::PublishedAt)
-            .all(&ctx.db)
-            .await?
+        articles_model::Model::search_fts(&ctx.db, &query_str)
+            .await
+            .unwrap_or_default()
     };
 
     format::render().view(
