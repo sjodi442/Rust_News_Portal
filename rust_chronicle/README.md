@@ -15,7 +15,7 @@ Web portal berita bergaya koran cetak klasik (*broadsheet vintage*) yang dibangu
 ### Fitur Publik
 1. **Front Page Broadsheet (`/`)**: Headline monumental, lead story dengan dropcap, feed kawat telegrafik berjalan (infinite marquee), kolom bulletin kiri, editorial op-ed kanan, ledger komoditas spot, strip folio realtime (cuaca & tanggal), dan surat pembaca.
 2. **Realtime Masthead Folio & Meteorology (`/partials/folio`)**: Tanggal dinamis client-localized, prakiraan cuaca kota-kota finansial global (London, New York, Tokyo) via Open-Meteo API publik gratis (cache TTL 10 menit), dan ringkasan bursa komoditas auto-polling per 60 detik.
-3. **Editorial Reader Mode (`/articles/{slug}`)**: Format baca fokus, indikator estimasi waktu membaca, live reading progress bar, kontrol ukuran font (A- / A+ / Reset), dan shortcut cetak koran fisik (*Print Folio*).
+3. **Editorial Reader Mode & Broadsheet Print Engine (`/articles/{slug}`)**: Format baca fokus, indikator estimasi waktu membaca, live reading progress bar, kontrol ukuran font (A- / A+ / Reset), penanda tanggal publikasi asli naskah terikat ke folio koran, dan shortcut cetak koran fisik (*Print Folio*) dengan pengecualian total kolom komentar dan formulir pembaca.
 4. **Desk Taxonomy Archive (`/category/{slug}`)**: Filter arsip berita berdasarkan rubrik editorial (Dispatches, Industry, Infrastructure, Op-Ed, Folios).
 5. **Instant Archive Search (`/search?q=`)**: Pencarian berita leksikal berkecepatan tinggi bertenaga **SQLite FTS5 (Full-Text Search)** dengan algoritma pemeringkatan relevansi BM25, prefix wildcard matching, dan fallback resilien.
 6. **Syndicated Feeds & SEO (`/rss.xml`, `/sitemap.xml`)**: Feed XML standar RSS 2.0 untuk pembaca berita dan XML sitemap komprehensif untuk mesin pencari, disertai dynamic OpenGraph & Twitter Card social metadata.
@@ -87,7 +87,7 @@ cargo run -- db seed
 ```
 
 ### 3. Menjalankan Seluruh Test Suite
-Pastikan seluruh 65 integration & unit tests lolos:
+Pastikan seluruh 72 integration & unit tests lolos:
 
 ```bash
 cargo test --all
@@ -144,7 +144,7 @@ Berikut status implementasi hardening yang telah diselesaikan pada lapisan aplik
 4. **Pengaturan Profile Release (`Cargo.toml`):**
    - Profil release dikonfigurasi dengan `opt-level = 3`, `codegen-units = 16`, `strip = true`, dan `panic = "abort"` demi efisiensi memori RAM sistem.
 5. **Cakupan Pengujian Lengkap:**
-   - 71/71 unit & request tests lulus 100% (`cargo test --all`).
+   - 72/72 unit & request tests lulus 100% (`cargo test --all`).
 
 ---
 

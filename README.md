@@ -35,18 +35,23 @@ Repository: **[https://github.com/sjodi442/Rust_News_Portal](https://github.com/
 - **OpenGraph & Twitter Cards:** Tag meta `og:title`, `og:description`, `og:image`, `og:type`, `og:url`, serta `twitter:card` (summary_large_image) terpasang di seluruh halaman dan artikel reader.
 - **Feed Auto-Discovery:** Header `<link rel="alternate" type="application/rss+xml">` dan `<link rel="sitemap">` untuk deteksi otomatis oleh crawler dan reader.
 
-### 4. 🗄️ SQLite FTS5 Full-Text Search (Lexical Search)
+### 4. 🖨️ Broadsheet Print Engine & Authentic Folio Synchronization
+- **Distraction-Free Physical Print (`@media print`):** Fitur cetak folio langsung via tombol `PRINT FOLIO` (`window.print()`). Menghilangkan total elemen web, navigasi, form memorandum HTMX, banner wire, dan seluruh bagian korespondensi pembaca (`#reader-dispatches-list`, `.correspondence-section`).
+- **Authentic Article Folio Date:** Folio koran masthead pada halaman pembaca secara otomatis terikat ke tanggal publikasi naskah artikel asli (`published_at` / `created_at`), memastikan dokumen fisik mencerminkan edisi terbitan sebenarnya bukan tanggal berjalan hari ini.
+- **Editorial Date Stamps Across Desks:** Penanda tanggal publikasi artikel kini tertera rapi pada byline reader, lead story cover, bulletin list, arsip rubrik kategori, pencarian live, dan meja redaksi admin.
+
+### 5. 🗄️ SQLite FTS5 Full-Text Search (Lexical Search)
 - **High-Performance Full-Text Search:** Virtual table `articles_fts` dengan algoritma pemeringkatan relevansi BM25 dan prefix matching (`*`) untuk pencarian arsip dan artikel secepat kilat.
 - **Auto-Sync DB Triggers:** Triggers SQLite bawaan (`AFTER INSERT`, `AFTER UPDATE`, `AFTER DELETE`) menyinkronkan data artikel ke indeks FTS5 secara otomatis tanpa overhead aplikasi.
 - **Fail-Safe Search Fallback:** Model pencarian dilengkapi mekanisme graceful fallback ke query SQL `LIKE` tradisional jika terjadi anomali query FTS.
 
-### 5. 🛡️ Editorial CMS & Modern Security
+### 6. 🛡️ Editorial CMS & Modern Security
 - **AdminGuard Axum Extractor:** Proteksi 28 rute editorial berbasis JWT token dengan dukungan HTTP-Only Cookie dan fallback Bearer Header.
 - **Editorial Desk Control:** Kelola artikel, kurasi lead slot halaman utama, moderasi opini publik (*reader dispatches*), kawat telegrafik (*telegraph wires*), dan daftar pelanggan newsletter.
 - **Argon2id Hashing:** Standar enkripsi kata sandi resmi Loco/Argon2id.
 - **Zero-External Dependencies (Offline-Ready):** Seluruh file JavaScript (HTMX v1.9.12), stylesheet custom, dan font telah di-cache secara mandiri di `assets/static/`.
 
-### 4. 🚀 Arsitektur & Performa Rust
+### 7. 🚀 Arsitektur & Performa Rust
 - **Loco.rs Fullstack Framework:** Axum + SeaORM + Tera template engine.
 - **SQLite WAL Mode:** Concurrency tinggi dan latensi rendah dengan performa query teroptimasi (6 indeks komposit database).
 - **Resource Footprint Minimal:** Konsumsi RAM dev/idle hanya ~25–40MB, cocok untuk server spesifikasi hemat.
@@ -74,7 +79,7 @@ Rust_News_Portal/
     ├── config/                    # Environment settings (development.yaml, production.yaml)
     ├── migration/                 # SeaORM database migrations
     ├── src/                       # Controllers, models, initializers, admin guard
-    └── tests/                     # 67 request & model test suite (100% pass)
+    └── tests/                     # 72 request & model test suite (100% pass)
 ```
 
 ---
@@ -105,7 +110,7 @@ cargo run -- db migrate
 cargo run -- db seed
 ```
 
-### 4. Jalankan Seluruh Test Suite (67 Tests)
+### 4. Jalankan Seluruh Test Suite (72 Tests)
 ```bash
 cargo test --all
 ```
@@ -138,7 +143,7 @@ Setelah menjalankan `cargo run -- db seed`, akun redaksi administrator berikut s
 
 ## 🧪 Pengujian & Kualitas Kode (Test Suite)
 
-Semua fungsionalitas diuji secara ketat mencakup 67 skenario uji otomatis:
+Semua fungsionalitas diuji secara ketat mencakup 72 skenario uji otomatis:
 - **Model Tests:** Relasi entitas SeaORM, hashing Argon2id, token verifikasi, validasi formulir.
 - **Admin Request Tests:** Flow autentikasi session cookie, mitigasi unauthenticated access, kurasi frontpage lead slot, sinkronisasi market realtime, moderasi telegraf & surat pembaca.
 - **Public Reader Tests:** Dynamic article slug lookup, search query, telegraph ticker fragment, newsletter subscription, dan live market ticker.

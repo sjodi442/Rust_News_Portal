@@ -82,4 +82,4 @@
 - **Efisiensi Memori Server:** Konsumsi RAM runtime Rust web daemon < 35MB pada beban normal (sangat aman untuk sistem dengan RAM 3.8GB).
 - **Database Resilience:** SQLite WAL mode (Write-Ahead Logging) dengan proteksi transaksi concurrency tinggi dan zero maintenance overhead.
 - **Aksesibilitas (WCAG 2.1 AA):** Rasio kontras teks monokrom mencapai minimum 7:1 (teks `#1a1c1b` di atas kanvas `#f9f9f7`). Dukungan penuh pembaca layar (*screen reader*) dan navigasi keyboard.
-- **Cetak Sempurna (Print CSS):** Tombol *Print Folio* menghasilkan dokumen PDF/cetak bergaya koran kertas fisik tanpa elemen navigasi dan tombol interaktif.
+- **Cetak Sempurna & Tanggal Naskah Asli (Print CSS & Folio Sync):** Tombol *Print Folio* menghasilkan dokumen cetak fisik bergaya koran kertas tanpa elemen navigasi, form komentar pembaca, maupun tombol interaktif. Folio masthead reader otomatis mengunci tanggal publikasi naskah artikel asli.

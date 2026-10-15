@@ -63,6 +63,9 @@ Aplikasi memadukan 3 font Google Fonts yang saling melengkapi:
 
 ---
 
+- Menghilangkan total elemen web, toolbar, navigasi, form memorandum HTMX, banner wire, dan seluruh bagian korespondensi/komentar pembaca (`#reader-dispatches-list`, `.correspondence-section`) melalui aturan `@media print`.
+- Folio strip tanggal otomatis mengadopsi tanggal penerbitan artikel asli (`published_at` / `created_at`) menggunakan elemen referensi `#article-published-date-source`.
+
 ### 5. File Mockup & Preview Desain (Google Stitch)
 
 Desain interaktif telah dibuat dan disimpan secara lokal di repositori proyek:

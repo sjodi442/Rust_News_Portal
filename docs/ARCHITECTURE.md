@@ -121,4 +121,9 @@ Berdasarkan profil sistem pengguna (RAM fisik 3.8 GB, CPU multi-core, preferensi
    - **BM25 Ranking & Prefix Token Matcher:** Fungsi kueri `search_fts` mengevaluasi input kata kunci, memfilter tanda baca berlebih, menambahkan wildcard prefix (`*`) pada kata terakhir, dan mengurutkan hasil berdasarkan relevansi algoritma probabilistik BM25 (`bm25(articles_fts) ASC`).
    - **Resilient Fallback:** Jika kueri FTS gagal atau sintaks tidak valid, pencarian otomatis fallback ke kueri SQL `LIKE` multibagian secara transparan.
 
+9. **Broadsheet Print Engine & Authentic Date Serialization:**
+   - **CSS Media Print Isolation (`assets/static/css/broadsheet.css`):** Aturan `@media print` membersihkan layout web, menyembunyikan elemen non-editorial (`.correspondence-section`, `#reader-dispatches-list`, `.reading-toolbar`, `nav`, `footer`, `form`), serta menetapkan margin kertas cetak formal.
+   - **Masthead Folio Dynamic Binding:** Skrip folio client membaca tanggal penerbitan naskah (`article_date`) dari elemen `#article-published-date-source` sehingga versi cetak mempertahankan tanggal asli edisi artikel.
+   - **Formatting & Model Serialization:** Helper model `formatted_published_date()` dan integrasi field `published_at` melintasi template view publik dan meja redaksi admin.
+
 
