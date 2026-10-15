@@ -28,3 +28,27 @@
   display_order: 5
   created_at: "2025-01-01T00:00:00.000Z"
   updated_at: "2025-01-01T00:00:00.000Z"
+- id: 6
+  name: AI & Frontier Computing
+  slug: artificial-intelligence
+  display_order: 6
+  created_at: "2025-01-01T00:00:00.000Z"
+  updated_at: "2025-01-01T00:00:00.000Z"
+- id: 7
+  name: Athletics & Physical Culture
+  slug: sports
+  display_order: 7
+  created_at: "2025-01-01T00:00:00.000Z"
+  updated_at: "2025-01-01T00:00:00.000Z"
+- id: 8
+  name: Crisis & Natural Calamity
+  slug: disasters
+  display_order: 8
+  created_at: "2025-01-01T00:00:00.000Z"
+  updated_at: "2025-01-01T00:00:00.000Z"
+- id: 9
+  name: Earth Sciences & Climate
+  slug: environment
+  display_order: 9
+  created_at: "2025-01-01T00:00:00.000Z"
+  updated_at: "2025-01-01T00:00:00.000Z"

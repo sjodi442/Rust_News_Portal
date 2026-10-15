@@ -17,7 +17,7 @@ async fn can_query_articles_and_relation() {
         .await
         .expect("`articles` should be queryable");
 
-    assert_eq!(items.len(), 5, "expected 5 seeded articles");
+    assert_eq!(items.len(), 15, "expected 15 seeded articles");
 
     // Verify lead story article exists and relates to category
     let lead = articles::Entity::find()

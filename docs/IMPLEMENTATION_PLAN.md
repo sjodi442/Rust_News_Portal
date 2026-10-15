@@ -30,8 +30,8 @@
   - Terintegrasi pada hook `seed` dan `truncate` di `src/app.rs`.
 - [x] Verifikasi migrasi & seed:
   - `cargo run -- db migrate` sukses.
-  - `cargo run -- db seed` sukses (5 categories, 5 articles, 5 wire dispatches, 5 market ledgers, 2 reader dispatches, 2 subscribers).
-- [x] Test suite passing: 35 tests, 100% pass rate (`cargo test --all`).
+  - `cargo run -- db seed` sukses (9 categories, 15 articles, 5 wire dispatches, 5 market ledgers, 2 reader dispatches, 2 subscribers).
+- [x] Test suite passing: 72 tests, 100% pass rate (`cargo test --all`).
 
 ### Phase 3: Server Core & Template Engine (SSR) (SELESAI - COMPLETED)
 - [x] Implementasi routing Axum / Loco:

@@ -12,7 +12,7 @@ async fn can_query_categories() {
     let items = categories::Entity::find()
         .all(&boot.app_context.db)
         .await
-        .expect("`categories` should be queryable — entity and migration must agree");
+        .expect("`categories` should be queryable");
 
-    assert_eq!(items.len(), 5, "expected 5 seeded categories");
+    assert_eq!(items.len(), 9, "expected 9 seeded categories");
 }
