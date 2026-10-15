@@ -59,7 +59,7 @@ body {
 .telegraph-marquee-track {
   display: inline-flex;
   white-space: nowrap;
-  animation: telegraph-scroll 35s linear infinite;
+  animation: telegraph-scroll 85s linear infinite;
 }
 
 .telegraph-marquee-container:hover .telegraph-marquee-track {

@@ -4,19 +4,19 @@
 
 {% block content %}
 <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
-  <!-- LEFT COLUMN (3 cols): Market Ledger & Bulletins -->
-  <aside class="md:col-span-3 space-y-6">
+  <!-- CENTER COLUMN: The Lead Investigation (Prioritas 1 di Mobile) -->
+  <section class="order-1 md:order-2 md:col-span-6">
+    {% include "partials/_lead_story.html" %}
+  </section>
+
+  <!-- LEFT COLUMN: Market Ledger & Bulletins (Prioritas 2 di Mobile) -->
+  <aside class="order-2 md:order-1 md:col-span-3 space-y-6">
     {% include "partials/_market_ledger.html" %}
     {% include "partials/_bulletins.html" %}
   </aside>
 
-  <!-- CENTER COLUMN (6 cols): The Lead Investigation -->
-  <section class="md:col-span-6">
-    {% include "partials/_lead_story.html" %}
-  </section>
-
-  <!-- RIGHT COLUMN (3 cols): Correspondence & Op-Ed -->
-  <aside class="md:col-span-3">
+  <!-- RIGHT COLUMN: Correspondence & Op-Ed (Prioritas 3 di Mobile) -->
+  <aside class="order-3 md:order-3 md:col-span-3">
     {% include "partials/_reader_dispatches.html" %}
   </aside>
 </div>

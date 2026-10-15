@@ -36,26 +36,27 @@
   {% endif %}
 </div>
 
-<div class="border-y border-outline-variant py-3 mb-10 flex flex-wrap items-center justify-between gap-4 font-byline text-xs text-on-surface">
+<div class="border-y border-outline-variant py-3 mb-8 sm:mb-10 flex flex-wrap items-center justify-between gap-3 font-byline text-xs text-on-surface">
   <div>
     <span class="text-secondary uppercase text-[10px] tracking-widest block font-kicker">DESK &amp; BYLINE</span>
     <span class="font-bold text-primary">Arthur Vance</span>, <span class="text-secondary">Senior Mechanical Correspondent</span>
   </div>
-  <div class="flex items-center space-x-6">
+  <div class="flex flex-wrap items-center gap-3 sm:gap-6">
     <div class="text-secondary text-xs">
       <span class="text-secondary uppercase text-[10px] tracking-widest block font-kicker">DISPATCH METRICS</span>
       <span class="text-primary font-medium">{{ article.reading_time_minutes }} min read • {{ article.view_count }} views</span>
     </div>
     <!-- READING TOOLBAR (Font Adjuster & Print) -->
-    <div class="flex items-center space-x-1.5 border-l border-outline-variant pl-4">
-      <span class="font-kicker text-[10px] uppercase text-secondary font-bold mr-1">TYPE:</span>
-      <button id="btn-font-dec" type="button" class="border border-outline px-2 py-0.5 font-mono text-xs hover:bg-surface-container-highest transition-colors font-bold" title="Decrease font size">A-</button>
-      <button id="btn-font-reset" type="button" class="border border-outline px-2 py-0.5 font-mono text-xs hover:bg-surface-container-highest transition-colors" title="Reset font size">A</button>
-      <button id="btn-font-inc" type="button" class="border border-outline px-2 py-0.5 font-mono text-xs hover:bg-surface-container-highest transition-colors font-bold" title="Increase font size">A+</button>
+    <div class="flex items-center space-x-1.5 sm:border-l sm:border-outline-variant sm:pl-4">
+      <span class="font-kicker text-[10px] uppercase text-secondary font-bold mr-0.5">TYPE:</span>
+      <button id="btn-font-dec" type="button" class="border border-outline min-w-[32px] h-7 flex items-center justify-center font-mono text-xs hover:bg-surface-container-highest transition-colors font-bold" title="Decrease font size">A-</button>
+      <button id="btn-font-reset" type="button" class="border border-outline min-w-[32px] h-7 flex items-center justify-center font-mono text-xs hover:bg-surface-container-highest transition-colors" title="Reset font size">A</button>
+      <button id="btn-font-inc" type="button" class="border border-outline min-w-[32px] h-7 flex items-center justify-center font-mono text-xs hover:bg-surface-container-highest transition-colors font-bold" title="Increase font size">A+</button>
       <span class="text-outline-variant mx-1">|</span>
-      <button onclick="window.print()" type="button" class="border border-primary bg-surface-container-lowest px-2.5 py-0.5 font-kicker text-[11px] uppercase hover:bg-primary hover:text-white transition-colors flex items-center space-x-1 font-bold">
+      <button onclick="window.print()" type="button" class="border border-primary bg-surface-container-lowest px-2 sm:px-2.5 h-7 font-kicker text-[10px] sm:text-[11px] uppercase hover:bg-primary hover:text-white transition-colors flex items-center space-x-1 font-bold">
         <span class="material-symbols-outlined text-[14px]">print</span>
-        <span>PRINT FOLIO</span>
+        <span class="hidden sm:inline">PRINT FOLIO</span>
+        <span class="sm:hidden">PRINT</span>
       </button>
     </div>
   </div>

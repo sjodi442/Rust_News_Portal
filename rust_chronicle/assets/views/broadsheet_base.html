@@ -79,13 +79,21 @@
     }
     .dropcap::first-letter {
       font-family: 'Playfair Display', serif;
-      font-size: 3.8rem;
-      line-height: 0.8;
+      font-size: 2.75rem;
+      line-height: 0.85;
       float: left;
       font-weight: 900;
-      margin-right: 0.65rem;
-      margin-top: 0.2rem;
+      margin-right: 0.5rem;
+      margin-top: 0.15rem;
       color: #000000;
+    }
+    @media (min-width: 768px) {
+      .dropcap::first-letter {
+        font-size: 3.8rem;
+        line-height: 0.8;
+        margin-right: 0.65rem;
+        margin-top: 0.2rem;
+      }
     }
 </style>
 </head>
@@ -95,8 +103,8 @@
 {% include "partials/_folio_strip.html" %}
 
 <!-- BRAND MASTHEAD -->
-<header class="w-full max-w-7xl mx-auto px-4 md:px-8 pt-6 pb-4">
-  <div class="grid grid-cols-1 md:grid-cols-12 items-center gap-4 border-b border-outline-variant pb-4">
+<header class="w-full max-w-7xl mx-auto px-4 md:px-8 pt-4 md:pt-6 pb-4">
+  <div class="grid grid-cols-1 md:grid-cols-12 items-center gap-3 md:gap-4 border-b border-outline-variant pb-4">
     <div class="md:col-span-3 hidden md:flex flex-col text-left font-kicker text-[11px] text-secondary space-y-1">
       <span class="font-bold text-on-surface">THE JOURNAL OF RECORD</span>
       <span>Circulation audited in 42 states</span>
@@ -104,15 +112,15 @@
     </div>
     <div class="md:col-span-6 text-center">
       <a class="inline-block group" href="/">
-        <h1 class="font-display-masthead text-4xl md:text-6xl text-primary tracking-tight text-center uppercase group-hover:opacity-90 transition-opacity font-black">
+        <h1 class="font-display-masthead text-3xl sm:text-4xl md:text-6xl text-primary tracking-tight text-center uppercase group-hover:opacity-90 transition-opacity font-black">
           The Rust Chronicle
         </h1>
       </a>
-      <p class="font-subhead italic text-sm text-secondary mt-1 tracking-normal">
+      <p class="font-subhead italic text-xs sm:text-sm text-secondary mt-1 tracking-normal">
         Inquiries into Industrial Reality, Applied Science &amp; Sovereign Commerce
       </p>
     </div>
-    <div class="md:col-span-3 flex items-center justify-end space-x-3">
+    <div class="md:col-span-3 flex items-center justify-center md:justify-end space-x-3 pt-2 md:pt-0">
       <button class="font-kicker text-xs uppercase px-3 py-1.5 border border-primary text-primary hover:bg-primary hover:text-white transition-colors duration-150">
         Sign In
       </button>
@@ -126,8 +134,8 @@
 <!-- TOP NAVIGATION BAR -->
 <nav class="sticky top-0 z-40 bg-background border-b border-outline-variant shadow-sm">
   <div class="w-full max-w-7xl mx-auto px-4 md:px-8 flex flex-col">
-    <div class="flex items-center justify-between h-11">
-      <div class="flex items-center space-x-6 md:space-x-8 overflow-x-auto py-1">
+    <div class="flex items-center justify-between h-11 gap-2">
+      <div class="flex items-center space-x-4 sm:space-x-6 md:space-x-8 overflow-x-auto py-1 scrollbar-none flex-grow">
         <a class="{% if current_category is not defined %}border-b-2 border-primary text-primary font-bold{% else %}text-secondary hover:text-primary{% endif %} font-kicker uppercase tracking-widest pb-1 text-xs whitespace-nowrap" href="/">Front Page</a>
         {% if categories is defined %}
           {% for cat in categories %}
@@ -135,9 +143,9 @@
           {% endfor %}
         {% endif %}
       </div>
-      <div class="flex items-center space-x-4 pl-4 border-l border-outline-variant text-on-surface">
+      <div class="flex items-center pl-2 sm:pl-4 border-l border-outline-variant text-on-surface flex-shrink-0">
         <form action="/search" method="get" class="relative flex items-center">
-          <input name="q" value="{% if query is defined %}{{ query }}{% endif %}" class="w-36 lg:w-48 pl-2 pr-6 py-0.5 text-xs bg-transparent border-0 border-b border-primary focus:border-b-2 focus:ring-0 placeholder:text-outline text-on-surface" placeholder="Archive Search..." type="text"/>
+          <input name="q" value="{% if query is defined %}{{ query }}{% endif %}" class="w-24 sm:w-36 lg:w-48 pl-2 pr-6 py-0.5 text-xs bg-transparent border-0 border-b border-primary focus:border-b-2 focus:ring-0 placeholder:text-outline text-on-surface" placeholder="Search..." type="text"/>
           <button type="submit" class="material-symbols-outlined text-[18px] text-secondary absolute right-0 cursor-pointer">search</button>
         </form>
       </div>
