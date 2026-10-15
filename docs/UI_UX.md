@@ -47,7 +47,8 @@ Aplikasi memadukan 3 font Google Fonts yang saling melengkapi:
 
 #### A. Broadsheet Masthead & Folio Strip
 - Terletak di paling atas dengan garis ganda pembatas atas dan bawah.
-- Berisi nomor edisi cetak (*Vol. CXLII — No. 51,902*), tanggal terbit, suhu kota utama dunia, dan indeks komoditas.
+- Berisi nomor edisi cetak (*Vol. CXLII — No. 51,902*), tanggal terbit, suhu kota utama dunia, indeks komoditas, serta tombol langganan (*Subscribe*).
+- Tombol otentikasi login publik ditiadakan untuk menjaga kemurnian estetika koran broadsheet klasik (portal redaksi diakses via jalur khusus `/admin/login`).
 
 #### B. Tri-Fold Editorial Grid (Halaman Depan)
 - **Kolom Kiri (3 cols - Late Bulletins):** Menampilkan kabar mendesak per jam dengan timestamp relatif (`• 14m ago`) dan ringkasan ringkas. Di bawahnya terdapat tabel *Commercial Ledger* (kurs/harga logam industri).
