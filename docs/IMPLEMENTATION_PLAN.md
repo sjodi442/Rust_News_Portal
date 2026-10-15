@@ -163,7 +163,7 @@
   - Unit test model `can_search_articles_via_fts5` di `tests/models/articles.rs` untuk memvalidasi exact match, prefix search, dan empty query guard.
   - Total 72 integration & unit tests lolos 100% tanpa kegagalan (`cargo test --all` -> 72 passed, 0 failed).
 
-### Phase 10: Mobile UI/UX Optimization & Clean Masthead (SELESAI - COMPLETED)
+### Phase 10: Mobile UI/UX Optimization & Broadsheet Print Engine (SELESAI - COMPLETED)
 - [x] Telegraph Wire Marquee Slowdown:
   - Durasi animasi diperlambat dari 35 detik ke 85 detik di `assets/static/css/broadsheet.css` agar nyaman dibaca.
 - [x] Mobile Layout & Content Hierarchy:
@@ -173,5 +173,8 @@
   - Reader toolbar touch-friendly dengan ukuran target sentuh nyaman (`min-w-[32px] h-7`) dan tombol print responsif.
 - [x] Streamlining Header & Penghapusan Tombol Login:
   - Penghapusan tombol *Sign In* di header masthead publik baik tampilan desktop maupun mobile untuk memurnikan estetika broadsheet koran cetak. Akses administrasi redaksi tetap aman di jalur `/admin/login`.
+- [x] Broadsheet Print Engine (@media print):
+  - Fitur cetak naskah fisik broadsheet folio melalui tombol `PRINT FOLIO` (`window.print()`).
+  - Aturan stylesheet `@media print` yang mengoptimalkan layout ke kertas putih, menyembunyikan elemen web (navigasi, form input HTMX, footer, banner telegraph wire), membentangkan naskah investigasi secara penuh (*100% width*), dan memformat header koran formal dengan proteksi *page-break* pada gambar/subhead.
 - [x] Verification:
   - Seluruh 72 tests lolos 100% (`cargo test --all`).

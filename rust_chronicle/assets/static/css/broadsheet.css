@@ -75,18 +75,58 @@ body {
   }
 }
 
-/* Print Optimization */
+/* Broadsheet Print Optimization */
 @media print {
-  body {
-    background: white;
-    color: black;
-  }
-  .no-print, header, footer, .reading-tools-bar {
+  /* Sembunyikan elemen navigasi, banner, footer, sidebar formulir dan toolbar */
+  nav, footer, .reading-toolbar, form, aside, .telegraph-wire, #sticky-reading-bar, .no-print {
     display: none !important;
   }
-  article {
-    max-width: 100% !important;
+
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
     font-size: 11pt !important;
-    line-height: 1.4 !important;
+    line-height: 1.5 !important;
+  }
+
+  main {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Grid artikel menjadi full width saat cetak broadsheet */
+  .grid {
+    display: block !important;
+  }
+
+  article {
+    width: 100% !important;
+    max-width: 100% !important;
+    border: none !important;
+    padding-right: 0 !important;
+  }
+
+  /* Tampilkan header koran sederhana dan byline */
+  header {
+    border-bottom: 2px solid #000000 !important;
+    margin-bottom: 1.5rem !important;
+    padding-bottom: 0.75rem !important;
+  }
+
+  header button {
+    display: none !important;
+  }
+
+  /* Cegah page break di tengah gambar atau judul */
+  h1, h2, h3, figure {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Format cetak tautan agar rapi */
+  a {
+    color: #000000 !important;
+    text-decoration: none !important;
   }
 }
