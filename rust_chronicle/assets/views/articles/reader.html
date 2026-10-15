@@ -13,6 +13,9 @@
 {% block twitter_image %}{% if article.cover_image_url %}{{ article.cover_image_url }}{% else %}/static/images/chronicle-og-cover.png{% endif %}{% endblock twitter_image %}
 
 {% block content %}
+{% if article_date %}
+<span id="article-published-date-source" data-date="{{ article_date }}" class="hidden"></span>
+{% endif %}
 <!-- Reading Progress Bar -->
 <div id="reading-progress" class="fixed top-0 left-0 h-1 bg-primary z-50 transition-all duration-75" style="width: 0%"></div>
 
@@ -20,8 +23,11 @@
   <div class="font-kicker text-xs uppercase tracking-widest text-primary font-bold">
     {{ article.kicker }}
   </div>
-  <div class="font-byline text-xs text-secondary">
-    {{ article.dispatch_ref_code }} • {% if category is defined %}<a href="/category/{{ category.slug }}" class="hover:underline text-primary">{{ category.name }}</a>{% endif %}
+  <div class="font-byline text-xs text-secondary flex items-center space-x-2">
+    <span>{{ article.dispatch_ref_code }}</span>
+    <span>•</span>
+    {% if category is defined and category %}<a href="/category/{{ category.slug }}" class="hover:underline text-primary">{{ category.name }}</a><span>•</span>{% endif %}
+    {% if article_date %}<span class="font-bold text-on-surface">{{ article_date }}</span>{% endif %}
   </div>
 </div>
 
@@ -40,6 +46,9 @@
   <div>
     <span class="text-secondary uppercase text-[10px] tracking-widest block font-kicker">DESK &amp; BYLINE</span>
     <span class="font-bold text-primary">Arthur Vance</span>, <span class="text-secondary">Senior Mechanical Correspondent</span>
+    {% if article_date %}
+    <span class="block text-[11px] font-mono text-secondary mt-0.5">FILED: {{ article_date }}</span>
+    {% endif %}
   </div>
   <div class="flex flex-wrap items-center gap-3 sm:gap-6">
     <div class="text-secondary text-xs">
@@ -85,8 +94,8 @@
       {{ article.body_html | safe }}
     </div>
 
-    <!-- Reader Correspondence / Dispatches for this article -->
-    <section class="mt-12 pt-8 border-t-2 border-primary">
+    <!-- Reader Correspondence / Dispatches for this article (EXCLUDED FROM PRINT) -->
+    <section class="correspondence-section no-print mt-12 pt-8 border-t-2 border-primary">
       <div class="flex items-center justify-between border-b border-outline-variant pb-2 mb-6">
         <h3 class="font-kicker font-bold text-xs uppercase tracking-widest text-primary flex items-center">
           <span class="material-symbols-outlined text-sm mr-1">mail</span> CORRESPONDENCE ON THIS DISPATCH

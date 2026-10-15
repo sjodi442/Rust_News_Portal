@@ -27,6 +27,7 @@
             <th class="py-3 px-4 font-bold">Ref / ID</th>
             <th class="py-3 px-4 font-bold">Headline &amp; Slug</th>
             <th class="py-3 px-4 font-bold">Desk / Category</th>
+            <th class="py-3 px-4 font-bold">Published</th>
             <th class="py-3 px-4 font-bold">Slot Type</th>
             <th class="py-3 px-4 font-bold">Status</th>
             <th class="py-3 px-4 font-bold text-center">Views</th>
@@ -47,6 +48,13 @@
               </td>
               <td class="py-3 px-4 font-kicker uppercase text-[11px]">
                 {{ a.category_name | default(value="Unassigned") }}
+              </td>
+              <td class="py-3 px-4 text-xs font-mono text-secondary">
+                {% if a.published_at %}
+                  {{ a.published_at | truncate(length=10, end="") }}
+                {% else %}
+                  <span class="italic text-neutral-400">-</span>
+                {% endif %}
               </td>
               <td class="py-3 px-4">
                 {% if a.article_type == "lead" %}

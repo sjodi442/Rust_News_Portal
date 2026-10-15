@@ -40,7 +40,13 @@
       {{ art.lead_paragraph }}
     </p>
     <div class="mt-auto pt-3 border-t border-outline-variant flex items-center justify-between text-[11px] font-kicker uppercase">
-      <span class="text-secondary">{{ art.reading_time_minutes }} MIN READ</span>
+      <div class="flex items-center space-x-2 text-secondary">
+        <span>{{ art.reading_time_minutes }} MIN READ</span>
+        {% if art.published_at %}
+        <span>•</span>
+        <span class="font-mono">{% if art.published_at %}{{ art.published_at | truncate(length=10, end="") }}{% endif %}</span>
+        {% endif %}
+      </div>
       <a href="/articles/{{ art.slug }}" class="font-bold text-primary hover:underline">
         READ →
       </a>

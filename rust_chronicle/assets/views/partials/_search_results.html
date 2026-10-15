@@ -9,6 +9,10 @@
         <div class="flex items-center space-x-3 text-[11px] font-kicker uppercase text-secondary mb-1">
           {% if art.kicker %}<span class="font-bold text-primary">{{ art.kicker }}</span><span>•</span>{% endif %}
           <span>{{ art.reading_time_minutes }} MIN AUDIT</span>
+          {% if art.published_at %}
+          <span>•</span>
+          <span class="font-mono">{% if art.published_at %}{{ art.published_at | truncate(length=10, end="") }}{% endif %}</span>
+          {% endif %}
         </div>
         <h2 class="font-headline-md text-xl md:text-2xl font-bold text-primary mb-2">
           <a href="/articles/{{ art.slug }}" class="hover:underline">{{ art.title }}</a>

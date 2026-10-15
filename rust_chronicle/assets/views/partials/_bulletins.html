@@ -22,7 +22,13 @@
         {{ b.lead_paragraph }}
       </p>
       <div class="flex items-center justify-between text-[10px] font-kicker uppercase text-outline">
-        <span>{{ b.reading_time_minutes }} MIN READ</span>
+        <div class="flex items-center space-x-2">
+          <span>{{ b.reading_time_minutes }} MIN READ</span>
+          {% if b.published_at %}
+          <span>•</span>
+          <span class="font-mono text-secondary">{% if b.published_at %}{{ b.published_at | truncate(length=10, end="") }}{% endif %}</span>
+          {% endif %}
+        </div>
         <a href="/articles/{{ b.slug }}" class="text-primary font-bold hover:underline">READ DISPATCH →</a>
       </div>
     </article>

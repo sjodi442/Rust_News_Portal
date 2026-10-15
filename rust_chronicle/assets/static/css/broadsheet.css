@@ -77,8 +77,8 @@ body {
 
 /* Broadsheet Print Optimization */
 @media print {
-  /* Sembunyikan elemen navigasi, banner, footer, sidebar formulir dan toolbar */
-  nav, footer, .reading-toolbar, form, aside, .telegraph-wire, #sticky-reading-bar, .no-print {
+  /* Sembunyikan navigasi, footer, toolbar, aside/sidebar, banner telegraph wire, serta kolom komentar/dispatches */
+  nav, footer, .reading-toolbar, form, aside, .telegraph-wire, #sticky-reading-bar, .correspondence-section, #reader-dispatches-list, .no-print {
     display: none !important;
   }
 

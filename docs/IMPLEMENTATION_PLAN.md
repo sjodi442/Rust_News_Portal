@@ -175,6 +175,10 @@
   - Penghapusan tombol *Sign In* di header masthead publik baik tampilan desktop maupun mobile untuk memurnikan estetika broadsheet koran cetak. Akses administrasi redaksi tetap aman di jalur `/admin/login`.
 - [x] Broadsheet Print Engine (@media print):
   - Fitur cetak naskah fisik broadsheet folio melalui tombol `PRINT FOLIO` (`window.print()`).
-  - Aturan stylesheet `@media print` yang mengoptimalkan layout ke kertas putih, menyembunyikan elemen web (navigasi, form input HTMX, footer, banner telegraph wire), membentangkan naskah investigasi secara penuh (*100% width*), dan memformat header koran formal dengan proteksi *page-break* pada gambar/subhead.
+  - Aturan stylesheet `@media print` yang mengoptimalkan layout ke kertas putih, menyembunyikan elemen web (navigasi, footer, banner telegraph wire), membentangkan naskah investigasi secara penuh (*100% width*), dan memformat header koran formal dengan proteksi *page-break* pada gambar/subhead.
+  - Pengecualian total kolom komentar dan formulir korespondensi pembaca (`#reader-dispatches-list`, `.correspondence-section`, `form`) dari output cetak.
+- [x] Tanggal Publikasi Asli & Folio Cetak Terikat Naskah:
+  - Tampilan tanggal rilis/publikasi artikel di byline pembaca (`reader.html`), headline utama (`_lead_story.html`), buletin (`_bulletins.html`), rubrik kategori (`categories/show.html`), pencarian (`search.html`), dan meja redaksi admin.
+  - Sinkronisasi dinamis tanggal folio koran di header halaman artikel agar menggunakan tanggal terbit artikel yang bersangkutan (`article_date`), bukan tanggal berjalan hari ini.
 - [x] Verification:
   - Seluruh 72 tests lolos 100% (`cargo test --all`).

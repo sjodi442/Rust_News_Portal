@@ -249,7 +249,15 @@
 <script>
   (function() {
     function updateFolioDate() {
+      // Jika di halaman artikel reader dan memiliki tanggal artikel spesifik, gunakan tanggal artikel tersebut
+      var readerDate = document.getElementById('article-published-date-source');
       var dateEl = document.getElementById('live-folio-date');
+      if (readerDate && readerDate.dataset.date && dateEl) {
+        dateEl.textContent = readerDate.dataset.date;
+        dateEl.dataset.clientSet = "true";
+        return;
+      }
+
       if (dateEl && !dateEl.dataset.clientSet) {
         try {
           var now = new Date();

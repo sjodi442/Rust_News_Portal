@@ -10,6 +10,15 @@ struct ArticleIdOnly {
 impl ActiveModelBehavior for ActiveModel {}
 
 impl Model {
+    /// Mengembalikan tanggal publikasi artikel dalam format broadsheet resmi (e.g. "Friday, October 24, 2025")
+    pub fn formatted_published_date(&self) -> String {
+        self.published_at
+            .as_ref()
+            .unwrap_or(&self.created_at)
+            .format("%A, %B %-d, %Y")
+            .to_string()
+    }
+
     /// Melakukan pencarian artikel menggunakan SQLite FTS5 dengan fallback ke LIKE jika FTS query error.
     pub async fn search_fts(db: &DatabaseConnection, query_str: &str) -> Result<Vec<Model>, DbErr> {
         let trimmed = query_str.trim();

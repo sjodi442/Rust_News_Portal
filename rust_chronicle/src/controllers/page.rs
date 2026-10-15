@@ -146,12 +146,14 @@ async fn article_by_slug(
         .await?;
 
     let (current_date, meteorology, commodities_summary) = get_folio_context(&ctx.db).await;
+    let article_date = article.formatted_published_date();
 
     format::render().view(
         &v,
         "articles/reader.html",
         data!({
             "article": article,
+            "article_date": article_date,
             "category": category,
             "dispatches": dispatches,
             "sidebar_articles": sidebar_articles,
@@ -221,12 +223,14 @@ async fn article_reader(
         .await?;
 
     let (current_date, meteorology, commodities_summary) = get_folio_context(&ctx.db).await;
+    let article_date = article.formatted_published_date();
 
     format::render().view(
         &v,
         "articles/reader.html",
         data!({
             "article": article,
+            "article_date": article_date,
             "category": category,
             "dispatches": dispatches,
             "sidebar_articles": sidebar_articles,

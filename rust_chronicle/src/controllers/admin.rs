@@ -342,6 +342,7 @@ pub async fn articles_list(
                 "category_name": cat_name,
                 "article_type": a.article_type,
                 "status": a.status,
+                "published_at": a.published_at,
                 "view_count": a.view_count,
             })
         })
